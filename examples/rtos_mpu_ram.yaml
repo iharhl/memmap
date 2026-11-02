@@ -1,0 +1,68 @@
+# RTOS SRAM split into MPU regions, drawn twice: the regions, then their contents. Shows
+# alignment checks, `depth`, two columns of one memory, and undrawn gaps.
+version: 1
+
+figure:
+  title: "RTOS SRAM map with MPU regions"
+
+memory:
+  check_alignment: true             # the MPU needs every region aligned to its size
+  fill_gaps: none                   # gaps are not drawn, so addresses show the jumps
+  regions:
+    - id: sram
+      name: SRAM
+      start: 0x20000000
+      size: 256K
+      children:
+        - id: kernel
+          name: Kernel
+          size: 32K
+          color: "#e07a5f"
+          children:
+            - { id: kdata, name: Kernel data, size: 8K }
+            - { id: kbss,  name: Kernel BSS,  size: 8K }
+            - { id: kheap, name: Kernel heap, size: 16K }
+        - id: task_a
+          name: Task A
+          size: 16K
+          color: "#81b29a"
+          children:
+            - { id: a_data,  name: Task A data,  size: auto }
+            - { id: a_stack, name: Task A stack, size: 8K, align: end }
+        - id: task_b
+          name: Task B
+          size: 16K
+          color: "#f2cc8f"
+          children:
+            - { id: b_data,  name: Task B data,  size: auto }
+            - { id: b_stack, name: Task B stack, size: 8K, align: end }
+        - id: dma
+          name: DMA buffers
+          start: 0x20020000
+          size: 64K
+          note: "non-cacheable"
+          children:
+            - { id: eth_rx, name: Ethernet RX, size: 32K }
+            - { id: eth_tx, name: Ethernet TX, size: 16K }
+            - { id: guard,  name: Guard, size: 16K, kind: reserved }
+
+view:
+  defaults:
+    labels: { address: both }
+    scale: { mode: equal, min_height: 30 }
+  columns:
+    - { id: regions, root: sram, title: MPU regions, width: 110, labels: { size: true } }
+    - id: contents
+      root: sram
+      depth: 2                      # flatten the regions' children into one stack
+      title: Contents
+      width: 130
+      style: { reserved: { show_label: true, fill: "#cccccc" } }
+  overrides:
+    - { region: kernel, column: regions, height: 3x }
+    - { region: dma, column: regions, height: 3x }
+    - { region: task_a, column: regions, height: 2x }
+    - { region: task_b, column: regions, height: 2x }
+
+style:
+  palette: color

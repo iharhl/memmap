@@ -1,0 +1,62 @@
+# Replica of the STM32F303x6/8 memory map (Figure 8).
+# `memory` says what exists; `view` says how to draw it.
+version: 1
+
+figure:
+  title: "Figure 8. STM32F303x6/8 memory map"
+  footer: "MSv33150V1"
+  legend: true
+
+memory:
+  address_bits: 32
+  fill_gaps: reserved          # unspecified space becomes grey reserved blocks
+  regions:
+    - id: code
+      name: CODE
+      start: 0x00000000
+      end:   0x1FFFFFFF
+      children:
+        - { id: boot_alias, size: 64K,
+            name: "Flash, system\nmemory or SRAM,\ndepending on BOOT\nconfiguration" }
+        - { id: flash,    name: Flash memory,  start: 0x08000000, size: 64K }
+        - { id: ccmram,   name: CCM RAM,       start: 0x10000000, size: 4K }
+        - { id: sysmem,   name: System memory, start: 0x1FFFD800, size: 8K }
+        - { id: optbytes, name: Option bytes,  start: 0x1FFFF800, end: 0x1FFFFFFF }
+    - { id: sram, name: SRAM, start: 0x20000000, size: 12K }
+    - id: periph
+      name: Peripherals
+      start: 0x40000000
+      end:   0x500003FF
+      children:
+        - { id: apb1, name: APB1, start: 0x40000000, end: 0x40009FFF }
+        - { id: apb2, name: APB2, start: 0x40010000, end: 0x40016BFF }
+        - { id: ahb1, name: AHB1, start: 0x40020000, end: 0x400243FF }
+        - { id: ahb2, name: AHB2, start: 0x48000000, end: 0x480017FF }
+        - { id: ahb3, name: AHB3, start: 0x50000000, end: 0x500003FF }
+    - id: cm4_periph
+      name: "Cortex-M4\nwith FPU\nInternal\nPeripherals"
+      start: 0xE0000000
+      end:   0xFFFFFFFF
+
+view:
+  defaults:
+    labels:
+      address: start
+      size: false
+    scale: { mode: equal, min_height: 34 }
+  columns:
+    - id: main
+      root: "/"
+      bands: 512M                    # numbered, labelled at band boundaries + column top
+      style: { reserved: { show_label: false } }
+    - { id: periph_detail, root: periph, lane: 1, anchor: top }
+    - { id: code_detail,   root: code,   lane: 1, anchor: bottom }
+  expand:
+    - { region: periph, from: main, to: periph_detail }
+    - { region: code,   from: main, to: code_detail }
+  overrides:
+    - { region: ahb1, top_label: end }  # datasheet prints 0x4002 43FF here
+
+style:
+  reserved: { fill: "#d9d9d9", show_label: true }
+  frame: true

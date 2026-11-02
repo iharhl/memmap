@@ -1,0 +1,21 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+.DS_Store
+MEMMAP_PROPOSAL.md
+# Quickstart and `memmap render` output. Anchored so tests/golden/*.svg stays tracked.
+/layout.yaml
+/layout.svg
+/layout.png
+/layout.pdf
+/examples/*.svg
+/examples/*.png
+/examples/*.pdf

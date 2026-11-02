@@ -1,0 +1,32 @@
+# STM32F407 flash with A/B firmware slots. Shows a mixed sector list, the weighted scale with
+# min/max heights, sizes and both addresses on every edge.
+version: 1
+
+figure:
+  title: "STM32F407VG flash partitioning, A/B update"
+  footer: "OTA-0042"
+
+memory:
+  fill_gaps: error                  # every byte must belong to a region
+  regions:
+    - id: flash
+      name: Flash
+      start: 0x08000000
+      size: 1M
+      sectors: [16K, 16K, 16K, 16K, 64K, { size: 128K, count: 7 }]
+      children:
+        - { id: boot,   name: Bootloader,   size: 32K,  note: "sectors 0-1" }
+        - { id: cfg,    name: Settings,     size: 32K,  note: "sectors 2-3" }
+        - { id: log,    name: Fault log,    size: 64K,  note: "sector 4" }
+        - { id: slot_a, name: Slot A,       size: 384K, note: "sectors 5-7" }
+        - { id: slot_b, name: Slot B,       size: 384K, note: "sectors 8-10" }
+        - { id: swap,   name: Swap scratch, size: auto, note: "sector 11" }
+
+view:
+  defaults:
+    labels:
+      address: both                 # boundary + previous end
+      size: true
+    scale: { mode: weighted, min_height: 30, max_height: 60 }
+  columns:
+    - { id: flash_col, root: flash, title: "Internal flash", width: 150 }

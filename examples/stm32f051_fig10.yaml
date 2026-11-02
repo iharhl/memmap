@@ -1,0 +1,57 @@
+# Replica of the STM32F051 memory map (Figure 10): same shape as the F303 figure, with
+# reserved labels in the main column and staggered detail columns.
+version: 1
+
+figure:
+  title: "Figure 10. STM32F051xx memory map"
+  footer: "MS32192V2"
+
+memory:
+  address_bits: 32
+  fill_gaps: reserved
+  regions:
+    - id: code
+      name: CODE
+      start: 0x00000000
+      end:   0x1FFFFFFF
+      children:
+        - { id: boot_alias, size: 64K,
+            name: "Flash, system\nmemory or SRAM,\ndepending on BOOT\nconfiguration" }
+        - { id: flash,    name: Flash memory,  start: 0x08000000, size: 64K }
+        - { id: sysmem,   name: System memory, start: 0x1FFFEC00, size: 3K }
+        - { id: optbytes, name: Option bytes,  start: 0x1FFFF800, size: 1K }
+    - { id: sram, name: SRAM, start: 0x20000000, size: 8K }
+    - id: periph
+      name: Peripherals
+      start: 0x40000000
+      end:   0x480017FF
+      children:
+        - { id: apb_low,  name: APB,  start: 0x40000000, end: 0x40007FFF }
+        - { id: apb_high, name: APB,  start: 0x40010000, end: 0x40017FFF }
+        - { id: ahb1,     name: AHB1, start: 0x40020000, end: 0x400243FF }
+        - { id: ahb2,     name: AHB2, start: 0x48000000, end: 0x480017FF }
+    - id: cm0_periph
+      name: "Cortex-M0\nInternal\nPeripherals"
+      start: 0xE0000000
+      end:   0xE00FFFFF
+
+view:
+  defaults:
+    labels:
+      address: start
+    scale: { mode: equal, min_height: 34 }
+  columns:
+    - id: main
+      root: "/"
+      bands: 512M
+      style: { reserved: { show_label: true } }
+    - { id: periph_detail, root: periph, lane: 1, anchor: free, offset: 0 }
+    - { id: code_detail,   root: code,   lane: 1, anchor: free, offset: 270 }
+  expand:
+    - { region: periph, from: main, to: periph_detail }
+    - { region: code,   from: main, to: code_detail }
+  overrides:
+    - { region: ahb1, top_label: end }
+
+style:
+  reserved: { fill: "#d9d9d9", show_label: true }

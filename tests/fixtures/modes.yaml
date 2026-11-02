@@ -1,0 +1,16 @@
+# Fixed layout for the display mode tests. Blocks, bottom to top:
+#   a 0x1000-0x1FFF, gap 0x2000-0x2FFF, b 0x3000-0x3FFF, c 0x4000-0x43FF, gap 0x4400-0x4FFF
+version: 1
+figure: { title: "Modes", legend: true }
+memory:
+  regions:
+    - id: mem
+      start: 0x1000
+      size: 16K
+      children:
+        - { id: a, name: Alpha, size: 4K }
+        - { id: b, name: Beta, start: 0x3000, size: 4K }
+        - { id: c, name: Gamma, size: 1K, note: "a note" }
+view:
+  columns:
+    - { id: col, root: mem }

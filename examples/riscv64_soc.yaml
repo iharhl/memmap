@@ -1,0 +1,59 @@
+# A 64-bit RISC-V SoC. Shows 64-bit addresses, large gaps collapsed with a break mark, relative
+# block heights, and the global style options.
+version: 1
+
+figure:
+  title: "RV64 SoC physical memory map"
+  footer: "SOC-MM-7"
+  legend: true
+
+memory:
+  address_bits: 64
+  regions:
+    - { id: debug,   name: Debug,    start: 0x00000000, size: 4K }
+    - { id: bootrom, name: Boot ROM, start: 0x00010000, size: 64K }
+    - { id: clint,   name: CLINT,    start: 0x02000000, size: 64K }
+    - { id: plic,    name: PLIC,     start: 0x0C000000, size: 64M }
+    - id: periph
+      name: Peripherals
+      start: 0x10000000
+      size: 512K
+      children:
+        - { id: uart0, name: UART0, size: 4K }
+        - { id: uart1, name: UART1, size: 4K }
+        - { id: spi0,  name: SPI0,  start: 0x10040000, size: 4K }
+        - { id: gpio,  name: GPIO,  start: 0x10060000, size: 4K }
+    - id: qspi
+      name: QSPI flash
+      start: 0x20000000
+      size: 256M
+      sectors: { size: 64K, count: 4096 }
+    - id: dram
+      name: DRAM
+      start: 0x80000000
+      size: 8G
+      children:
+        - { id: opensbi, name: OpenSBI,   size: 2M }
+        - { id: kernel,  name: Kernel,    size: 64M }
+        - { id: rootfs,  name: Userspace, size: auto }
+        - { id: fbuf,    name: Framebuffer, size: 32M, align: end }
+
+view:
+  defaults:
+    scale:
+      mode: weighted
+      min_height: 28
+      collapse_reserved_over: 128M    # draw huge gaps short, with a break mark
+  columns:
+    - { id: main, root: "/", range: [0x00000000, 0x27FFFFFFF], width: 130 }
+  expand: [dram]
+  overrides:
+    - { region: dram, column: main, height: 3x }   # relative to min_height
+    - { region: bootrom, height: 40 }              # pixels
+
+style:
+  font_size: 12
+  frame: false
+  palette: datasheet
+  sector_ticks: false                 # 4096 sectors would only draw a solid edge
+  reserved: { fill: "#eeeeee", show_label: true, label: Unmapped }

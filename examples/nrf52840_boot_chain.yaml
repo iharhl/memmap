@@ -1,0 +1,47 @@
+# nRF52840 boot chain, zoomed in two steps: address space -> flash -> application. Shows chained
+# expansions, a clipped overview, per-column labels and scale, and auto-created detail columns.
+version: 1
+
+figure:
+  title: "nRF52840 boot chain"
+  legend: true
+
+memory:
+  regions:
+    - id: flash
+      name: Flash
+      start: 0x00000000
+      size: 1M
+      children:
+        - { id: mbr,        name: MBR,        size: 4K }
+        - { id: softdevice, name: SoftDevice, size: 152K }
+        - id: app
+          name: Application
+          size: 512K
+          children:
+            - { id: vectors, name: Vector table, size: 1K }
+            - { id: text,    name: ".text",      size: 300K }
+            - { id: rodata,  name: ".rodata",    size: 100K }
+            - { id: unused,  name: Free,         size: auto, kind: reserved }
+        - { id: settings,   name: Settings,   start: 0x000D7000, size: 8K }
+        - { id: boot,       name: Bootloader, start: 0x000E0000, size: 120K }
+    - { id: ram,    name: RAM,         start: 0x20000000, size: 256K }
+    - { id: periph, name: Peripherals, start: 0x40000000, size: 256M }
+
+view:
+  defaults:
+    labels: { address: both, size: true }
+    scale: { mode: equal, min_height: 32 }
+  columns:
+    - id: main
+      root: "/"
+      range: [0x00000000, 0x5FFFFFFF]         # stop before the unused top of the space
+      title: Address space
+      labels: { address: start, size: false } # column options beat view.defaults
+      scale: { min_height: 44 }
+    - { id: app_col, root: app, anchor: source, width: 140 }
+  expand:
+    - { region: flash, title: Flash }         # creates a detail column
+    - { region: app, title: Application }     # finds app_col, whose root is app
+  overrides:
+    - { region: softdevice, column: flash_detail, top_label: start_of_next }

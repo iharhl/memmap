@@ -1,0 +1,37 @@
+# Custom bootloader layout: the everyday use case.
+# Sizes use binary units (16K, 1M). Omit `start` to place a region right after the previous one.
+version: 1
+figure: { title: "Product X, STM32F303K8 partitioning", legend: true }
+
+memory:
+  regions:
+    - id: flash
+      name: Flash
+      start: 0x08000000
+      size: 64K
+      sectors: { size: 2K, count: 32 }      # F303 uses uniform 2 KB pages
+      children:                             # placed sequentially, no addresses needed
+        - { id: boot,  name: Bootloader,  size: 16K, color: "#e07a5f" }
+        - { id: app,   name: Application, size: 40K, color: "#81b29a" }
+        - { id: cfg,   name: Settings,    size: 4K,  note: "2 pages, A/B copy" }
+        - { id: log,   name: Fault log,   size: 4K }
+    - id: sram
+      name: SRAM
+      start: 0x20000000
+      size: 12K
+      children:
+        - { id: data,  name: ".data + .bss", size: 4K }
+        - { id: heap,  name: Heap,  size: auto }
+        - { id: stack, name: Stack, size: 2K, align: end }
+
+view:
+  defaults:
+    labels:
+      address: both                   # boundary + previous end
+      size: true
+    scale: { mode: linear, min_height: 30 }
+  columns:
+    - { id: flash_col, root: flash, title: Flash }
+    - { id: sram_col,  root: sram,  title: SRAM, lane: 1 }
+
+style: { palette: color }
