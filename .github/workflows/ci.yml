@@ -1,9 +1,15 @@
 name: CI
 
+# Changes reach main only through pull requests, so CI runs on those. Use "Run workflow" in the
+# Actions tab to run it on any branch by hand.
 on:
-  push:
-    branches: [main]
   pull_request:
+  workflow_dispatch:
+
+# A new push to a pull request cancels the run for its previous commit.
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
@@ -20,3 +26,20 @@ jobs:
       - run: uv run --frozen pytest
       - run: uv run --frozen mypy
       - run: uv run --frozen ruff check
+
+  # Builds the wheel and runs it from a clean venv, so packaging mistakes (such as a data file
+  # left out of the wheel) fail the pull request instead of a release.
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.13"
+      - run: uv build
+      - name: Smoke-test the wheel
+        run: |
+          uv venv "$RUNNER_TEMP/venv"
+          uv pip install --python "$RUNNER_TEMP/venv" dist/*.whl
+          "$RUNNER_TEMP/venv/bin/memmap" guide > /dev/null
+          "$RUNNER_TEMP/venv/bin/memmap" check examples/custom_bootloader.yaml --strict
