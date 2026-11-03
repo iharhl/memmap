@@ -1,0 +1,46 @@
+name: Release
+
+# Publishing a GitHub release builds the wheel and sdist, checks them, and attaches them to it.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write  # needed to upload release assets
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.13"
+
+      # A release tagged v0.2.0 must ship version 0.2.0, or the wheel name lies.
+      - name: Check tag matches project version
+        run: |
+          version="$(uv version --short)"
+          if [ "${TAG#v}" != "$version" ]; then
+            echo "::error::Tag $TAG does not match pyproject version $version"
+            exit 1
+          fi
+
+      - run: uv sync --frozen
+      - run: uv run --frozen pytest
+      - run: uv build
+
+      # Install the built wheel into a clean venv, without uv's project env, and run it.
+      - name: Smoke-test the wheel
+        run: |
+          uv venv "$RUNNER_TEMP/venv"
+          uv pip install --python "$RUNNER_TEMP/venv" dist/*.whl
+          "$RUNNER_TEMP/venv/bin/memmap" guide > /dev/null
+          "$RUNNER_TEMP/venv/bin/memmap" check examples/custom_bootloader.yaml --strict
+
+      - name: Attach to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$TAG" dist/* --clobber
