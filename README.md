@@ -15,6 +15,15 @@ Below find an example with four memory maps drawn by **memmap**.
 
 ## Install
 
+Each [GitHub release](https://github.com/iharhl/memmap/releases) has a wheel attached. To install
+it with Python 3.10 or newer and no uv or checkout, using the version you want:
+
+```bash
+pipx install https://github.com/iharhl/memmap/releases/download/v0.2.0/memmap-0.2.0-py3-none-any.whl
+```
+
+To work from a checkout:
+
 ```bash
 uv sync
 ```
@@ -141,3 +150,5 @@ MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_golden.py
 
 Text is measured with a built-in Helvetica/Arial width table, so wrapping is slightly approximate
 for other fonts.
+
+To cut a release, see [RELEASING.md](RELEASING.md).
