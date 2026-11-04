@@ -1,0 +1,12 @@
+Excerpt of https://raw.githubusercontent.com/Seeed-Studio/DSO_Nano/1feaea30263e1383a93cd345724396bf7a7c6aed/DS0201_APP/project/EWARM/FLASH/List/DS0201_APP.map
+
+# IAR ELF Linker V6.10.2.52244/W32 for ARM              22/Feb/2011  19:04:23 #
+
+*** PLACEMENT SUMMARY
+***
+
+"A1":  place at 0x0800c000 { ro section .intvec };
+"P1":  place in [from 0x0800c000 to 0x0801ffff] { ro };
+"P2":  place in [from 0x20001800 to 0x20004fff] { rw, block CSTACK, block HEAP };
+
+  Section            Kind        Address    Size  Object

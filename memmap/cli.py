@@ -14,8 +14,17 @@ from . import SCHEMA_VERSIONS, __version__
 from .config import ConfigError
 from .describe import describe_data, describe_text
 from .diagnostics import Diagnostic
-from .elf import ElfError, read_elf
-from .from_elf import ImportProblem, import_elf, parse_region_spec
+from .from_elf import (
+    ElfError,
+    Imported,
+    ImportProblem,
+    Resolved,
+    import_elf,
+    parse_region_spec,
+    read_elf,
+    read_map,
+    resolve_memories,
+)
 from .pipeline import Result, run
 from .render.raster import RasterUnavailable, convert
 from .render.svg import render_svg
@@ -76,16 +85,22 @@ class OutputFormat(str, Enum):
 
 
 def _fail(
-    message: str, code: int, as_json: bool = False, result: Result | None = None
+    message: str,
+    code: int,
+    as_json: bool = False,
+    result: Result | None = None,
+    hint: str | None = None,
 ) -> Exit:
     """Report a failure and return the Exit to raise. With `as_json` the message joins
-    `result`'s diagnostics, under the code FAILURE_CODES gives for `code`."""
+    `result`'s diagnostics, under the code FAILURE_CODES gives for `code`, with `hint`."""
     if as_json:
         result = result or Result()
-        result.diagnostics.append(Diagnostic(FAILURE_CODES[code], message))
+        result.diagnostics.append(Diagnostic(FAILURE_CODES[code], message, hint=hint))
         _print_json(False, result)
     else:
         click.echo(f"memmap: {message}", err=True)
+        if hint:
+            click.echo(f"  hint: {hint}", err=True)
     return Exit(code)
 
 
@@ -243,23 +258,48 @@ def describe(config: Path, as_json: bool, sets: tuple[str, ...]) -> None:
         click.echo(describe_text(result))
 
 
+def _import(
+    elf: Path, map_file: Path | None, specs: tuple[str, ...], min_size: int
+) -> tuple[Imported, list[Diagnostic]]:
+    """Read the --region specs, the map and the ELF, in that order, and import them. Returns
+    the import and the map's own warnings. Raises ImportProblem with the message to print."""
+    memories = [parse_region_spec(spec) for spec in specs]
+    linker = read_map(map_file) if map_file else None
+    try:
+        image = read_elf(elf.read_bytes())
+    except OSError as exc:
+        raise ImportProblem(f"cannot read {elf}: {exc}") from None
+    except ElfError as exc:
+        raise ImportProblem(f"{elf}: {exc}") from None
+    resolved = resolve_memories(linker, memories, image.bits) if linker else Resolved(memories)
+    try:
+        imported = import_elf(image, elf.name, resolved.memories, min_size, tuple(resolved.notes))
+    except ImportProblem as exc:  # about the ELF and its regions
+        raise ImportProblem(f"{elf}: {exc}", exc.hint) from None
+    return imported, resolved.diagnostics
+
+
 @app.command(
     name="from-elf",
-    epilog=(
-        "\b\nExample:\n  memmap from-elf firmware.elf -o layout.yaml "
-        "--region flash=0x08000000:64K --region ram=0x20000000:20K"
-    ),
+    epilog="\b\nExample:\n  memmap from-elf firmware.elf -o layout.yaml --map firmware.map",
 )
 @click.argument("elf", type=click.Path(path_type=Path))
 @click.option(
     "-o", "--output", type=click.Path(path_type=Path), help="Config to write. Default: ELF.yaml."
 )
 @click.option(
+    "--map",
+    "map_file",
+    type=click.Path(path_type=Path),
+    help="Read the memory regions from a GNU ld, armlink (Keil) or IAR map file.",
+)
+@click.option(
     "--region",
     "regions",
     multiple=True,
     metavar="ID=START:SIZE[:NAME]",
-    help="A memory region, such as flash=0x08000000:64K:Flash (repeatable).",
+    help="A memory region, such as flash=0x08000000:64K:Flash (repeatable). With --map, it "
+    "replaces the map's region with the same id, or adds one.",
 )
 @click.option(
     "--min-size",
@@ -273,6 +313,7 @@ def describe(config: Path, as_json: bool, sets: tuple[str, ...]) -> None:
 def from_elf(
     elf: Path,
     output: Path | None,
+    map_file: Path | None,
     regions: tuple[str, ...],
     min_size: str,
     force: bool,
@@ -281,9 +322,10 @@ def from_elf(
 ) -> None:
     """Write a config from the allocated sections of an ELF file.
 
-    ELF is a linked executable. Give each memory region with --region, as the ELF does not say
-    how big flash and RAM are; without any, sections are drawn on the whole address space. The
-    written config is then checked like `memmap check`.
+    ELF is a linked executable. The ELF does not say how big flash and RAM are, so give the
+    linker's map with --map, or each region with --region, as for lld, whose map lists none.
+    Without either, sections are drawn on the whole address space. The written config is then
+    checked like `memmap check`.
     """
     target = output or elf.with_suffix(".yaml")
     if target.resolve() == elf.resolve():
@@ -295,20 +337,14 @@ def from_elf(
     except ValueError as exc:
         raise _fail(f"bad --min-size: {exc}", EXIT_USAGE, as_json)
     try:
-        memories = [parse_region_spec(spec) for spec in regions]
+        imported, warnings = _import(elf, map_file, regions, threshold)
     except ImportProblem as exc:
-        raise _fail(str(exc), EXIT_USAGE, as_json)
-    try:
-        data = elf.read_bytes()
-    except OSError as exc:
-        raise _fail(f"cannot read {elf}: {exc}", EXIT_USAGE, as_json)
-    try:
-        imported = import_elf(read_elf(data), elf.name, memories, threshold)
-    except (ElfError, ImportProblem) as exc:
-        raise _fail(f"{elf}: {exc}", EXIT_USAGE, as_json)
+        raise _fail(str(exc), EXIT_USAGE, as_json, hint=exc.hint)
+    except Exception as exc:  # noqa: BLE001  # odd input must still exit 3 with a message
+        raise _fail(f"internal error: {exc}", EXIT_RENDER, as_json)
     _write(target, imported.text.encode("utf-8"), as_json)
     result = _load(target, (), as_json=as_json)
-    result.diagnostics[:0] = imported.diagnostics
+    result.diagnostics[:0] = [*warnings, *imported.diagnostics]
     ok = _passes(result, strict)
     if as_json:
         _print_json(ok, result, output=str(target))

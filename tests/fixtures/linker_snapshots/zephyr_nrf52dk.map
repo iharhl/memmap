@@ -1,0 +1,9 @@
+Excerpt of https://raw.githubusercontent.com/9enki/nrf52dk_blinky/264f67e741e9d2c86f1137b8bf16c6e9c0509d7e/build/zephyr/zephyr.map
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x00000000         0x00030000         xr
+SRAM             0x20000000         0x00006000         xw
+IDT_LIST         0xfffff7ff         0x00000800         xw
+*default*        0x00000000         0xffffffff

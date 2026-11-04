@@ -1,0 +1,24 @@
+Excerpt of https://raw.githubusercontent.com/ApratimPhadke/KRONOS/c15e8d004f4156a60f7dbed7ceb27c92e44d2fb2/Debug/List/kronos.map
+
+# IAR ELF Linker V9.70.4.588/W64 for ARM                  23/May/2026  00:33:15
+
+*** PLACEMENT SUMMARY
+***
+
+"A0":  place at address 0x800'0000 {  ro section .intvec };
+"P1":  place in [from 0x800'0000 to 0x80f'ffff] {  ro };
+define block CSTACK with size = 8K, alignment = 8 { };
+define block HEAP with size = 8K, alignment = 8 { };
+"P4":  place in [from 0x2000'0000 to 0x2001'bfff] |
+                [from 0x2001'c000 to 0x2001'ffff] {
+           rw,  block CSTACK,  block HEAP };
+initialize by copy {  rw };
+
+No sections matched the following patterns:
+
+  ro section application_specific_ro  in "P2"
+  section .backup_sram                in "P5"
+  section .ccram                      in "P3"
+
+
+  Section            Kind         Address  Alignment    Size  Object

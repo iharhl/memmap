@@ -1,0 +1,6 @@
+Excerpt of https://raw.githubusercontent.com/yohanes-erwin/stm32f103-keil/53967360e8acf6d0bd495a03bf252202dc902aa7/dma/Listings/dma.map
+
+Memory Map of the image
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x0000158c, Max: 0x00010000, ABSOLUTE)
+    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x00001538, Max: 0x00010000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Base: 0x20000000, Size: 0x000006d8, Max: 0x00005000, ABSOLUTE)

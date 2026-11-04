@@ -1,0 +1,6 @@
+Excerpt of https://raw.githubusercontent.com/shengqing1/openmv-stm32/5b658bced8abda61daee102530fe6ce9ede03eed/Listings/Project.map
+
+Memory Map of the image
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00001b1c, Max: 0x00010000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00001ad0, Max: 0x00010000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08001ad0, Size: 0x000007d0, Max: 0x00005000, ABSOLUTE)

@@ -8,8 +8,8 @@ from conftest import ROOT
 from elf_builder import PROGBITS, code, make_elf
 
 from memmap.cli import app
-from memmap.elf import SHF_ALLOC, SHF_TLS, SHT_NOBITS, ElfError, read_elf
 from memmap.from_elf import ImportProblem, MemorySpec, import_elf, parse_region_spec
+from memmap.from_elf.elf import SHF_ALLOC, SHF_TLS, SHT_NOBITS, ElfError, read_elf
 from memmap.pipeline import run
 
 FIXTURES = ROOT / "tests" / "fixtures"
