@@ -12,13 +12,14 @@ from ..view import ViewPlan
 from .columns import (
     COLUMN_TITLE_GAP,
     LABEL_GAP,
-    NOTE_FONT_FACTOR,
     Block,
     ColumnLayout,
     assign_lanes,
     build_column,
     content_height,
     header_height,
+    note_indent,
+    note_size,
     place_horizontally,
     place_vertically,
     stretch_bands,
@@ -38,6 +39,7 @@ TICK_LENGTH = 5  # px, sector tick marks
 MIN_TICK_SPACING = 3  # px, a block's ticks are dropped when any two would be closer than this
 MASK_PADDING = 2  # px around the patch of paper that hides a fan line behind an address label
 COLLISION_TOLERANCE = 1  # px, since text widths are approximate
+NOTE_RULE_INSET = 3  # px, the rule beside a multi-line note stops this short of the block edges
 LEGEND_SWATCH = (16, 10)  # px, width and height
 
 # Fills of the `color` palette, handed out in tree order and reused when they run out.
@@ -204,14 +206,31 @@ def _draw_block(block: Block, layout: ColumnLayout, colors: dict[str, str]) -> l
                 region=block.node.id,
             )
         )
-    if block.note:
-        note_size = size * NOTE_FONT_FACTOR
+    primitives += _draw_note(block, layout)
+    return primitives
+
+
+def _draw_note(block: Block, layout: ColumnLayout) -> list[Primitive]:
+    """The note right of a block, one Text per line, centred on the block. A multi-line note
+    gets a rule along the block's right side, so it is clear which block it belongs to."""
+    if not block.note_lines:
+        return []
+    size = note_size(layout.options)
+    spacing = line_height(size)
+    count = len(block.note_lines)
+    first = block.y + block.h / 2 - spacing * (count - 1) / 2
+    primitives: list[Primitive] = []
+    if count > 1:
+        x = block.x + block.w + LABEL_GAP
+        inset = min(NOTE_RULE_INSET, block.h / 4)
+        primitives.append(Line(x, block.y + inset, x, block.y + block.h - inset, INK))
+    for index, line in enumerate(block.note_lines):
         primitives.append(
             Text(
-                block.x + block.w + LABEL_GAP,
-                block.y + block.h / 2 + BASELINE_SHIFT * note_size,
-                block.note,
-                note_size,
+                block.x + block.w + note_indent(block),
+                first + index * spacing + BASELINE_SHIFT * size,
+                line,
+                size,
                 anchor="start",
                 role="note",
                 column=layout.id,

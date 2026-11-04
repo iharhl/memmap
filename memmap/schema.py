@@ -196,7 +196,9 @@ class Region(Model):
     )
     color: str | None = Field(default=None, description="Fill override.", examples=["#81b29a"])
     note: str | None = Field(
-        default=None, description="Small text right of the block.", examples=["2 pages, A/B copy"]
+        default=None,
+        description="Small text right of the block. Long text wraps, \\n forces a line break.",
+        examples=["2 pages, A/B copy"],
     )
     sectors: Sectors | None = Field(
         default=None,

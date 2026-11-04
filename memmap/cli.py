@@ -14,10 +14,13 @@ from . import SCHEMA_VERSIONS, __version__
 from .config import ConfigError
 from .describe import describe_data, describe_text
 from .diagnostics import Diagnostic
+from .elf import ElfError, read_elf
+from .from_elf import ImportProblem, import_elf, parse_region_spec
 from .pipeline import Result, run
 from .render.raster import RasterUnavailable, convert
 from .render.svg import render_svg
 from .schema import json_schema
+from .units import parse_size
 
 # Process exit codes, documented in AGENTS.md. Success is 0.
 EXIT_VALIDATION = 1
@@ -238,6 +241,82 @@ def describe(config: Path, as_json: bool, sets: tuple[str, ...]) -> None:
     else:
         _print_diagnostics(result, config)
         click.echo(describe_text(result))
+
+
+@app.command(
+    name="from-elf",
+    epilog=(
+        "\b\nExample:\n  memmap from-elf firmware.elf -o layout.yaml "
+        "--region flash=0x08000000:64K --region ram=0x20000000:20K"
+    ),
+)
+@click.argument("elf", type=click.Path(path_type=Path))
+@click.option(
+    "-o", "--output", type=click.Path(path_type=Path), help="Config to write. Default: ELF.yaml."
+)
+@click.option(
+    "--region",
+    "regions",
+    multiple=True,
+    metavar="ID=START:SIZE[:NAME]",
+    help="A memory region, such as flash=0x08000000:64K:Flash (repeatable).",
+)
+@click.option(
+    "--min-size",
+    default="64",
+    show_default=True,
+    help="Fold runs of smaller sections into one block; smaller gaps get no Free block.",
+)
+@click.option("--force", is_flag=True, help="Overwrite the output if it exists.")
+@json_option
+@strict_option
+def from_elf(
+    elf: Path,
+    output: Path | None,
+    regions: tuple[str, ...],
+    min_size: str,
+    force: bool,
+    as_json: bool,
+    strict: bool,
+) -> None:
+    """Write a config from the allocated sections of an ELF file.
+
+    ELF is a linked executable. Give each memory region with --region, as the ELF does not say
+    how big flash and RAM are; without any, sections are drawn on the whole address space. The
+    written config is then checked like `memmap check`.
+    """
+    target = output or elf.with_suffix(".yaml")
+    if target.resolve() == elf.resolve():
+        raise _fail(f"output {target} would overwrite the ELF", EXIT_USAGE, as_json)
+    if target.exists() and not force:
+        raise _fail(f"{target} exists, use --force to overwrite it", EXIT_USAGE, as_json)
+    try:
+        threshold = 0 if min_size.strip() == "0" else parse_size(min_size)
+    except ValueError as exc:
+        raise _fail(f"bad --min-size: {exc}", EXIT_USAGE, as_json)
+    try:
+        memories = [parse_region_spec(spec) for spec in regions]
+    except ImportProblem as exc:
+        raise _fail(str(exc), EXIT_USAGE, as_json)
+    try:
+        data = elf.read_bytes()
+    except OSError as exc:
+        raise _fail(f"cannot read {elf}: {exc}", EXIT_USAGE, as_json)
+    try:
+        imported = import_elf(read_elf(data), elf.name, memories, threshold)
+    except (ElfError, ImportProblem) as exc:
+        raise _fail(f"{elf}: {exc}", EXIT_USAGE, as_json)
+    _write(target, imported.text.encode("utf-8"), as_json)
+    result = _load(target, (), as_json=as_json)
+    result.diagnostics[:0] = imported.diagnostics
+    ok = _passes(result, strict)
+    if as_json:
+        _print_json(ok, result, output=str(target))
+    else:
+        _print_diagnostics(result, target)
+        click.echo(str(target))
+    if not ok:
+        raise Exit(EXIT_VALIDATION)
 
 
 @app.command(epilog="\b\nExample:\n  memmap schema > memmap.schema.json")

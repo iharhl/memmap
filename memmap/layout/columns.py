@@ -16,6 +16,8 @@ from .text import ADDRESS_FONT_SIZE, BOLD_WIDTH_FACTOR, line_height, text_width,
 TEXT_INSET = 8  # px, taken off the column width when wrapping text inside a block
 LABEL_GAP = 8  # px, between a column and the labels or notes beside it
 NOTE_FONT_FACTOR = 0.85  # note size, relative to style.font_size
+NOTE_WIDTH_EM = 20  # a note wraps after this many ems of its own font, 187 px at the default
+NOTE_RULE_GAP = 6  # px, between the rule beside a multi-line note and its text
 LANE_STACK_GAP = 24  # px, between columns stacked in one lane
 MIN_FAN_ROOM = 16  # px of fan line kept clear of the next lane's left gutter
 COLUMN_TITLE_GAP = 6  # px, between a column title and the column
@@ -38,7 +40,7 @@ class Block:
     band: int | None = None
     collapsed: bool = False
     lines: list[str] = field(default_factory=list)
-    note: str | None = None
+    note_lines: list[str] = field(default_factory=list)
     x: float = 0
     y: float = 0
     w: float = 0
@@ -116,15 +118,22 @@ def _block_name(block: Block, options: Options) -> str | None:
     return None
 
 
+def note_size(options: Options) -> float:
+    """The font size of notes."""
+    return options.style.font_size * NOTE_FONT_FACTOR
+
+
 def _block_text(block: Block, width: float, options: Options) -> None:
-    """Work out the lines inside the block and the note to its right."""
+    """Work out the lines inside the block and the note lines to its right."""
     if not block.show_name:
         return
     name = _block_name(block, options)
     block.lines = wrap(name, width, options.style.font_size) if name else []
     if options.labels.size and not block.reserved:
         block.lines.append(format_size(block.display_size))
-    block.note = block.node.note
+    note = block.node.note
+    size = note_size(options)
+    block.note_lines = wrap(note, NOTE_WIDTH_EM * size, size) if note else []
 
 
 def _check_fit(blocks: list[Block], width: float, options: Options, out: list[Diagnostic]) -> None:
@@ -142,7 +151,7 @@ def _check_fit(blocks: list[Block], width: float, options: Options, out: list[Di
 
 
 def _assign_heights(column: ColumnLayout, out: list[Diagnostic]) -> None:
-    """Set each block's height from its scale, growing it to fit its text (W102 past
+    """Set each block's height from its scale, growing it to fit its text and note (W102 past
     max_height). A reserved block over collapse_reserved_over collapses to min_height."""
     blocks = column.blocks
     scale = column.options.scale
@@ -155,16 +164,19 @@ def _assign_heights(column: ColumnLayout, out: list[Diagnostic]) -> None:
             block.collapsed = True
             override = override if override is not None else scale.min_height
         wanted = scaled_height(size, scale, total, override)
-        needed = text_height(len(block.lines), column.options.style.font_size)
+        needed = max(
+            text_height(len(block.lines), column.options.style.font_size),
+            text_height(len(block.note_lines), note_size(column.options)),
+        )
         block.h = max(wanted, needed)
         if scale.max_height is not None and needed > scale.max_height:
             out.append(
                 Diagnostic(
                     "W102",
-                    f"label text forced the block to {needed:g} px, over max_height "
+                    f"text forced the block to {needed:g} px, over max_height "
                     f"{scale.max_height:g}",
                     block.node.path,
-                    "shorten the name, widen the column, or raise max_height",
+                    "shorten the name or note, widen the column, or raise max_height",
                     block.node.id,
                 )
             )
@@ -262,10 +274,21 @@ def _measure_gutters(layout: ColumnLayout) -> None:
     left = width + LABEL_GAP if width else 0
     if layout.view.spec.bands:
         left = max(left, text_width("00", ADDRESS_FONT_SIZE) + LABEL_GAP)
-    note_size = layout.options.style.font_size * NOTE_FONT_FACTOR
-    notes = [text_width(block.note, note_size) for block in layout.blocks if block.note]
+    notes = [note_width(block, layout.options) for block in layout.blocks if block.note_lines]
     layout.left_gutter = left
     layout.right_gutter = max(notes) + LABEL_GAP if notes else 0
+
+
+def note_indent(block: Block) -> float:
+    """How far a block's note text starts right of the block. A multi-line note has a rule
+    beside it, so it is clear which block it belongs to."""
+    return LABEL_GAP + (NOTE_RULE_GAP if len(block.note_lines) > 1 else 0)
+
+
+def note_width(block: Block, options: Options) -> float:
+    """The room a block's note takes right of the block, rule included."""
+    size = note_size(options)
+    return note_indent(block) - LABEL_GAP + max(text_width(line, size) for line in block.note_lines)
 
 
 def dependency_order(plan: ViewPlan) -> list[ColumnView]:

@@ -5,6 +5,7 @@ import pytest
 from conftest import MODES, ROOT, codes, drawn, regions
 
 from memmap.describe import describe_data
+from memmap.layout.primitives import Line
 from memmap.layout.text import text_width, wrap
 from memmap.options import OptionResolver
 from memmap.pipeline import run
@@ -366,3 +367,29 @@ def test_long_names_wrap_and_grow_the_block(load):
     result = load(text)
     assert len(block(result, "m").lines) > 3
     assert block(result, "m").h > 24
+
+
+def test_long_notes_wrap_and_the_block_grows_to_hold_them(load):
+    note = "copied to 0x2000 0000: datas, devices, log_dynamic_sections, k_timer_area, k_sem_area"
+    text = regions(
+        "    - id: m\n      size: 8K\n      children:\n"
+        f'        - {{ id: a, size: 4K, note: "{note}" }}\n        - {{ id: b, size: 4K, note: short }}'
+    )
+    view = "view:\n  defaults:\n    scale: { mode: equal }\n  columns:\n    - { id: c, root: m }\n"
+    result = load(text + view)
+    assert codes(result) == []
+    notes = [t for t in drawn(result).texts() if t.role == "note" and t.region == "a"]
+    assert len(notes) > 1 and " ".join(t.text for t in notes) == note
+    a = block(result, "a")
+    assert all(a.y < t.y < a.y + a.h for t in notes)  # every line sits beside its own block
+    assert a.h > block(result, "b").h  # equal scale, so only the note made it taller
+    rules = [p for p in drawn(result).primitives if isinstance(p, Line) and p.x1 == p.x2]
+    assert [(r.y1 > a.y, r.y2 < a.y + a.h) for r in rules if a.x + a.w < r.x1 < notes[0].x] == [
+        (True, True)
+    ]
+
+
+def test_a_note_line_break_is_kept(load):
+    text = regions('    - id: m\n      size: 4K\n      note: "one\\ntwo"')
+    notes = [t.text for t in drawn(load(text)).texts() if t.role == "note"]
+    assert notes == ["one", "two"]

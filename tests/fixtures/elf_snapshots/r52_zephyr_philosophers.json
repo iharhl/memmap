@@ -1,0 +1,269 @@
+{
+  "name": "r52_zephyr_philosophers",
+  "about": "Zephyr philosophers on Cortex-R52, all in one 2 GB DRAM",
+  "url": "https://dl.antmicro.com/projects/renode/fvp_baser_aemv8r_aarch32--zephyr-philosophers.elf-s_500280-b9bbb31c64dec3f3273535be657b8e4d7ca182f9",
+  "sha256": "f65dfa8c76d41caa63252c71eb3f2a0bf6abdae3cdc6a4dc83ea3be25a2fbfea",
+  "regions": [
+    "dram=0x0:2G:DRAM"
+  ],
+  "bits": 32,
+  "little_endian": true,
+  "file_type": 2,
+  "sections": [
+    {
+      "name": "rom_start",
+      "type": 1,
+      "flags": 6,
+      "address": "0x0",
+      "size": 60,
+      "offset": 180
+    },
+    {
+      "name": "text",
+      "type": 1,
+      "flags": 6,
+      "address": "0x3C",
+      "size": 25348,
+      "offset": 240
+    },
+    {
+      "name": ".ARM.exidx",
+      "type": 1879048193,
+      "flags": 130,
+      "address": "0x6340",
+      "size": 8,
+      "offset": 25588
+    },
+    {
+      "name": "rodata_start",
+      "type": 8,
+      "flags": 3,
+      "address": "0x6348",
+      "size": 56,
+      "offset": 25596
+    },
+    {
+      "name": "initlevel",
+      "type": 1,
+      "flags": 2,
+      "address": "0x6380",
+      "size": 32,
+      "offset": 25600
+    },
+    {
+      "name": "devices",
+      "type": 1,
+      "flags": 2,
+      "address": "0x63A0",
+      "size": 24,
+      "offset": 25632
+    },
+    {
+      "name": "sw_isr_table",
+      "type": 1,
+      "flags": 3,
+      "address": "0x63B8",
+      "size": 1024,
+      "offset": 25656
+    },
+    {
+      "name": "device_handles",
+      "type": 1,
+      "flags": 2,
+      "address": "0x67B8",
+      "size": 6,
+      "offset": 26680
+    },
+    {
+      "name": "log_const_sections",
+      "type": 1,
+      "flags": 2,
+      "address": "0x67C0",
+      "size": 24,
+      "offset": 26688
+    },
+    {
+      "name": "zephyr_dbg_info",
+      "type": 1,
+      "flags": 3,
+      "address": "0x67D8",
+      "size": 64,
+      "offset": 26712
+    },
+    {
+      "name": "rodata",
+      "type": 1,
+      "flags": 2,
+      "address": "0x6818",
+      "size": 2792,
+      "offset": 26776
+    },
+    {
+      "name": "bss",
+      "type": 8,
+      "flags": 3,
+      "address": "0x7300",
+      "size": 1654,
+      "offset": 29568
+    },
+    {
+      "name": "noinit",
+      "type": 8,
+      "flags": 3,
+      "address": "0x7978",
+      "size": 16896,
+      "offset": 29568
+    },
+    {
+      "name": "datas",
+      "type": 1,
+      "flags": 3,
+      "address": "0xBB78",
+      "size": 44,
+      "offset": 29568
+    },
+    {
+      "name": "device_states",
+      "type": 1,
+      "flags": 3,
+      "address": "0xBBA4",
+      "size": 2,
+      "offset": 29612
+    },
+    {
+      "name": ".comment",
+      "type": 1,
+      "flags": 48,
+      "address": "0x0",
+      "size": 32,
+      "offset": 29618
+    },
+    {
+      "name": ".debug_aranges",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 3272,
+      "offset": 29656
+    },
+    {
+      "name": ".debug_info",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 221284,
+      "offset": 32928
+    },
+    {
+      "name": ".debug_abbrev",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 28444,
+      "offset": 254212
+    },
+    {
+      "name": ".debug_line",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 71675,
+      "offset": 282656
+    },
+    {
+      "name": ".debug_frame",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 7076,
+      "offset": 354332
+    },
+    {
+      "name": ".debug_str",
+      "type": 1,
+      "flags": 48,
+      "address": "0x0",
+      "size": 20816,
+      "offset": 361408
+    },
+    {
+      "name": ".debug_loc",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 71039,
+      "offset": 382224
+    },
+    {
+      "name": ".debug_ranges",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 14504,
+      "offset": 453264
+    },
+    {
+      "name": ".ARM.attributes",
+      "type": 1879048195,
+      "flags": 0,
+      "address": "0x0",
+      "size": 51,
+      "offset": 467768
+    },
+    {
+      "name": ".last_section",
+      "type": 1,
+      "flags": 2,
+      "address": "0xBBA6",
+      "size": 4,
+      "offset": 29614
+    },
+    {
+      "name": ".symtab",
+      "type": 2,
+      "flags": 0,
+      "address": "0x0",
+      "size": 17104,
+      "offset": 467820
+    },
+    {
+      "name": ".strtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 13828,
+      "offset": 484924
+    },
+    {
+      "name": ".shstrtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 326,
+      "offset": 498752
+    }
+  ],
+  "segments": [
+    {
+      "offset": 180,
+      "virtual": "0x0",
+      "physical": "0x0",
+      "file_size": 25416,
+      "memory_size": 25472
+    },
+    {
+      "offset": 25600,
+      "virtual": "0x6380",
+      "physical": "0x6380",
+      "file_size": 3968,
+      "memory_size": 22520
+    },
+    {
+      "offset": 29568,
+      "virtual": "0xBB78",
+      "physical": "0xBB78",
+      "file_size": 50,
+      "memory_size": 50
+    }
+  ]
+}

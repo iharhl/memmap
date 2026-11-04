@@ -1,0 +1,188 @@
+{
+  "name": "msp430f2619_hello",
+  "about": "Hello world on MSP430F2619 (16-bit), reset vector at the top of flash",
+  "url": "https://dl.antmicro.com/projects/renode/msp430f2619-hello_world.elf-s_7912-e951b1bdd3bb562397ca9da8da88722c503507a3",
+  "sha256": "03c4beb276acfbb62e48ed611f38cb7e39c234bc3fa08c088f8850dade06745b",
+  "regions": [
+    "flash=0x2100:0x1DF00:Flash",
+    "ram=0x1100:4K:RAM"
+  ],
+  "bits": 32,
+  "little_endian": true,
+  "file_type": 2,
+  "sections": [
+    {
+      "name": "__reset_vector",
+      "type": 1,
+      "flags": 2,
+      "address": "0xFFFE",
+      "size": 2,
+      "offset": 798
+    },
+    {
+      "name": ".lower.rodata",
+      "type": 1,
+      "flags": 1,
+      "address": "0x2100",
+      "size": 0,
+      "offset": 800
+    },
+    {
+      "name": ".rodata",
+      "type": 1,
+      "flags": 2,
+      "address": "0x2100",
+      "size": 80,
+      "offset": 212
+    },
+    {
+      "name": ".rodata2",
+      "type": 1,
+      "flags": 1,
+      "address": "0x2150",
+      "size": 0,
+      "offset": 800
+    },
+    {
+      "name": ".data",
+      "type": 1,
+      "flags": 3,
+      "address": "0x1100",
+      "size": 0,
+      "offset": 800
+    },
+    {
+      "name": ".bss",
+      "type": 8,
+      "flags": 3,
+      "address": "0x1100",
+      "size": 2,
+      "offset": 292
+    },
+    {
+      "name": ".noinit",
+      "type": 1,
+      "flags": 1,
+      "address": "0x1102",
+      "size": 0,
+      "offset": 800
+    },
+    {
+      "name": ".heap",
+      "type": 8,
+      "flags": 3,
+      "address": "0x1102",
+      "size": 4,
+      "offset": 294
+    },
+    {
+      "name": ".lowtext",
+      "type": 1,
+      "flags": 6,
+      "address": "0x2150",
+      "size": 24,
+      "offset": 292
+    },
+    {
+      "name": ".lower.text",
+      "type": 1,
+      "flags": 1,
+      "address": "0x2168",
+      "size": 0,
+      "offset": 800
+    },
+    {
+      "name": ".text",
+      "type": 1,
+      "flags": 6,
+      "address": "0x2168",
+      "size": 480,
+      "offset": 316
+    },
+    {
+      "name": ".upper.text",
+      "type": 1,
+      "flags": 1,
+      "address": "0x10000",
+      "size": 0,
+      "offset": 800
+    },
+    {
+      "name": ".MSP430.attributes",
+      "type": 1879048195,
+      "flags": 0,
+      "address": "0x0",
+      "size": 23,
+      "offset": 800
+    },
+    {
+      "name": ".comment",
+      "type": 1,
+      "flags": 48,
+      "address": "0x0",
+      "size": 57,
+      "offset": 823
+    },
+    {
+      "name": ".symtab",
+      "type": 2,
+      "flags": 0,
+      "address": "0x0",
+      "size": 4848,
+      "offset": 880
+    },
+    {
+      "name": ".strtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 1312,
+      "offset": 5728
+    },
+    {
+      "name": ".shstrtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 151,
+      "offset": 7040
+    }
+  ],
+  "segments": [
+    {
+      "offset": 0,
+      "virtual": "0x202C",
+      "physical": "0x202C",
+      "file_size": 292,
+      "memory_size": 292
+    },
+    {
+      "offset": 0,
+      "virtual": "0x1100",
+      "physical": "0x2150",
+      "file_size": 0,
+      "memory_size": 2
+    },
+    {
+      "offset": 2,
+      "virtual": "0x1102",
+      "physical": "0x2150",
+      "file_size": 0,
+      "memory_size": 4
+    },
+    {
+      "offset": 292,
+      "virtual": "0x2150",
+      "physical": "0x2150",
+      "file_size": 504,
+      "memory_size": 504
+    },
+    {
+      "offset": 798,
+      "virtual": "0xFFFE",
+      "physical": "0xFFFE",
+      "file_size": 2,
+      "memory_size": 2
+    }
+  ]
+}

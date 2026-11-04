@@ -1,0 +1,158 @@
+{
+  "name": "stm32f746_dartino_lines",
+  "about": "Dartino (Dart VM) lines demo on STM32F746",
+  "url": "https://dl.antmicro.com/projects/renode/dartino-lines.elf-s_486816-cd8876ab9de60af779f4429dfe16c79bf831b84d",
+  "sha256": "e764ffa7bbe0bdfef136d0f868e322eb0d253a48824dbcb1cba09cf7158ff452",
+  "regions": [
+    "flash=0x08000000:1M:Flash",
+    "sram=0x20000000:320K:SRAM"
+  ],
+  "bits": 32,
+  "little_endian": true,
+  "file_type": 2,
+  "sections": [
+    {
+      "name": ".isr_vector",
+      "type": 1,
+      "flags": 2,
+      "address": "0x8000000",
+      "size": 456,
+      "offset": 65536
+    },
+    {
+      "name": ".text",
+      "type": 1,
+      "flags": 6,
+      "address": "0x80001D0",
+      "size": 158288,
+      "offset": 66000
+    },
+    {
+      "name": ".rodata",
+      "type": 1,
+      "flags": 2,
+      "address": "0x8026C20",
+      "size": 29008,
+      "offset": 224288
+    },
+    {
+      "name": ".ARM",
+      "type": 1879048193,
+      "flags": 130,
+      "address": "0x802DD70",
+      "size": 8,
+      "offset": 253296
+    },
+    {
+      "name": ".init_array",
+      "type": 14,
+      "flags": 3,
+      "address": "0x802DD78",
+      "size": 56,
+      "offset": 253304
+    },
+    {
+      "name": ".fini_array",
+      "type": 15,
+      "flags": 3,
+      "address": "0x802DDB0",
+      "size": 4,
+      "offset": 253360
+    },
+    {
+      "name": ".data",
+      "type": 1,
+      "flags": 3,
+      "address": "0x20000000",
+      "size": 37928,
+      "offset": 262144
+    },
+    {
+      "name": ".bss",
+      "type": 8,
+      "flags": 3,
+      "address": "0x20009428",
+      "size": 23276,
+      "offset": 300072
+    },
+    {
+      "name": "._user_heap_stack",
+      "type": 8,
+      "flags": 3,
+      "address": "0x2000EF14",
+      "size": 1540,
+      "offset": 323348
+    },
+    {
+      "name": ".ARM.attributes",
+      "type": 1879048195,
+      "flags": 0,
+      "address": "0x0",
+      "size": 48,
+      "offset": 300072
+    },
+    {
+      "name": ".comment",
+      "type": 1,
+      "flags": 48,
+      "address": "0x0",
+      "size": 110,
+      "offset": 300120
+    },
+    {
+      "name": ".debug_frame",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 46524,
+      "offset": 300232
+    },
+    {
+      "name": ".shstrtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 149,
+      "offset": 486025
+    },
+    {
+      "name": ".symtab",
+      "type": 2,
+      "flags": 0,
+      "address": "0x0",
+      "size": 78624,
+      "offset": 346756
+    },
+    {
+      "name": ".strtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 60645,
+      "offset": 425380
+    }
+  ],
+  "segments": [
+    {
+      "offset": 65536,
+      "virtual": "0x8000000",
+      "physical": "0x8000000",
+      "file_size": 187828,
+      "memory_size": 187828
+    },
+    {
+      "offset": 262144,
+      "virtual": "0x20000000",
+      "physical": "0x802DDB4",
+      "file_size": 37928,
+      "memory_size": 61204
+    },
+    {
+      "offset": 323348,
+      "virtual": "0x2000EF14",
+      "physical": "0x80371DC",
+      "file_size": 0,
+      "memory_size": 1540
+    }
+  ]
+}
