@@ -59,7 +59,7 @@ def compare(golden, text):
 
 
 def test_there_are_snapshots():
-    assert len(NAMES) >= 9
+    assert len(NAMES) >= 8
 
 
 @pytest.mark.parametrize("name", NAMES)

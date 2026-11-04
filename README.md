@@ -177,7 +177,7 @@ regenerate them:
 MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_golden.py
 ```
 
-`from-elf` is also tested on nine real firmware images, kept as small header snapshots with
+`from-elf` is also tested on eight real firmware images, kept as small header snapshots with
 golden configs and drawings in `tests/golden/elf/`. After an intended change to the importer or
 the drawing, review and regenerate those too:
 

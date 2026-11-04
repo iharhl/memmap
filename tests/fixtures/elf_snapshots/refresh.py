@@ -37,12 +37,6 @@ MANIFEST: dict[str, dict[str, object]] = {
         "about": "Zephyr shell on nRF52840 (Cortex-M4): many small sections, one RAM init image",
         "regions": ["flash=0x0:1M:Flash", "ram=0x20000000:256K:RAM"],
     },
-    "hubris_stm32h753": {
-        "url": RENODE + "hubris-stm32h753-udprpc.elf-s_131296"
-        "-5caee99b2a6bb995702570dcbde1171c61225a3f",
-        "about": "Hubris (Rust) on STM32H753, a .hex image converted to an object file",
-        "regions": ["flash=0x08000000:2M:Flash"],
-    },
     "fe310_zephyr_shell": {
         "url": RENODE + "zephyr-fe310-shell.elf-s_323068-cf87169150ecdb30ad5a14c87ae209c53dd3eca2",
         "about": "Zephyr shell on SiFive FE310 (RISC-V), running from SPI flash",

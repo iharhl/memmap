@@ -10,13 +10,13 @@ thought of, so besides hand-made cases the tests run real firmware through the i
 | --- | --- | --- |
 | Synthetic ELFs | `tests/test_from_elf.py`, built by `tests/elf_builder.py` | One rule per test: folding, free gaps, load images, several memory banks, ids, 64-bit, big-endian, converted images, bad files, the CLI |
 | Real builds | `tests/fixtures/firmware*.elf`, from `tests/fixtures/elf_src/` | The reader on files binutils wrote: one firmware as 32- and 64-bit, little- and big-endian. `build.sh` rebuilds them with `arm-none-eabi-gcc` and GNU `objcopy` |
-| Real firmware | `tests/test_elf_snapshots.py`, `tests/fixtures/elf_snapshots/` | Nine images from different toolchains, OSes and architectures, against golden configs and drawings |
+| Real firmware | `tests/test_elf_snapshots.py`, `tests/fixtures/elf_snapshots/` | Eight images from different toolchains, OSes and architectures, against golden configs and drawings |
 
 ## Snapshots instead of ELF files
 
-The real images total 6.6 MB, mostly debug info memmap never reads, and they are other projects'
+The real images total 6.5 MB, mostly debug info memmap never reads, and they are other projects'
 builds. So the repo keeps a snapshot of each instead: the section headers, the loadable segments,
-the `--region` specs to import with, and the source URL and SHA-256. That is 1 to 7 KB of JSON,
+the `--region` specs to import with, and the source URL and SHA-256. That is 3 to 6 KB of JSON,
 with no code or data from the firmware.
 
 The test rebuilds each snapshot into a minimal ELF, imports it, and checks that the import reports
@@ -39,7 +39,6 @@ in `build/elf/`, which git ignores.
 | `r52_zephyr_philosophers` | Zephyr philosophers, Cortex-R52 | DRAM 2G at 0 |
 | `fe310_zephyr_shell` | Zephyr shell, SiFive FE310 (RISC-V), runs from SPI flash | SPI flash 12M at 0x20400000, DTIM 16K at 0x80000000 |
 | `stm32f412_tock_kernel` | Tock (Rust) kernel, STM32F412 | flash 1M at 0x08000000, SRAM 256K at 0x20000000 |
-| `hubris_stm32h753` | Hubris (Rust), STM32H753, a `.hex` converted to an object file | flash 2M at 0x08000000 |
 | `msp430f2619_hello` | Hello world, MSP430F2619 (16-bit) | flash 0x1DF00 at 0x2100, RAM 4K at 0x1100 |
 | `stm32f746_dartino_lines` | Dartino (Dart VM) demo, STM32F746 | flash 1M at 0x08000000, SRAM 320K at 0x20000000 |
 | `stm32f4discovery` | STM32F4 Discovery demo, STM32F407 | flash 1M at 0x08000000, SRAM 128K at 0x20000000 |
@@ -69,8 +68,7 @@ MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_elf_snapshots.py
 
 ## The maps
 
-These are the goldens, so they always show what the current code draws. Hubris is left out: its
-converted image is one block.
+These are the goldens, so they always show what the current code draws.
 
 ### nRF52840, Zephyr shell
 
