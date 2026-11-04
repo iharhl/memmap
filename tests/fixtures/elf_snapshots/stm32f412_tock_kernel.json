@@ -1,0 +1,221 @@
+{
+  "name": "stm32f412_tock_kernel",
+  "about": "Tock (Rust) kernel on STM32F412, with an app area far up flash",
+  "url": "https://dl.antmicro.com/projects/renode/stm32f412gdiscovery--tock_kernel.elf-s_3392340-6da12cfcd5c4180b60ce7bf2ad32f019c9e8216e",
+  "sha256": "bb2e0c9a23d28e5066af605ef3da6cd96ff3d45004011c6fcc7cad273f8adf82",
+  "regions": [
+    "flash=0x08000000:1M:Flash",
+    "sram=0x20000000:256K:SRAM"
+  ],
+  "bits": 32,
+  "little_endian": true,
+  "file_type": 2,
+  "sections": [
+    {
+      "name": ".stack",
+      "type": 8,
+      "flags": 3,
+      "address": "0x20000000",
+      "size": 8192,
+      "offset": 308
+    },
+    {
+      "name": ".text",
+      "type": 1,
+      "flags": 22,
+      "address": "0x8000000",
+      "size": 99516,
+      "offset": 512
+    },
+    {
+      "name": ".ARM.exidx",
+      "type": 1879048193,
+      "flags": 130,
+      "address": "0x80184BC",
+      "size": 16,
+      "offset": 100028
+    },
+    {
+      "name": ".storage",
+      "type": 1,
+      "flags": 2,
+      "address": "0x80184CC",
+      "size": 0,
+      "offset": 100044
+    },
+    {
+      "name": ".apps",
+      "type": 1,
+      "flags": 2,
+      "address": "0x8030000",
+      "size": 1,
+      "offset": 100352
+    },
+    {
+      "name": ".relocate",
+      "type": 1,
+      "flags": 3,
+      "address": "0x20002000",
+      "size": 40,
+      "offset": 100864
+    },
+    {
+      "name": ".sram",
+      "type": 8,
+      "flags": 3,
+      "address": "0x20002028",
+      "size": 65496,
+      "offset": 100904
+    },
+    {
+      "name": ".debug_loc",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 323337,
+      "offset": 100904
+    },
+    {
+      "name": ".debug_abbrev",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 5008,
+      "offset": 424241
+    },
+    {
+      "name": ".debug_info",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 1186046,
+      "offset": 429249
+    },
+    {
+      "name": ".debug_aranges",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 7552,
+      "offset": 1615296
+    },
+    {
+      "name": ".debug_ranges",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 83344,
+      "offset": 1622848
+    },
+    {
+      "name": ".debug_str",
+      "type": 1,
+      "flags": 48,
+      "address": "0x0",
+      "size": 617334,
+      "offset": 1706192
+    },
+    {
+      "name": ".debug_pubnames",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 231974,
+      "offset": 2323526
+    },
+    {
+      "name": ".debug_pubtypes",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 569173,
+      "offset": 2555500
+    },
+    {
+      "name": ".ARM.attributes",
+      "type": 1879048195,
+      "flags": 0,
+      "address": "0x0",
+      "size": 48,
+      "offset": 3124673
+    },
+    {
+      "name": ".debug_frame",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 16148,
+      "offset": 3124724
+    },
+    {
+      "name": ".debug_line",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 160794,
+      "offset": 3140872
+    },
+    {
+      "name": ".comment",
+      "type": 1,
+      "flags": 48,
+      "address": "0x0",
+      "size": 147,
+      "offset": 3301666
+    },
+    {
+      "name": ".symtab",
+      "type": 2,
+      "flags": 0,
+      "address": "0x0",
+      "size": 25520,
+      "offset": 3301816
+    },
+    {
+      "name": ".shstrtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 241,
+      "offset": 3327336
+    },
+    {
+      "name": ".strtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 63843,
+      "offset": 3327577
+    }
+  ],
+  "segments": [
+    {
+      "offset": 512,
+      "virtual": "0x8000000",
+      "physical": "0x8000000",
+      "file_size": 99516,
+      "memory_size": 99516
+    },
+    {
+      "offset": 100028,
+      "virtual": "0x80184BC",
+      "physical": "0x80184BC",
+      "file_size": 16,
+      "memory_size": 16
+    },
+    {
+      "offset": 100352,
+      "virtual": "0x8030000",
+      "physical": "0x8030000",
+      "file_size": 1,
+      "memory_size": 1
+    },
+    {
+      "offset": 100864,
+      "virtual": "0x20002000",
+      "physical": "0x80184CC",
+      "file_size": 40,
+      "memory_size": 40
+    }
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "name": "stm32f4discovery",
+  "about": "STM32F4 Discovery demo (STM32F407), a classic CubeMX-style layout",
+  "url": "https://dl.antmicro.com/projects/renode/stm32f4discovery.elf-s_445441-827a0dedd3790f4559d7518320006613768b5e72",
+  "sha256": "a25bd1bf148fd0ba3f98085ae86585b5b7199554669a3c509efab6fe238ae198",
+  "regions": [
+    "flash=0x08000000:1M:Flash",
+    "sram=0x20000000:128K:SRAM"
+  ],
+  "bits": 32,
+  "little_endian": true,
+  "file_type": 2,
+  "sections": [
+    {
+      "name": ".isr_vector",
+      "type": 1,
+      "flags": 3,
+      "address": "0x8000000",
+      "size": 392,
+      "offset": 32768
+    },
+    {
+      "name": ".text",
+      "type": 1,
+      "flags": 6,
+      "address": "0x8000188",
+      "size": 77680,
+      "offset": 33160
+    },
+    {
+      "name": ".ARM",
+      "type": 1879048193,
+      "flags": 130,
+      "address": "0x80130F8",
+      "size": 8,
+      "offset": 110840
+    },
+    {
+      "name": ".data",
+      "type": 1,
+      "flags": 3,
+      "address": "0x20000000",
+      "size": 2716,
+      "offset": 131072
+    },
+    {
+      "name": ".bss",
+      "type": 8,
+      "flags": 3,
+      "address": "0x20000A9C",
+      "size": 22212,
+      "offset": 133788
+    },
+    {
+      "name": "._user_heap_stack",
+      "type": 8,
+      "flags": 3,
+      "address": "0x20006160",
+      "size": 1024,
+      "offset": 133788
+    },
+    {
+      "name": ".comment",
+      "type": 1,
+      "flags": 48,
+      "address": "0x0",
+      "size": 31,
+      "offset": 133788
+    },
+    {
+      "name": ".ARM.attributes",
+      "type": 1879048195,
+      "flags": 0,
+      "address": "0x0",
+      "size": 55,
+      "offset": 133819
+    },
+    {
+      "name": ".debug_info",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 120272,
+      "offset": 133874
+    },
+    {
+      "name": ".debug_abbrev",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 24653,
+      "offset": 254146
+    },
+    {
+      "name": ".debug_aranges",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 2256,
+      "offset": 278800
+    },
+    {
+      "name": ".debug_line",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 28197,
+      "offset": 281056
+    },
+    {
+      "name": ".debug_str",
+      "type": 1,
+      "flags": 48,
+      "address": "0x0",
+      "size": 8026,
+      "offset": 309253
+    },
+    {
+      "name": ".debug_loc",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 76069,
+      "offset": 317279
+    },
+    {
+      "name": ".debug_ranges",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 3520,
+      "offset": 393348
+    },
+    {
+      "name": ".debug_frame",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 3764,
+      "offset": 396868
+    },
+    {
+      "name": ".shstrtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 206,
+      "offset": 400632
+    },
+    {
+      "name": ".symtab",
+      "type": 2,
+      "flags": 0,
+      "address": "0x0",
+      "size": 25152,
+      "offset": 401640
+    },
+    {
+      "name": ".strtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 18649,
+      "offset": 426792
+    }
+  ],
+  "segments": [
+    {
+      "offset": 32768,
+      "virtual": "0x8000000",
+      "physical": "0x8000000",
+      "file_size": 78080,
+      "memory_size": 78080
+    },
+    {
+      "offset": 131072,
+      "virtual": "0x20000000",
+      "physical": "0x8013100",
+      "file_size": 2716,
+      "memory_size": 25952
+    }
+  ]
+}

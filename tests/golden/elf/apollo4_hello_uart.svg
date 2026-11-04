@@ -1,0 +1,56 @@
+<svg height="299.75" viewBox="0 0 1074.5 299.75" width="1074.5" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="299.75" width="1074.5" x="0" y="0"/>
+<rect fill="none" height="251.75" stroke="#000000" stroke-width="1" width="1054.5" x="10" y="38"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13.2" font-weight="bold" text-anchor="middle" x="537.25" y="23.2">apollo4_hello_uart.elf memory map</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="91.14" y="263.25">0x0001 8000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="91.14" y="221.46">0x0001 BCF8</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="91.14" y="189.06">0x0001 BD18</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="91.14" y="156.66">0x0001 BD58</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="91.14" y="93.9">0x001F FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="174.14" y="71.2">MRAM (app)</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="174.14" y="84.4">15.3 KB of 1.9 MB (1%)</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="576.5" y="250.5">0x1000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="576.5" y="214.5">0x1000 1000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="576.5" y="182.1">0x1000 1020</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="576.5" y="149.59">0x1000 1744</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="576.5" y="93.9">0x1005 FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="659.5" y="71.2">TCM</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="659.5" y="84.4">5.8 KB of 384 KB (2%)</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="886.5" y="186.3">0x1006 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="886.5" y="153.9">0x1006 0040</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="886.5" y="93.9">0x1015 FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="969.5" y="71.2">Shared SRAM</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="969.5" y="84.4">64 B of 1 MB (&lt;1%)</text>
+<rect fill="#ffffff" height="41.79" stroke="#000000" stroke-width="1" width="150" x="99.14" y="217.96"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="174.14" y="236.1">.text</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="174.14" y="249.3">15608 B</text>
+<rect fill="#ffffff" height="32.4" stroke="#000000" stroke-width="1" width="150" x="99.14" y="185.56"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="174.14" y="199.01">.data (load)</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="174.14" y="212.21">32 B</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="257.14" y="205.03">copied to TCM at 0x1000 1000</text>
+<rect fill="#ffffff" height="32.4" stroke="#000000" stroke-width="1" width="150" x="99.14" y="153.16"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="174.14" y="166.61">.shared (load)</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="174.14" y="179.81">64 B</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="257.14" y="172.63">copied to Shared SRAM at 0x1006 0000</text>
+<rect fill="#d9d9d9" height="62.76" stroke="#000000" stroke-width="1" width="150" x="99.14" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="174.14" y="119.03">Free</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="174.14" y="132.23">≈1.89 MB</text>
+<rect fill="#ffffff" height="36" stroke="#000000" stroke-width="1" width="150" x="584.5" y="211"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="659.5" y="226.25">.stack</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="659.5" y="239.45">4 KB</text>
+<rect fill="#ffffff" height="32.4" stroke="#000000" stroke-width="1" width="150" x="584.5" y="178.6"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="659.5" y="192.05">.data</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="659.5" y="205.25">32 B</text>
+<rect fill="#ffffff" height="32.51" stroke="#000000" stroke-width="1" width="150" x="584.5" y="146.09"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="659.5" y="159.59">.bss</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="659.5" y="172.79">1828 B</text>
+<rect fill="#d9d9d9" height="55.69" stroke="#000000" stroke-width="1" width="150" x="584.5" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="659.5" y="115.49">Free</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="659.5" y="128.69">≈378 KB</text>
+<rect fill="#ffffff" height="32.4" stroke="#000000" stroke-width="1" width="150" x="894.5" y="150.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="969.5" y="163.85">.shared</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="969.5" y="177.05">64 B</text>
+<rect fill="#d9d9d9" height="60" stroke="#000000" stroke-width="1" width="150" x="894.5" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="969.5" y="117.65">Free</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="969.5" y="130.85">≈1023 KB</text>
+</svg>

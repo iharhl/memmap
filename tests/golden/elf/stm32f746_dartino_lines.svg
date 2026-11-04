@@ -1,0 +1,61 @@
+<svg height="460.87" viewBox="0 0 732.86 460.87" width="732.86" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="460.87" width="732.86" x="0" y="0"/>
+<rect fill="none" height="412.87" stroke="#000000" stroke-width="1" width="712.86" x="10" y="38"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13.2" font-weight="bold" text-anchor="middle" x="366.43" y="23.2">stm32f746_dartino_lines.elf memory map</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.25" y="424.37">0x0800 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.25" y="386.47">0x0800 01D0</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.25" y="397.47">0x0800 01C7</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.25" y="340.16">0x0802 6C20</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.25" y="295.68">0x0802 DD70</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.25" y="263.28">0x0802 DD78</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.25" y="230.88">0x0802 DDB0</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.25" y="198.48">0x0802 DDB4</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.25" y="152.85">0x0803 71DC</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.25" y="93.9">0x080F FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="175.25" y="71.2">Flash</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="175.25" y="84.4">220.5 KB of 1 MB (22%)</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="544.86" y="269.5">0x2000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="544.86" y="223.87">0x2000 9428</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="544.86" y="180.35">0x2000 EF14</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="544.86" y="147.95">0x2000 F518</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="544.86" y="93.9">0x2004 FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="627.86" y="71.2">SRAM</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="627.86" y="84.4">61.3 KB of 320 KB (19%)</text>
+<rect fill="#ffffff" height="32.4" stroke="#000000" stroke-width="1" width="150" x="100.25" y="388.47"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="175.25" y="401.92">.isr_vector</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="175.25" y="415.12">456 B</text>
+<rect fill="#ffffff" height="51.82" stroke="#000000" stroke-width="1" width="150" x="100.25" y="336.66"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="175.25" y="359.81">.text</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="175.25" y="373.01">158288 B</text>
+<rect fill="#ffffff" height="44.47" stroke="#000000" stroke-width="1" width="150" x="100.25" y="292.18"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="175.25" y="311.67">.rodata</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="175.25" y="324.87">29008 B</text>
+<rect fill="#ffffff" height="32.4" stroke="#000000" stroke-width="1" width="150" x="100.25" y="259.78"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="175.25" y="273.23">.ARM</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="175.25" y="286.43">8 B</text>
+<rect fill="#ffffff" height="32.4" stroke="#000000" stroke-width="1" width="150" x="100.25" y="227.38"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="175.25" y="240.83">.init_array</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="175.25" y="254.03">56 B</text>
+<rect fill="#ffffff" height="32.4" stroke="#000000" stroke-width="1" width="150" x="100.25" y="194.98"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="175.25" y="208.43">.fini_array</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="175.25" y="221.63">4 B</text>
+<rect fill="#ffffff" height="45.63" stroke="#000000" stroke-width="1" width="150" x="100.25" y="149.35"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="175.25" y="169.42">.data (load)</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="175.25" y="182.62">37928 B</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="258.25" y="175.44">copied to SRAM at 0x2000 0000</text>
+<rect fill="#d9d9d9" height="58.95" stroke="#000000" stroke-width="1" width="150" x="100.25" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="175.25" y="117.13">Free</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="175.25" y="130.33">≈803 KB</text>
+<rect fill="#ffffff" height="45.63" stroke="#000000" stroke-width="1" width="150" x="552.86" y="220.37"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="627.86" y="240.43">.data</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="627.86" y="253.63">37928 B</text>
+<rect fill="#ffffff" height="43.52" stroke="#000000" stroke-width="1" width="150" x="552.86" y="176.85"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="627.86" y="195.86">.bss</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="627.86" y="209.06">23276 B</text>
+<rect fill="#ffffff" height="32.4" stroke="#000000" stroke-width="1" width="150" x="552.86" y="144.45"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="627.86" y="157.9">._user_heap_stack</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="627.86" y="171.1">1540 B</text>
+<rect fill="#d9d9d9" height="54.05" stroke="#000000" stroke-width="1" width="150" x="552.86" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="627.86" y="114.67">Free</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="627.86" y="127.87">≈258 KB</text>
+</svg>

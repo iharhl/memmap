@@ -264,7 +264,7 @@ def test_examples_are_valid_commented_starters(example):
     assert invoke("check", example).exit_code == 0
 
 
-@pytest.mark.parametrize("command", ["render", "check", "describe", "schema", "guide"])
+@pytest.mark.parametrize("command", ["render", "check", "describe", "from-elf", "schema", "guide"])
 def test_help_ends_with_an_example(command):
     lines = invoke(command, "--help").stdout.rstrip().splitlines()
     assert lines[-1].strip().startswith("memmap ")
@@ -296,6 +296,7 @@ def test_group_help_points_to_the_guide():
         ["view.columns[0].width=150"],
         ["view.overrides=[{region: boot, top_label: end}]"],
         ["view.overrides=[{region: boot, height: 48}]"],
+        ['memory.regions[0].note="line one\\nline two"'],
     ],
 )
 def test_agents_guide_recipes_are_valid(sets, tmp_path):

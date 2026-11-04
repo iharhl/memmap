@@ -1,0 +1,214 @@
+{
+  "name": "fe310_zephyr_shell",
+  "about": "Zephyr shell on SiFive FE310 (RISC-V), running from SPI flash",
+  "url": "https://dl.antmicro.com/projects/renode/zephyr-fe310-shell.elf-s_323068-cf87169150ecdb30ad5a14c87ae209c53dd3eca2",
+  "sha256": "15290d9da9e8798efe69defc71e928394733ae005d3f51dda8aaec449c3b464c",
+  "regions": [
+    "flash=0x20400000:12M:SPI flash (user)",
+    "dtim=0x80000000:16K:DTIM"
+  ],
+  "bits": 32,
+  "little_endian": true,
+  "file_type": 2,
+  "sections": [
+    {
+      "name": "vector",
+      "type": 1,
+      "flags": 6,
+      "address": "0x20400000",
+      "size": 16,
+      "offset": 148
+    },
+    {
+      "name": "exceptions",
+      "type": 1,
+      "flags": 6,
+      "address": "0x20400010",
+      "size": 628,
+      "offset": 164
+    },
+    {
+      "name": "text",
+      "type": 1,
+      "flags": 7,
+      "address": "0x20400284",
+      "size": 17292,
+      "offset": 792
+    },
+    {
+      "name": "devconfig",
+      "type": 1,
+      "flags": 3,
+      "address": "0x20404610",
+      "size": 132,
+      "offset": 18084
+    },
+    {
+      "name": "rodata",
+      "type": 1,
+      "flags": 2,
+      "address": "0x20404694",
+      "size": 2452,
+      "offset": 18216
+    },
+    {
+      "name": "datas",
+      "type": 1,
+      "flags": 3,
+      "address": "0x80000000",
+      "size": 168,
+      "offset": 20668
+    },
+    {
+      "name": "initlevel",
+      "type": 1,
+      "flags": 3,
+      "address": "0x800000A8",
+      "size": 132,
+      "offset": 20836
+    },
+    {
+      "name": "initshell",
+      "type": 1,
+      "flags": 3,
+      "address": "0x8000012C",
+      "size": 24,
+      "offset": 20968
+    },
+    {
+      "name": "bss",
+      "type": 8,
+      "flags": 3,
+      "address": "0x80000148",
+      "size": 1336,
+      "offset": 21000
+    },
+    {
+      "name": "noinit",
+      "type": 8,
+      "flags": 3,
+      "address": "0x80000680",
+      "size": 6608,
+      "offset": 21000
+    },
+    {
+      "name": ".debug_info",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 120305,
+      "offset": 20992
+    },
+    {
+      "name": ".debug_abbrev",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 26865,
+      "offset": 141297
+    },
+    {
+      "name": ".debug_aranges",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 3064,
+      "offset": 168176
+    },
+    {
+      "name": ".debug_line",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 60979,
+      "offset": 171240
+    },
+    {
+      "name": ".debug_str",
+      "type": 1,
+      "flags": 48,
+      "address": "0x0",
+      "size": 19827,
+      "offset": 232219
+    },
+    {
+      "name": ".comment",
+      "type": 1,
+      "flags": 48,
+      "address": "0x0",
+      "size": 17,
+      "offset": 252046
+    },
+    {
+      "name": ".debug_frame",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 9288,
+      "offset": 252064
+    },
+    {
+      "name": ".debug_loc",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 33596,
+      "offset": 261352
+    },
+    {
+      "name": ".debug_ranges",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 6688,
+      "offset": 294960
+    },
+    {
+      "name": ".symtab",
+      "type": 2,
+      "flags": 0,
+      "address": "0x0",
+      "size": 9248,
+      "offset": 301648
+    },
+    {
+      "name": ".strtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 11035,
+      "offset": 310896
+    },
+    {
+      "name": ".shstrtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 215,
+      "offset": 321931
+    }
+  ],
+  "segments": [
+    {
+      "offset": 148,
+      "virtual": "0x20400000",
+      "physical": "0x20400000",
+      "file_size": 20520,
+      "memory_size": 20520
+    },
+    {
+      "offset": 20668,
+      "virtual": "0x80000000",
+      "physical": "0x20405028",
+      "file_size": 324,
+      "memory_size": 324
+    },
+    {
+      "offset": 21000,
+      "virtual": "0x80000148",
+      "physical": "0x80000148",
+      "file_size": 0,
+      "memory_size": 7944
+    }
+  ]
+}

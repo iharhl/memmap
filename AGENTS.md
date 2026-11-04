@@ -14,6 +14,20 @@ Run commands as `memmap ...` when it is installed, or `uv run memmap ...` inside
 4. `memmap describe layout.yaml` -> confirm ranges and labels match intent.
 5. `memmap render layout.yaml -o layout.svg --json --strict`
 
+## Typical task: map a linked firmware image
+1. Read `ORIGIN` and `LENGTH` of each region in the linker script's `MEMORY` block, or in the
+   `Memory Configuration` table of a GNU ld `.map` file.
+2. `memmap from-elf firmware.elf -o layout.yaml --region flash=0x08000000:64K
+   --region ram=0x20000000:20K --json` -> writes the config, then checks it like `check`.
+   Fix W110 (a section outside every region) by correcting or adding a `--region`.
+3. Continue from step 4 above. Rename or merge blocks in `layout.yaml` as needed. `--force`
+   overwrites an existing output.
+
+In a region of more than 8 blocks, small sections fold into groups such as `small_sections`,
+which keep the sections as `children` and each get a detail column. Zooms go one level deep, so
+when W110 puts the regions in zooms of their own, their groups get a note instead.
+`--min-size 0` turns folding off.
+
 ## Rules
 - Never guess keys; run `memmap schema` when unsure.
 - Ranges are inclusive: end = start + size - 1.
@@ -39,14 +53,16 @@ Run commands as `memmap ...` when it is installed, or `uv run memmap ...` inside
 - One-off change:        memmap render layout.yaml --set 'view.columns[0].width=150'
 - Label one edge:        view.overrides: [{ region: ahb1, top_label: end }]
 - Block height:          view.overrides: [{ region: boot, height: 48 }]
+- Multi-line note:       note: "line one\nline two" (long notes also wrap)
 
 Quote `--set` values that contain `[` or `{`, since shells expand them.
 
 ## JSON output
-With `--json`, `check` and `render` always print one object on stdout, for validation errors
-and for usage and IO failures alike: `{"ok": ..., "diagnostics": [...]}`. `render` adds `output`
-and `format` on success. `describe --json` prints the same object on failure. Only a mistake in
-the command line itself, such as an unknown flag, is reported as plain text on stderr.
+With `--json`, `check`, `render` and `from-elf` always print one object on stdout, for
+validation errors and for usage and IO failures alike: `{"ok": ..., "diagnostics": [...]}`.
+`render` adds `output` and `format` on success, `from-elf` adds `output` once it has written the
+config. `describe --json` prints the same object on failure. Only a mistake in the command line
+itself, such as an unknown flag, is reported as plain text on stderr.
 
 ## Checking the result
 `memmap describe layout.yaml --json` returns:
@@ -87,11 +103,13 @@ Every diagnostic has a stable code, a YAML path, a line and usually a `hint`. In
 | E025 | Column expands into itself |
 | W100 | Region boundary not on a flash sector boundary |
 | W101 | Gap filled as reserved (only with `--verbose`) |
-| W102 | Label text forced a block over `max_height` |
+| W102 | Label or note text forced a block over `max_height` |
 | W103 | Region start not aligned to its size (needs `memory.check_alignment: true`) |
 | W104 | Sector list does not add up to the region size |
 | W105 | Block name was split inside a word to fit the column |
 | W106 | Text overlaps other text, or is wider than its block |
+| W110 | `from-elf`: section outside every `--region`, placed at the top level |
+| W111 | `from-elf`: section overlaps another one, left out |
 | E090 | Usage or IO failure, such as a missing file or bad `--set` (`--json` only) |
 | E091 | Render or internal failure, such as missing cairo (`--json` only) |
 
@@ -102,5 +120,8 @@ Exit codes: `0` ok, `1` validation errors, `2` usage or IO error, `3` render err
   3.10 and the latest supported version.
 - After an intended drawing change, review the SVG diff, then run
   `MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_golden.py`.
+- After an intended change to `from-elf` or the drawing, also review and regenerate the
+  real-firmware goldens: `MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_elf_snapshots.py`.
+  docs/elf-testing.md describes them and how to add an image.
 - A new diagnostic code or recipe goes in this file too. `memmap guide` ships it to users, and
   `tests/test_cli.py` covers the recipes.

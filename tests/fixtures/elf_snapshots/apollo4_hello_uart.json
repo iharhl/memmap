@@ -1,0 +1,190 @@
+{
+  "name": "apollo4_hello_uart",
+  "about": "AmbiqSuite hello world on Ambiq Apollo4 (Cortex-M4F): three banks, with data in TCM and shared SRAM, each copied from MRAM",
+  "url": "https://dl.antmicro.com/projects/renode/hello_world_uart.axf-s_307536-899c2682fa35d4bf27992bba5a0b5845ae331ba3",
+  "sha256": "dfece1279153b64e4418cfd8b3880fae46e2e9281bdf7dd32d88f15958859999",
+  "regions": [
+    "mram=0x18000:1952K:MRAM (app)",
+    "tcm=0x10000000:384K:TCM",
+    "sram=0x10060000:1M:Shared SRAM"
+  ],
+  "bits": 32,
+  "little_endian": true,
+  "file_type": 2,
+  "sections": [
+    {
+      "name": ".text",
+      "type": 1,
+      "flags": 6,
+      "address": "0x18000",
+      "size": 15608,
+      "offset": 32768
+    },
+    {
+      "name": ".stack",
+      "type": 8,
+      "flags": 3,
+      "address": "0x10000000",
+      "size": 4096,
+      "offset": 196608
+    },
+    {
+      "name": ".heap",
+      "type": 1,
+      "flags": 3,
+      "address": "0x10001000",
+      "size": 0,
+      "offset": 200704
+    },
+    {
+      "name": ".data",
+      "type": 1,
+      "flags": 3,
+      "address": "0x10001000",
+      "size": 32,
+      "offset": 69632
+    },
+    {
+      "name": ".bss",
+      "type": 8,
+      "flags": 3,
+      "address": "0x10001020",
+      "size": 1828,
+      "offset": 69664
+    },
+    {
+      "name": ".shared",
+      "type": 1,
+      "flags": 3,
+      "address": "0x10060000",
+      "size": 64,
+      "offset": 131072
+    },
+    {
+      "name": ".ARM.attributes",
+      "type": 1879048195,
+      "flags": 0,
+      "address": "0x0",
+      "size": 52,
+      "offset": 200704
+    },
+    {
+      "name": ".debug_info",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 51245,
+      "offset": 200756
+    },
+    {
+      "name": ".debug_abbrev",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 2560,
+      "offset": 252001
+    },
+    {
+      "name": ".debug_aranges",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 432,
+      "offset": 254561
+    },
+    {
+      "name": ".debug_line",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 5895,
+      "offset": 254993
+    },
+    {
+      "name": ".debug_str",
+      "type": 1,
+      "flags": 48,
+      "address": "0x0",
+      "size": 32556,
+      "offset": 260888
+    },
+    {
+      "name": ".comment",
+      "type": 1,
+      "flags": 48,
+      "address": "0x0",
+      "size": 73,
+      "offset": 293444
+    },
+    {
+      "name": ".debug_ranges",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 328,
+      "offset": 293517
+    },
+    {
+      "name": ".debug_frame",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 1116,
+      "offset": 293848
+    },
+    {
+      "name": ".symtab",
+      "type": 2,
+      "flags": 0,
+      "address": "0x0",
+      "size": 7296,
+      "offset": 294964
+    },
+    {
+      "name": ".strtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 4334,
+      "offset": 302260
+    },
+    {
+      "name": ".shstrtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 181,
+      "offset": 306594
+    }
+  ],
+  "segments": [
+    {
+      "offset": 0,
+      "virtual": "0x10000",
+      "physical": "0x10000",
+      "file_size": 48376,
+      "memory_size": 48376
+    },
+    {
+      "offset": 69632,
+      "virtual": "0x10001000",
+      "physical": "0x1BCF8",
+      "file_size": 32,
+      "memory_size": 1860
+    },
+    {
+      "offset": 131072,
+      "virtual": "0x10060000",
+      "physical": "0x1BD18",
+      "file_size": 64,
+      "memory_size": 64
+    },
+    {
+      "offset": 196608,
+      "virtual": "0x10000000",
+      "physical": "0x10000000",
+      "file_size": 4096,
+      "memory_size": 4096
+    }
+  ]
+}

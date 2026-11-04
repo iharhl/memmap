@@ -1,0 +1,302 @@
+{
+  "name": "nrf52840_zephyr_shell",
+  "about": "Zephyr shell on nRF52840 (Cortex-M4): many small sections, one RAM init image",
+  "url": "https://dl.antmicro.com/projects/renode/renode-nrf52840-zephyr_shell_module.elf-gf8d05cf-s_1310072-c00fbffd6b65c6238877c4fe52e8228c2a38bf1f",
+  "sha256": "596906f502af17463c02c57e5a6ba526d4b0ea29e68463d5a046e1edda5a19cb",
+  "regions": [
+    "flash=0x0:1M:Flash",
+    "ram=0x20000000:256K:RAM"
+  ],
+  "bits": 32,
+  "little_endian": true,
+  "file_type": 2,
+  "sections": [
+    {
+      "name": "rom_start",
+      "type": 1,
+      "flags": 7,
+      "address": "0x0",
+      "size": 256,
+      "offset": 192
+    },
+    {
+      "name": "text",
+      "type": 1,
+      "flags": 6,
+      "address": "0x100",
+      "size": 49376,
+      "offset": 448
+    },
+    {
+      "name": ".ARM.exidx",
+      "type": 1879048193,
+      "flags": 130,
+      "address": "0xC1E0",
+      "size": 8,
+      "offset": 49824
+    },
+    {
+      "name": "initlevel",
+      "type": 1,
+      "flags": 2,
+      "address": "0xC1E8",
+      "size": 120,
+      "offset": 49832
+    },
+    {
+      "name": "sw_isr_table",
+      "type": 1,
+      "flags": 3,
+      "address": "0xC260",
+      "size": 384,
+      "offset": 49952
+    },
+    {
+      "name": "log_const_sections",
+      "type": 1,
+      "flags": 2,
+      "address": "0xC3E0",
+      "size": 96,
+      "offset": 50336
+    },
+    {
+      "name": "log_backends_sections",
+      "type": 1,
+      "flags": 2,
+      "address": "0xC440",
+      "size": 32,
+      "offset": 50432
+    },
+    {
+      "name": "shell_area",
+      "type": 1,
+      "flags": 2,
+      "address": "0xC460",
+      "size": 48,
+      "offset": 50464
+    },
+    {
+      "name": "shell_root_cmds_sections",
+      "type": 1,
+      "flags": 2,
+      "address": "0xC490",
+      "size": 112,
+      "offset": 50512
+    },
+    {
+      "name": "rodata",
+      "type": 1,
+      "flags": 2,
+      "address": "0xC500",
+      "size": 10936,
+      "offset": 50624
+    },
+    {
+      "name": ".ramfunc",
+      "type": 1,
+      "flags": 1,
+      "address": "0x20000000",
+      "size": 0,
+      "offset": 62236
+    },
+    {
+      "name": "datas",
+      "type": 1,
+      "flags": 3,
+      "address": "0x20000000",
+      "size": 372,
+      "offset": 61560
+    },
+    {
+      "name": "devices",
+      "type": 1,
+      "flags": 2,
+      "address": "0x20000174",
+      "size": 116,
+      "offset": 61932
+    },
+    {
+      "name": "log_dynamic_sections",
+      "type": 1,
+      "flags": 3,
+      "address": "0x200001E8",
+      "size": 48,
+      "offset": 62048
+    },
+    {
+      "name": "k_timer_area",
+      "type": 1,
+      "flags": 3,
+      "address": "0x20000218",
+      "size": 56,
+      "offset": 62096
+    },
+    {
+      "name": "k_mutex_area",
+      "type": 1,
+      "flags": 3,
+      "address": "0x20000250",
+      "size": 20,
+      "offset": 62152
+    },
+    {
+      "name": "k_msgq_area",
+      "type": 1,
+      "flags": 3,
+      "address": "0x20000264",
+      "size": 40,
+      "offset": 62172
+    },
+    {
+      "name": "k_sem_area",
+      "type": 1,
+      "flags": 3,
+      "address": "0x2000028C",
+      "size": 24,
+      "offset": 62212
+    },
+    {
+      "name": "bss",
+      "type": 8,
+      "flags": 3,
+      "address": "0x200002A8",
+      "size": 4142,
+      "offset": 62248
+    },
+    {
+      "name": "noinit",
+      "type": 8,
+      "flags": 3,
+      "address": "0x200012E0",
+      "size": 8144,
+      "offset": 62248
+    },
+    {
+      "name": ".comment",
+      "type": 1,
+      "flags": 48,
+      "address": "0x0",
+      "size": 50,
+      "offset": 62236
+    },
+    {
+      "name": ".debug_aranges",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 8216,
+      "offset": 62288
+    },
+    {
+      "name": ".debug_info",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 561067,
+      "offset": 70504
+    },
+    {
+      "name": ".debug_abbrev",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 84915,
+      "offset": 631571
+    },
+    {
+      "name": ".debug_line",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 196601,
+      "offset": 716486
+    },
+    {
+      "name": ".debug_frame",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 21284,
+      "offset": 913088
+    },
+    {
+      "name": ".debug_str",
+      "type": 1,
+      "flags": 48,
+      "address": "0x0",
+      "size": 58864,
+      "offset": 934372
+    },
+    {
+      "name": ".debug_loc",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 203162,
+      "offset": 993236
+    },
+    {
+      "name": ".debug_ranges",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 40392,
+      "offset": 1196400
+    },
+    {
+      "name": ".ARM.attributes",
+      "type": 1879048195,
+      "flags": 0,
+      "address": "0x0",
+      "size": 49,
+      "offset": 1236792
+    },
+    {
+      "name": ".symtab",
+      "type": 2,
+      "flags": 0,
+      "address": "0x0",
+      "size": 43536,
+      "offset": 1236844
+    },
+    {
+      "name": ".strtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 27941,
+      "offset": 1280380
+    },
+    {
+      "name": ".shstrtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 391,
+      "offset": 1308321
+    }
+  ],
+  "segments": [
+    {
+      "offset": 192,
+      "virtual": "0x0",
+      "physical": "0x0",
+      "file_size": 61368,
+      "memory_size": 61368
+    },
+    {
+      "offset": 61560,
+      "virtual": "0x20000000",
+      "physical": "0xEFB8",
+      "file_size": 676,
+      "memory_size": 676
+    },
+    {
+      "offset": 62248,
+      "virtual": "0x200002A8",
+      "physical": "0x200002A8",
+      "file_size": 0,
+      "memory_size": 12296
+    }
+  ]
+}
