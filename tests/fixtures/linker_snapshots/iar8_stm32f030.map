@@ -1,0 +1,16 @@
+Excerpt of https://raw.githubusercontent.com/SergeyMax/SolderingStation/68c87792b5ed257ba0caaac4c897abc205cd0a69/Firmware/EWARM/Firmware/List/Firmware.map
+
+# IAR ELF Linker V8.20.1.14183/W32 for ARM                23/Apr/2019  20:37:23
+
+*** PLACEMENT SUMMARY
+***
+
+"A0":  place at 0x08000000 { ro section .intvec };
+"P1":  place in [from 0x08000000 to 0x08007fff] { ro };
+define block CSTACK with size = 1K, alignment = 8 { };
+define block HEAP with size = 512, alignment = 8 { };
+"P2":  place in [from 0x20000000 to 0x20000fff] {
+          rw, block CSTACK, block HEAP };
+initialize by copy { rw };
+
+  Section            Kind        Address    Size  Object

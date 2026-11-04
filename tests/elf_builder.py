@@ -2,7 +2,7 @@
 
 import struct
 
-from memmap.elf import SHF_ALLOC
+from memmap.from_elf.elf import SHF_ALLOC
 
 PROGBITS = 1
 
@@ -54,3 +54,24 @@ def make_elf(sections, segments=(), bits=32, little=True, file_type=2):
 def code(name, address, size, offset=0x1000):
     """An allocated PROGBITS section header tuple for make_elf."""
     return (name, PROGBITS, SHF_ALLOC, address, size, offset)
+
+
+def rebuild_snapshot(snapshot):
+    """An ELF header snapshot from tests/fixtures/elf_snapshots/ as ELF bytes. make_elf adds its
+    own section name table."""
+    sections = [
+        (s["name"], s["type"], s["flags"], int(s["address"], 16), s["size"], s["offset"])
+        for s in snapshot["sections"]
+        if s["name"] != ".shstrtab"
+    ]
+    segments = [
+        (s["offset"], int(s["virtual"], 16), int(s["physical"], 16), s["file_size"], s["memory_size"])
+        for s in snapshot["segments"]
+    ]
+    return make_elf(
+        sections,
+        segments,
+        bits=snapshot["bits"],
+        little=snapshot["little_endian"],
+        file_type=snapshot["file_type"],
+    )

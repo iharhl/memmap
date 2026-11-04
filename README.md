@@ -66,37 +66,30 @@ uv run memmap render layout.yaml -o layout.svg
 | `memmap render CONFIG [-o OUT] [--format svg\|png\|pdf] [--json] [--strict] [--set key=value]` | Validate, then draw; `--strict` fails on warnings |
 | `memmap check CONFIG [--json] [--strict]` | Validate only; `--strict` fails on warnings |
 | `memmap describe CONFIG [--json]` | Resolved regions, blocks, labels and option origins |
-| `memmap from-elf ELF [-o OUT] [--region id=start:size[:name]] [--min-size N] [--force] [--json] [--strict]` | Write a config from a linked ELF's sections, then check it |
+| `memmap from-elf ELF [-o OUT] [--map FILE] [--region id=start:size[:name]] [--min-size N] [--force] [--json] [--strict]` | Write a config from a linked ELF's sections, then check it |
 | `memmap schema` | JSON Schema of the config |
 | `memmap guide` | Print the agent guide, for agents using an installed copy |
 
 ### From an ELF file
 
-`from-elf` writes a config from the allocated sections of a linked firmware image: `.text`,
-`.data`, `.bss` and so on, each at its real address and size. The ELF does not record how big
-flash and RAM are, so give them with `--region`, copying `ORIGIN` and `LENGTH` from the
-linker script's `MEMORY` block, or from the `Memory Configuration` table of a GNU ld map file:
+`from-elf` writes a config from the sections of a linked firmware image, each at its real
+address and size. The ELF does not record how big flash and RAM are, so pass the map file the
+linker writes, from GNU ld, Keil (armlink) or IAR:
+
+```bash
+uv run memmap from-elf build/firmware.elf -o layout.yaml --map build/firmware.map
+```
+
+An lld map, as Rust and the LLVM Embedded Toolchain write, lists no regions. Give them with
+`--region` instead, copying `ORIGIN` and `LENGTH` from the linker script's `MEMORY` block:
 
 ```bash
 uv run memmap from-elf build/firmware.elf -o layout.yaml --region flash=0x08000000:64K --region ram=0x20000000:20K
 ```
 
-You get one column per region, titled with how much of it is used:
-
-- Initialised data is drawn twice: in RAM where it runs, and in flash where startup code copies
-  it from. Each loadable segment is one flash block: `.data (load)`, with a note such as
-  `copied to RAM at 0x2000 0000`, or `RAM init data` when it holds several sections, as Zephyr's
-  do (`code and data` when it includes code).
-- Gaps of at least `--min-size` (default 64 bytes) become Free blocks with their size, rounded
-  down and marked `≈` when not exact.
-- In a region of more than 8 blocks, runs of smaller sections fold into one block that holds
-  them as children, and each such group gets a detail column beside it. Zooms go one level
-  deep: when sections outside every `--region` put the regions in a zoom of their own, their
-  groups list the section names in a note instead.
-- Without `--region`, sections are drawn on the whole address space. Object files converted
-  from a `.hex` or `.bin` image, which keep their real addresses, are read too.
-
-The output is an ordinary config: edit it, then `render` it.
+The output is an ordinary config: edit it, then `render` it. [docs/from-elf.md](docs/from-elf.md)
+covers where each toolchain puts its map, what is read from it, what happens when it is not
+enough, and how sections become blocks.
 
 A minimal config:
 
@@ -128,6 +121,7 @@ set it on the expansion: `expand: [{ region: flash, title: Flash }]`.
 ## Learn more
 
 - [AGENTS.md](AGENTS.md): task guide, recipes and the full diagnostic list. `memmap guide` prints it.
+- [docs/from-elf.md](docs/from-elf.md): drawing a linked firmware image, its map readers and limits.
 - [examples/](examples/): see the table below.
 - `memmap schema`: every key with a description and an example. Point your editor's YAML extension
   at it for completion.
@@ -177,16 +171,15 @@ regenerate them:
 MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_golden.py
 ```
 
-`from-elf` is also tested on eight real firmware images, kept as small header snapshots with
-golden configs and drawings in `tests/golden/elf/`. After an intended change to the importer or
-the drawing, review and regenerate those too:
+`from-elf` is also tested on real firmware images and linker maps, kept as small snapshots with
+goldens. After an intended change to the importer, the map readers or the drawing, review and
+regenerate those too:
 
 ```bash
-MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_elf_snapshots.py
+MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_elf_snapshots.py tests/test_linker.py
 ```
 
-[docs/elf-testing.md](docs/elf-testing.md) explains the approach, lists the images and shows
-their maps.
+[docs/from-elf.md](docs/from-elf.md#testing) explains the approach and shows the drawings.
 
 Text is measured with a built-in Helvetica/Arial width table, so wrapping is slightly approximate
 for other fonts.

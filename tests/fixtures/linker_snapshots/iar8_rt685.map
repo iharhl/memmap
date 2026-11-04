@@ -1,0 +1,32 @@
+Excerpt of https://raw.githubusercontent.com/JayHeng/NXP-MCUBootUtility/bab2c4d3d7e691c4415cada60934ab80fa073b44/apps/NXP_MIMXRT685-EVK_Rev.E/led_blinky_0x08001000_fdcb_iar.map
+
+# IAR ELF Linker V8.40.2.214/W32 for ARM                  17/Feb/2020  15:25:50
+
+*** PLACEMENT SUMMARY
+***
+
+"A0":  place at address 0x800'0400 { ro section .flash_conf };
+"A1":  place at address 0x800'1000 { ro section .intvec };
+"P1":  place in [from 0x800'1000 to 0x800'112f] |
+                [from 0x800'1130 to 0x81f'ffff] { ro };
+"P3":  place in [from 0x2008'0000 to 0x201f'fbff] {
+          section CodeQuickAccess, section DataQuickAccess };
+define block RW { rw };
+"P4":  place in [from 0x2008'0000 to 0x201f'fbff] { block RW };
+define block ZI { zi };
+"P5":  place in [from 0x2008'0000 to 0x201f'fbff] { block ZI };
+define block CSTACK with size = 1K, alignment = 8 { };
+"P7":  place in [from 0x201f'fc00 to 0x201f'ffff] { block CSTACK };
+initialize by copy {
+   rw, section .textrw, section CodeQuickAccess, section DataQuickAccess };
+keep { section .flash_conf };
+
+No sections matched the following patterns:
+
+  section DataQuickAccess   in "P3-P5"
+  section m_interrupts_ram  in "P2"
+  section m_usb_bdt         in "P8"
+  section m_usb_global      in "P9"
+
+
+  Section            Kind         Address    Size  Object

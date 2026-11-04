@@ -1,0 +1,7 @@
+Excerpt of https://raw.githubusercontent.com/PacktPublishing/ARM-Assembly-Language-from-Ground-Up-1/567c112da1f3374594da0fff4c6d50d2ff5ad2d7/Swap/Listings/Swap.map
+
+Memory Map of the image
+  Load Region LR_1 (Base: 0x08000000, Size: 0x0000023c, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x0000023c, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x0800023c, Size: 0x00000000, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_ZI (Exec base: 0x20000000, Load base: 0x0800023c, Size: 0x00000400, Max: 0xffffffff, ABSOLUTE)

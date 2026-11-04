@@ -1,0 +1,8 @@
+Excerpt of https://raw.githubusercontent.com/granikus/challenge-zephyr-hello/4baeb53ab2fc012cb6eefa9e27d2864c1186a356/build/zephyr/zephyr.map
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+RAM              0x0000000000100000 0x0000000001f00000 xw
+IDT_LIST         0x00000000ffff1000 0x0000000000000800
+*default*        0x0000000000000000 0xffffffffffffffff

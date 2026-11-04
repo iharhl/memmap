@@ -15,13 +15,36 @@ Run commands as `memmap ...` when it is installed, or `uv run memmap ...` inside
 5. `memmap render layout.yaml -o layout.svg --json --strict`
 
 ## Typical task: map a linked firmware image
-1. Read `ORIGIN` and `LENGTH` of each region in the linker script's `MEMORY` block, or in the
-   `Memory Configuration` table of a GNU ld `.map` file.
-2. `memmap from-elf firmware.elf -o layout.yaml --region flash=0x08000000:64K
-   --region ram=0x20000000:20K --json` -> writes the config, then checks it like `check`.
-   Fix W110 (a section outside every region) by correcting or adding a `--region`.
-3. Continue from step 4 above. Rename or merge blocks in `layout.yaml` as needed. `--force`
-   overwrites an existing output.
+1. The ELF does not say how big flash and RAM are. Find the map file the linker wrote:
+
+   | Toolchain | Map | Found in |
+   | --- | --- | --- |
+   | GNU ld: gcc, Zephyr, ESP-IDF, Pico SDK | `firmware.map` (`-Wl,-Map=`) | next to the ELF |
+   | Arm armlink: Keil MDK | `project.map` | `Listings/` |
+   | IAR ILINK | `project.map` | `List/` |
+
+   lld (Rust, LLVM Embedded) maps list no regions, and memmap does not read linker scripts:
+   give each region with `--region flash=0x08000000:64K`, copying `ORIGIN` and `LENGTH` from
+   the script's `MEMORY` block.
+2. `memmap from-elf firmware.elf -o layout.yaml --map firmware.map --json --strict` -> writes
+   the config, then checks it like `check`. A `--region` with the id of a map region replaces
+   it, and one with a new id adds a region. To split a map region, give one part its id.
+3. When the map gives no region it can draw, `from-elf` writes nothing and exits 2 with E090.
+   Its `hint` names the `--region` specs to give, such as `--region er_ro=0x08000000:SIZE`:
+   fill in the sizes and run it again.
+4. Fix W112 (a map region left out) and W110 (a section outside every region) by their hints:
+   give the `--region` the hint names, check that the map belongs to this ELF, or add a
+   `--region` that covers the section.
+5. Continue from step 4 of the first task. Rename or merge blocks in `layout.yaml` as needed.
+   `--force` overwrites an existing output.
+
+Regions take their names from the map: FLASH gets the id `flash`. IAR maps do not name their
+regions, so they are called ROM, RAM or Memory by what is placed there, numbered in address
+order (`ram`, `ram_2`). A region that holds no section stays in `memory` without a column. One
+without a size, of size 0, past the address space, overlapping a lower or larger region, or
+too small for a section is left out, with W112 when the drawing loses something. Comments in
+`layout.yaml` list both. https://github.com/iharhl/memmap/blob/main/docs/from-elf.md has the
+details and limits.
 
 In a region of more than 8 blocks, small sections fold into groups such as `small_sections`,
 which keep the sections as `children` and each get a detail column. Zooms go one level deep, so
@@ -108,8 +131,9 @@ Every diagnostic has a stable code, a YAML path, a line and usually a `hint`. In
 | W104 | Sector list does not add up to the region size |
 | W105 | Block name was split inside a word to fit the column |
 | W106 | Text overlaps other text, or is wider than its block |
-| W110 | `from-elf`: section outside every `--region`, placed at the top level |
+| W110 | `from-elf`: section outside every memory region, placed at the top level |
 | W111 | `from-elf`: section overlaps another one, left out |
+| W112 | `from-elf`: map region left out (no size, past the address space, overlap, too small) |
 | E090 | Usage or IO failure, such as a missing file or bad `--set` (`--json` only) |
 | E091 | Render or internal failure, such as missing cairo (`--json` only) |
 
@@ -121,7 +145,8 @@ Exit codes: `0` ok, `1` validation errors, `2` usage or IO error, `3` render err
 - After an intended drawing change, review the SVG diff, then run
   `MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_golden.py`.
 - After an intended change to `from-elf` or the drawing, also review and regenerate the
-  real-firmware goldens: `MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_elf_snapshots.py`.
-  docs/elf-testing.md describes them and how to add an image.
+  real-firmware goldens: `MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_elf_snapshots.py
+  tests/test_linker.py`. docs/from-elf.md describes them and how to add an image or a
+  map.
 - A new diagnostic code or recipe goes in this file too. `memmap guide` ships it to users, and
   `tests/test_cli.py` covers the recipes.

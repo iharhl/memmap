@@ -1,0 +1,17 @@
+Excerpt of https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/a26593ad8b9ac251a6cdc8b4420646ff02667b7b/MKSDLP_Alter_debug_2_0/List/mksDLP.map
+
+# IAR ELF Linker V8.32.1.169/W32 for ARM                  29/May/2021  03:23:38
+
+*** PLACEMENT SUMMARY
+***
+
+"A0":  place at 0x801'0000 { ro section .intvec };
+"P1":  place in [from 0x801'0000 to 0x807'ffff] { ro };
+define block CSTACK with size = 20K, alignment = 8 { };
+define block HEAP with size = 8K, alignment = 8 { };
+"P2":  place in [from 0x2000'0000 to 0x2001'ffff] {
+          rw, block CSTACK, block HEAP };
+"P3":  place in [from 0x1000'0000 to 0x1000'ffff] { rw section CCMRAM };
+initialize by copy { rw };
+
+  Section                Kind         Address     Size  Object

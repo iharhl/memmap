@@ -1,0 +1,7 @@
+Excerpt of https://raw.githubusercontent.com/Caesar037/STM32_Intelligent_Lock/b7f4329a3402a85b2fd9bdaa3be9ec2345527b9e/Listings/Template.map
+
+Memory Map of the image
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00008058, Max: 0x00080000, ABSOLUTE, COMPRESSED[0x00006214])
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00005434, Max: 0x00080000, ABSOLUTE)
+    Execution Region RW_IRAM2 (Exec base: 0x10000000, Load base: 0x08006214, Size: 0x00000000, Max: 0x00010000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08005434, Size: 0x00003190, Max: 0x00020000, ABSOLUTE, COMPRESSED[0x00000de0])

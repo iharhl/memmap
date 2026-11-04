@@ -1,0 +1,93 @@
+[
+  {
+    "name": "zephyr_nrf52dk.map",
+    "about": "Zephyr on nRF52832: Windows line ends, IDT_LIST ending one byte below the top",
+    "url": "https://raw.githubusercontent.com/9enki/nrf52dk_blinky/264f67e741e9d2c86f1137b8bf16c6e9c0509d7e/build/zephyr/zephyr.map",
+    "sha256": "36884dbf008db23afbda9e85aee1c17d549653eaa5cfa4dd088177eb6594e6c0",
+    "kept": "gnu"
+  },
+  {
+    "name": "zephyr_esp32.map",
+    "about": "Zephyr on ESP32 (Xtensa), seven regions printed at 64-bit width",
+    "url": "https://raw.githubusercontent.com/faarodriguezpi/esp32_threads_i2c_gpio/1becd99e164caac04780676c3f9ceb380e94fe10/build/zephyr/zephyr.map",
+    "sha256": "3d0a023c6af6a309b5596211efb251eab7da1be067ae592ddd2e0c35fe3c938b",
+    "kept": "gnu"
+  },
+  {
+    "name": "zephyr_qemu_x86.map",
+    "about": "Zephyr on x86, one RAM region and an IDT_LIST near the top of memory",
+    "url": "https://raw.githubusercontent.com/granikus/challenge-zephyr-hello/4baeb53ab2fc012cb6eefa9e27d2864c1186a356/build/zephyr/zephyr.map",
+    "sha256": "cd55a638fcc3c29b9342443aa1fb1afce74b471d3e29908441c427ae7becbcfa",
+    "kept": "gnu"
+  },
+  {
+    "name": "keil_f103_ac505.map",
+    "about": "Keil, Arm Compiler 5.05 on STM32F103: Base: and Max:",
+    "url": "https://raw.githubusercontent.com/yohanes-erwin/stm32f103-keil/53967360e8acf6d0bd495a03bf252202dc902aa7/dma/Listings/dma.map",
+    "sha256": "4ec5cd3b7d37ad62f59071272101621762b66ccf2c1a4c0447f0120d03a7d7e8",
+    "kept": "armlink"
+  },
+  {
+    "name": "keil_f103_ac506.map",
+    "about": "Keil, Arm Compiler 5.06 on STM32F103: Exec base: and Load base:",
+    "url": "https://raw.githubusercontent.com/shengqing1/openmv-stm32/5b658bced8abda61daee102530fe6ce9ede03eed/Listings/Project.map",
+    "sha256": "946732762ae7d1a1177e735b6ee94bf06545f958accbd17f245e1161437f5aac",
+    "kept": "armlink"
+  },
+  {
+    "name": "keil_f407_compressed.map",
+    "about": "Keil, Arm Compiler 5.06 on STM32F407: compressed RW data, and an empty CCM region",
+    "url": "https://raw.githubusercontent.com/Caesar037/STM32_Intelligent_Lock/b7f4329a3402a85b2fd9bdaa3be9ec2345527b9e/Listings/Template.map",
+    "sha256": "4f883a94949bbd74c1ea8e5286030d5114faf35cb6ca664839d708bde50be8d9",
+    "kept": "armlink"
+  },
+  {
+    "name": "keil_no_scatter.map",
+    "about": "Keil, Arm Compiler 5.06 without a scatter file: regions with no Max",
+    "url": "https://raw.githubusercontent.com/PacktPublishing/ARM-Assembly-Language-from-Ground-Up-1/567c112da1f3374594da0fff4c6d50d2ff5ad2d7/Swap/Listings/Swap.map",
+    "sha256": "9ec91b56d695fd7a5611daf8a106a93b96d9212fed7b74a269eca882cd45c46d",
+    "kept": "armlink"
+  },
+  {
+    "name": "iar6_stm32f103.map",
+    "about": "IAR 6.10: plain hex, an application above a bootloader",
+    "url": "https://raw.githubusercontent.com/Seeed-Studio/DSO_Nano/1feaea30263e1383a93cd345724396bf7a7c6aed/DS0201_APP/project/EWARM/FLASH/List/DS0201_APP.map",
+    "sha256": "74d9f3a40a886eb00b790fb8b44dee945ba334c956cafa9490339cfb9d20a787",
+    "kept": "iar"
+  },
+  {
+    "name": "iar8_stm32f030.map",
+    "about": "IAR 8.20: a ROM and a RAM placement",
+    "url": "https://raw.githubusercontent.com/SergeyMax/SolderingStation/68c87792b5ed257ba0caaac4c897abc205cd0a69/Firmware/EWARM/Firmware/List/Firmware.map",
+    "sha256": "9a4a27f28fcb23473feeedfee89ebeec480039e0cf0cea48241749dad53208ab",
+    "kept": "iar"
+  },
+  {
+    "name": "iar8_stm32f407_ccm.map",
+    "about": "IAR 8.32: digit groups with ', and RAM in CCM and SRAM",
+    "url": "https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/a26593ad8b9ac251a6cdc8b4420646ff02667b7b/MKSDLP_Alter_debug_2_0/List/mksDLP.map",
+    "sha256": "beefaa2a33af1b9275dad99eb2546dd5b323cbca94a878ebf909302c15fc9af5",
+    "kept": "iar"
+  },
+  {
+    "name": "iar8_rt685.map",
+    "about": "IAR 8.40 on i.MX RT685: unions of ranges, and a stack placed apart",
+    "url": "https://raw.githubusercontent.com/JayHeng/NXP-MCUBootUtility/bab2c4d3d7e691c4415cada60934ab80fa073b44/apps/NXP_MIMXRT685-EVK_Rev.E/led_blinky_0x08001000_fdcb_iar.map",
+    "sha256": "17d1e8393cac95314ea7c02ea276389d410b884928ad896d6825e2a79daa4d12",
+    "kept": "iar"
+  },
+  {
+    "name": "iar9_stm32f407.map",
+    "about": "IAR 9.70: RAM as two adjoining ranges, and placements that matched nothing",
+    "url": "https://raw.githubusercontent.com/ApratimPhadke/KRONOS/c15e8d004f4156a60f7dbed7ceb27c92e44d2fb2/Debug/List/kronos.map",
+    "sha256": "c08313febf36ff65276afe93790a3919aabe49b801aedf0a9e9277019fc9350a",
+    "kept": "iar"
+  },
+  {
+    "name": "iar_stm8.map",
+    "about": "IAR for STM8: [0x0-0xff] ranges, and EEPROM holding named sections only",
+    "url": "https://raw.githubusercontent.com/Emile666/stc1000_stm8/96cc63ffbaf0012f32bf441f4bf91d71f1e20182/src/Debug/List/stc1000p.map",
+    "sha256": "a8f33a6e12b5f1f2e9f07f73859bd68f7a4d32c7847f319ed84a1b13fb13a31f",
+    "kept": "iar"
+  }
+]

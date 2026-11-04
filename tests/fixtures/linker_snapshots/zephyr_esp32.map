@@ -1,0 +1,13 @@
+Excerpt of https://raw.githubusercontent.com/faarodriguezpi/esp32_threads_i2c_gpio/1becd99e164caac04780676c3f9ceb380e94fe10/build/zephyr/zephyr.map
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+iram0_0_seg      0x0000000040080000 0x0000000000020000 xr
+iram0_2_seg      0x00000000400d0018 0x0000000000330000 xr
+dram0_0_seg      0x000000003ffb0000 0x0000000000050000 rw
+drom0_0_seg      0x000000003f400010 0x0000000000800000 r
+rtc_iram_seg     0x00000000400c0000 0x0000000000002000 xrw
+rtc_slow_seg     0x0000000050000000 0x0000000000001000 rw
+IDT_LIST         0x000000003ebfe010 0x0000000000002000 rw
+*default*        0x0000000000000000 0xffffffffffffffff

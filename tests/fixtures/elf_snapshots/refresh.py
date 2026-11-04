@@ -2,7 +2,7 @@
 
 A snapshot keeps only what `memmap from-elf` reads: the section headers and the loadable
 segments, plus the `--region` specs to import with. No code or data from the firmware is kept,
-so the snapshots are small and carry none of the firmware's own files. docs/elf-testing.md
+so the snapshots are small and carry none of the firmware's own files. docs/from-elf.md
 explains how the tests use them.
 
     uv run python tests/fixtures/elf_snapshots/refresh.py              # all snapshots
@@ -21,7 +21,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-from memmap.elf import PT_LOAD, read_elf
+from memmap.from_elf.elf import PT_LOAD, read_elf
 
 HERE = Path(__file__).parent
 ROOT = HERE.parent.parent.parent

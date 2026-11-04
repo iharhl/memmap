@@ -1,5 +1,5 @@
 """Real firmware layouts through `from-elf`, from the header snapshots in
-tests/fixtures/elf_snapshots/. See docs/elf-testing.md.
+tests/fixtures/elf_snapshots/. See docs/from-elf.md.
 
 Each snapshot is rebuilt into a minimal ELF, imported with its regions, and the config and its
 drawing are compared with tests/golden/elf/. Regenerate after an intended change with:
@@ -12,10 +12,9 @@ import os
 
 import pytest
 from conftest import ROOT, codes, drawn
-from elf_builder import make_elf
+from elf_builder import rebuild_snapshot as rebuild
 
-from memmap.elf import read_elf
-from memmap.from_elf import import_elf, parse_region_spec
+from memmap.from_elf import import_elf, parse_region_spec, read_elf
 from memmap.pipeline import run
 from memmap.render.svg import render_svg
 
@@ -28,26 +27,6 @@ NAMES = sorted(path.stem for path in SNAPSHOTS.glob("*.json"))
 def load(name):
     """A snapshot as a dict."""
     return json.loads((SNAPSHOTS / f"{name}.json").read_text(encoding="utf-8"))
-
-
-def rebuild(snapshot):
-    """The snapshot as ELF bytes. make_elf adds its own section name table."""
-    sections = [
-        (s["name"], s["type"], s["flags"], int(s["address"], 16), s["size"], s["offset"])
-        for s in snapshot["sections"]
-        if s["name"] != ".shstrtab"
-    ]
-    segments = [
-        (s["offset"], int(s["virtual"], 16), int(s["physical"], 16), s["file_size"], s["memory_size"])
-        for s in snapshot["segments"]
-    ]
-    return make_elf(
-        sections,
-        segments,
-        bits=snapshot["bits"],
-        little=snapshot["little_endian"],
-        file_type=snapshot["file_type"],
-    )
 
 
 def compare(golden, text):

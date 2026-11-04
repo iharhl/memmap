@@ -1,0 +1,247 @@
+{
+  "zephyr_nrf52dk.map": {
+    "kind": "GNU ld map",
+    "regions": [
+      [
+        "FLASH",
+        "0x0",
+        "0x30000"
+      ],
+      [
+        "SRAM",
+        "0x20000000",
+        "0x6000"
+      ],
+      [
+        "IDT_LIST",
+        "0xFFFFF7FF",
+        "0x800"
+      ]
+    ]
+  },
+  "zephyr_esp32.map": {
+    "kind": "GNU ld map",
+    "regions": [
+      [
+        "iram0_0_seg",
+        "0x40080000",
+        "0x20000"
+      ],
+      [
+        "iram0_2_seg",
+        "0x400D0018",
+        "0x330000"
+      ],
+      [
+        "dram0_0_seg",
+        "0x3FFB0000",
+        "0x50000"
+      ],
+      [
+        "drom0_0_seg",
+        "0x3F400010",
+        "0x800000"
+      ],
+      [
+        "rtc_iram_seg",
+        "0x400C0000",
+        "0x2000"
+      ],
+      [
+        "rtc_slow_seg",
+        "0x50000000",
+        "0x1000"
+      ],
+      [
+        "IDT_LIST",
+        "0x3EBFE010",
+        "0x2000"
+      ]
+    ]
+  },
+  "zephyr_qemu_x86.map": {
+    "kind": "GNU ld map",
+    "regions": [
+      [
+        "RAM",
+        "0x100000",
+        "0x1F00000"
+      ],
+      [
+        "IDT_LIST",
+        "0xFFFF1000",
+        "0x800"
+      ]
+    ]
+  },
+  "keil_f103_ac505.map": {
+    "kind": "armlink map",
+    "regions": [
+      [
+        "ER_IROM1",
+        "0x8000000",
+        "0x10000"
+      ],
+      [
+        "RW_IRAM1",
+        "0x20000000",
+        "0x5000"
+      ]
+    ]
+  },
+  "keil_f103_ac506.map": {
+    "kind": "armlink map",
+    "regions": [
+      [
+        "ER_IROM1",
+        "0x8000000",
+        "0x10000"
+      ],
+      [
+        "RW_IRAM1",
+        "0x20000000",
+        "0x5000"
+      ]
+    ]
+  },
+  "keil_f407_compressed.map": {
+    "kind": "armlink map",
+    "regions": [
+      [
+        "ER_IROM1",
+        "0x8000000",
+        "0x80000"
+      ],
+      [
+        "RW_IRAM2",
+        "0x10000000",
+        "0x10000"
+      ],
+      [
+        "RW_IRAM1",
+        "0x20000000",
+        "0x20000"
+      ]
+    ]
+  },
+  "keil_no_scatter.map": {
+    "kind": "armlink map",
+    "regions": [
+      [
+        "ER_RO",
+        "0x8000000",
+        null
+      ],
+      [
+        "ER_RW",
+        "0x20000000",
+        null
+      ],
+      [
+        "ER_ZI",
+        "0x20000000",
+        null
+      ]
+    ]
+  },
+  "iar6_stm32f103.map": {
+    "kind": "IAR map",
+    "regions": [
+      [
+        "ROM",
+        "0x800C000",
+        "0x14000"
+      ],
+      [
+        "RAM",
+        "0x20001800",
+        "0x3800"
+      ]
+    ]
+  },
+  "iar8_stm32f030.map": {
+    "kind": "IAR map",
+    "regions": [
+      [
+        "ROM",
+        "0x8000000",
+        "0x8000"
+      ],
+      [
+        "RAM",
+        "0x20000000",
+        "0x1000"
+      ]
+    ]
+  },
+  "iar8_stm32f407_ccm.map": {
+    "kind": "IAR map",
+    "regions": [
+      [
+        "ROM",
+        "0x8010000",
+        "0x70000"
+      ],
+      [
+        "RAM",
+        "0x10000000",
+        "0x10000"
+      ],
+      [
+        "RAM 2",
+        "0x20000000",
+        "0x20000"
+      ]
+    ]
+  },
+  "iar8_rt685.map": {
+    "kind": "IAR map",
+    "regions": [
+      [
+        "ROM",
+        "0x8001000",
+        "0x1FF000"
+      ],
+      [
+        "RAM",
+        "0x20080000",
+        "0x180000"
+      ]
+    ]
+  },
+  "iar9_stm32f407.map": {
+    "kind": "IAR map",
+    "regions": [
+      [
+        "ROM",
+        "0x8000000",
+        "0x100000"
+      ],
+      [
+        "RAM",
+        "0x20000000",
+        "0x20000"
+      ]
+    ]
+  },
+  "iar_stm8.map": {
+    "kind": "IAR map",
+    "regions": [
+      [
+        "RAM",
+        "0x0",
+        "0x400"
+      ],
+      [
+        "Memory",
+        "0x4000",
+        "0x80"
+      ],
+      [
+        "ROM",
+        "0x8000",
+        "0x2000"
+      ]
+    ]
+  }
+}
