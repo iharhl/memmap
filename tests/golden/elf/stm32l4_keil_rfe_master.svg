@@ -1,0 +1,38 @@
+<svg height="264.95" viewBox="0 0 782.92 264.95" width="782.92" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="264.95" width="782.92" x="0" y="0"/>
+<rect fill="none" height="216.95" stroke="#000000" stroke-width="1" width="762.92" x="10" y="38"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13.2" font-weight="bold" text-anchor="middle" x="391.46" y="23.2">stm32l4_keil_rfe_master.elf memory map</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.59" y="228.45">0x0800 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.59" y="182.99">0x0800 8E7C</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.59" y="150.59">0x0800 8F50</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.59" y="93.9">0x0807 FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="173.59" y="71.2">Flash</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="173.59" y="84.4">35.8 KB of 512 KB (7%)</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="594.92" y="217.85">0x2000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="594.92" y="185.45">0x2000 01CC</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="594.92" y="145.58">0x2000 28F0</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="594.92" y="93.9">0x2002 7FFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="677.92" y="71.2">SRAM</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="677.92" y="84.4">10.2 KB of 160 KB (6%)</text>
+<rect fill="#ffffff" height="45.46" stroke="#000000" stroke-width="1" width="150" x="98.59" y="179.49"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.59" y="199.47">ER_IROM1</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.59" y="212.67">36476 B</text>
+<rect fill="#ffffff" height="32.4" stroke="#000000" stroke-width="1" width="150" x="98.59" y="147.09"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.59" y="160.54">RW_IRAM1 (load)</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.59" y="173.74">212 B</text>
+<line stroke="#000000" stroke-width="1" x1="256.59" x2="256.59" y1="150.09" y2="176.49"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="262.59" y="160.95">compressed, unpacked to SRAM at 0x2000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="262.59" y="172.17">0000</text>
+<rect fill="#d9d9d9" height="56.69" stroke="#000000" stroke-width="1" width="150" x="98.59" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.59" y="115.99">Free</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.59" y="129.19">≈476 KB</text>
+<rect fill="#ffffff" height="32.4" stroke="#000000" stroke-width="1" width="150" x="602.92" y="181.95"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="677.92" y="195.4">RW_IRAM1 (RW)</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="677.92" y="208.6">460 B</text>
+<rect fill="#ffffff" height="39.87" stroke="#000000" stroke-width="1" width="150" x="602.92" y="142.08"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="677.92" y="159.27">RW_IRAM1 (ZI)</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="677.92" y="172.47">10020 B</text>
+<rect fill="#d9d9d9" height="51.68" stroke="#000000" stroke-width="1" width="150" x="602.92" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="677.92" y="113.49">Free</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="677.92" y="126.69">≈149 KB</text>
+</svg>

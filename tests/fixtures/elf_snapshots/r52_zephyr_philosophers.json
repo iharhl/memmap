@@ -16,7 +16,8 @@
       "flags": 6,
       "address": "0x0",
       "size": 60,
-      "offset": 180
+      "offset": 180,
+      "align": 4
     },
     {
       "name": "text",
@@ -24,7 +25,8 @@
       "flags": 6,
       "address": "0x3C",
       "size": 25348,
-      "offset": 240
+      "offset": 240,
+      "align": 4
     },
     {
       "name": ".ARM.exidx",
@@ -32,7 +34,8 @@
       "flags": 130,
       "address": "0x6340",
       "size": 8,
-      "offset": 25588
+      "offset": 25588,
+      "align": 4
     },
     {
       "name": "rodata_start",
@@ -40,7 +43,8 @@
       "flags": 3,
       "address": "0x6348",
       "size": 56,
-      "offset": 25596
+      "offset": 25596,
+      "align": 1
     },
     {
       "name": "initlevel",
@@ -48,7 +52,8 @@
       "flags": 2,
       "address": "0x6380",
       "size": 32,
-      "offset": 25600
+      "offset": 25600,
+      "align": 4
     },
     {
       "name": "devices",
@@ -56,7 +61,8 @@
       "flags": 2,
       "address": "0x63A0",
       "size": 24,
-      "offset": 25632
+      "offset": 25632,
+      "align": 4
     },
     {
       "name": "sw_isr_table",
@@ -64,7 +70,8 @@
       "flags": 3,
       "address": "0x63B8",
       "size": 1024,
-      "offset": 25656
+      "offset": 25656,
+      "align": 4
     },
     {
       "name": "device_handles",
@@ -72,7 +79,8 @@
       "flags": 2,
       "address": "0x67B8",
       "size": 6,
-      "offset": 26680
+      "offset": 26680,
+      "align": 2
     },
     {
       "name": "log_const_sections",
@@ -80,7 +88,8 @@
       "flags": 2,
       "address": "0x67C0",
       "size": 24,
-      "offset": 26688
+      "offset": 26688,
+      "align": 4
     },
     {
       "name": "zephyr_dbg_info",
@@ -88,7 +97,8 @@
       "flags": 3,
       "address": "0x67D8",
       "size": 64,
-      "offset": 26712
+      "offset": 26712,
+      "align": 4
     },
     {
       "name": "rodata",
@@ -96,7 +106,8 @@
       "flags": 2,
       "address": "0x6818",
       "size": 2792,
-      "offset": 26776
+      "offset": 26776,
+      "align": 4
     },
     {
       "name": "bss",
@@ -104,7 +115,8 @@
       "flags": 3,
       "address": "0x7300",
       "size": 1654,
-      "offset": 29568
+      "offset": 29568,
+      "align": 64
     },
     {
       "name": "noinit",
@@ -112,7 +124,8 @@
       "flags": 3,
       "address": "0x7978",
       "size": 16896,
-      "offset": 29568
+      "offset": 29568,
+      "align": 8
     },
     {
       "name": "datas",
@@ -120,7 +133,8 @@
       "flags": 3,
       "address": "0xBB78",
       "size": 44,
-      "offset": 29568
+      "offset": 29568,
+      "align": 4
     },
     {
       "name": "device_states",
@@ -128,7 +142,8 @@
       "flags": 3,
       "address": "0xBBA4",
       "size": 2,
-      "offset": 29612
+      "offset": 29612,
+      "align": 1
     },
     {
       "name": ".comment",
@@ -136,7 +151,8 @@
       "flags": 48,
       "address": "0x0",
       "size": 32,
-      "offset": 29618
+      "offset": 29618,
+      "align": 1
     },
     {
       "name": ".debug_aranges",
@@ -144,7 +160,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 3272,
-      "offset": 29656
+      "offset": 29656,
+      "align": 8
     },
     {
       "name": ".debug_info",
@@ -152,7 +169,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 221284,
-      "offset": 32928
+      "offset": 32928,
+      "align": 1
     },
     {
       "name": ".debug_abbrev",
@@ -160,7 +178,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 28444,
-      "offset": 254212
+      "offset": 254212,
+      "align": 1
     },
     {
       "name": ".debug_line",
@@ -168,7 +187,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 71675,
-      "offset": 282656
+      "offset": 282656,
+      "align": 1
     },
     {
       "name": ".debug_frame",
@@ -176,7 +196,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 7076,
-      "offset": 354332
+      "offset": 354332,
+      "align": 4
     },
     {
       "name": ".debug_str",
@@ -184,7 +205,8 @@
       "flags": 48,
       "address": "0x0",
       "size": 20816,
-      "offset": 361408
+      "offset": 361408,
+      "align": 1
     },
     {
       "name": ".debug_loc",
@@ -192,7 +214,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 71039,
-      "offset": 382224
+      "offset": 382224,
+      "align": 1
     },
     {
       "name": ".debug_ranges",
@@ -200,7 +223,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 14504,
-      "offset": 453264
+      "offset": 453264,
+      "align": 8
     },
     {
       "name": ".ARM.attributes",
@@ -208,7 +232,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 51,
-      "offset": 467768
+      "offset": 467768,
+      "align": 1
     },
     {
       "name": ".last_section",
@@ -216,7 +241,8 @@
       "flags": 2,
       "address": "0xBBA6",
       "size": 4,
-      "offset": 29614
+      "offset": 29614,
+      "align": 1
     },
     {
       "name": ".symtab",
@@ -224,7 +250,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 17104,
-      "offset": 467820
+      "offset": 467820,
+      "align": 4
     },
     {
       "name": ".strtab",
@@ -232,7 +259,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 13828,
-      "offset": 484924
+      "offset": 484924,
+      "align": 1
     },
     {
       "name": ".shstrtab",
@@ -240,7 +268,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 326,
-      "offset": 498752
+      "offset": 498752,
+      "align": 1
     }
   ],
   "segments": [

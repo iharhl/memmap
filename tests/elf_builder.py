@@ -9,7 +9,7 @@ PROGBITS = 1
 
 def make_elf(sections, segments=(), bits=32, little=True, file_type=2):
     """A minimal ELF with the given section and segment headers and no section contents.
-    Each section is (name, type, flags, address, size, offset); each segment is
+    Each section is (name, type, flags, address, size, offset[, align]); each segment is
     (offset, virtual, physical, file_size, memory_size)."""
     order = "<" if little else ">"
     if bits == 32:
@@ -29,8 +29,8 @@ def make_elf(sections, segments=(), bits=32, little=True, file_type=2):
     names_offset = ph_offset + len(segments) * segment_size
     sh_offset = names_offset + len(names)
 
-    def section_header(name, kind, flags, address, size, offset):
-        return struct.pack(order + section_fmt, name, kind, flags, address, offset, size, 0, 0, 1, 0)
+    def section_header(name, kind, flags, address, size, offset, align=1):
+        return struct.pack(order + section_fmt, name, kind, flags, address, offset, size, 0, 0, align, 0)
 
     def segment_header(offset, virtual, physical, file_size, memory_size):
         if bits == 32:
@@ -45,8 +45,8 @@ def make_elf(sections, segments=(), bits=32, little=True, file_type=2):
     )
     data = ident + header + b"".join(segment_header(*segment) for segment in segments) + names
     data += section_header(0, 0, 0, 0, 0, 0)
-    for name_offset, (_, kind, flags, address, size, offset) in zip(name_offsets, sections):
-        data += section_header(name_offset, kind, flags, address, size, offset)
+    for name_offset, (_, *fields) in zip(name_offsets, sections):
+        data += section_header(name_offset, *fields)
     data += section_header(name_offsets[-1], 3, 0, 0, len(names), names_offset)
     return data
 
@@ -60,7 +60,7 @@ def rebuild_snapshot(snapshot):
     """An ELF header snapshot from tests/fixtures/elf_snapshots/ as ELF bytes. make_elf adds its
     own section name table."""
     sections = [
-        (s["name"], s["type"], s["flags"], int(s["address"], 16), s["size"], s["offset"])
+        (s["name"], s["type"], s["flags"], int(s["address"], 16), s["size"], s["offset"], s["align"])
         for s in snapshot["sections"]
         if s["name"] != ".shstrtab"
     ]

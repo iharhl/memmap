@@ -17,7 +17,8 @@
       "flags": 3,
       "address": "0x8000000",
       "size": 392,
-      "offset": 32768
+      "offset": 32768,
+      "align": 4
     },
     {
       "name": ".text",
@@ -25,7 +26,8 @@
       "flags": 6,
       "address": "0x8000188",
       "size": 77680,
-      "offset": 33160
+      "offset": 33160,
+      "align": 8
     },
     {
       "name": ".ARM",
@@ -33,7 +35,8 @@
       "flags": 130,
       "address": "0x80130F8",
       "size": 8,
-      "offset": 110840
+      "offset": 110840,
+      "align": 4
     },
     {
       "name": ".data",
@@ -41,7 +44,8 @@
       "flags": 3,
       "address": "0x20000000",
       "size": 2716,
-      "offset": 131072
+      "offset": 131072,
+      "align": 8
     },
     {
       "name": ".bss",
@@ -49,7 +53,8 @@
       "flags": 3,
       "address": "0x20000A9C",
       "size": 22212,
-      "offset": 133788
+      "offset": 133788,
+      "align": 4
     },
     {
       "name": "._user_heap_stack",
@@ -57,7 +62,8 @@
       "flags": 3,
       "address": "0x20006160",
       "size": 1024,
-      "offset": 133788
+      "offset": 133788,
+      "align": 1
     },
     {
       "name": ".comment",
@@ -65,7 +71,8 @@
       "flags": 48,
       "address": "0x0",
       "size": 31,
-      "offset": 133788
+      "offset": 133788,
+      "align": 1
     },
     {
       "name": ".ARM.attributes",
@@ -73,7 +80,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 55,
-      "offset": 133819
+      "offset": 133819,
+      "align": 1
     },
     {
       "name": ".debug_info",
@@ -81,7 +89,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 120272,
-      "offset": 133874
+      "offset": 133874,
+      "align": 1
     },
     {
       "name": ".debug_abbrev",
@@ -89,7 +98,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 24653,
-      "offset": 254146
+      "offset": 254146,
+      "align": 1
     },
     {
       "name": ".debug_aranges",
@@ -97,7 +107,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 2256,
-      "offset": 278800
+      "offset": 278800,
+      "align": 8
     },
     {
       "name": ".debug_line",
@@ -105,7 +116,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 28197,
-      "offset": 281056
+      "offset": 281056,
+      "align": 1
     },
     {
       "name": ".debug_str",
@@ -113,7 +125,8 @@
       "flags": 48,
       "address": "0x0",
       "size": 8026,
-      "offset": 309253
+      "offset": 309253,
+      "align": 1
     },
     {
       "name": ".debug_loc",
@@ -121,7 +134,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 76069,
-      "offset": 317279
+      "offset": 317279,
+      "align": 1
     },
     {
       "name": ".debug_ranges",
@@ -129,7 +143,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 3520,
-      "offset": 393348
+      "offset": 393348,
+      "align": 1
     },
     {
       "name": ".debug_frame",
@@ -137,7 +152,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 3764,
-      "offset": 396868
+      "offset": 396868,
+      "align": 4
     },
     {
       "name": ".shstrtab",
@@ -145,7 +161,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 206,
-      "offset": 400632
+      "offset": 400632,
+      "align": 1
     },
     {
       "name": ".symtab",
@@ -153,7 +170,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 25152,
-      "offset": 401640
+      "offset": 401640,
+      "align": 4
     },
     {
       "name": ".strtab",
@@ -161,7 +179,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 18649,
-      "offset": 426792
+      "offset": 426792,
+      "align": 1
     }
   ],
   "segments": [

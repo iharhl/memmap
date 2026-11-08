@@ -1,0 +1,159 @@
+{
+  "name": "stm32l4_keil_rfe_master",
+  "about": "iCub RFE board firmware on STM32L4, linked by Keil armlink: RW and ZI data share one name, and the RW data is stored compressed after the code",
+  "url": "https://raw.githubusercontent.com/robotology/icub-firmware/4ee61bd04f3ae1280da7a49236849a6252cd6582/emBODY/eBcode/arch-arm/libs/lowlevel/stm32hal/cubemx/rfe/MDK-ARM/RFE_MASTER/RFE_MASTER.axf",
+  "sha256": "56e176508a1ccaf0bea1e4e550f154d380a21a68c33ca10f3c08420d0e5b3803",
+  "regions": [
+    "flash=0x08000000:512K:Flash",
+    "sram=0x20000000:160K:SRAM"
+  ],
+  "bits": 32,
+  "little_endian": true,
+  "file_type": 2,
+  "sections": [
+    {
+      "name": "ER_IROM1",
+      "type": 1,
+      "flags": 6,
+      "address": "0x8000000",
+      "size": 36476,
+      "offset": 52,
+      "align": 4
+    },
+    {
+      "name": "RW_IRAM1",
+      "type": 1,
+      "flags": 3,
+      "address": "0x20000000",
+      "size": 212,
+      "offset": 36528,
+      "align": 4
+    },
+    {
+      "name": "RW_IRAM1",
+      "type": 8,
+      "flags": 3,
+      "address": "0x200001CC",
+      "size": 10020,
+      "offset": 36740,
+      "align": 8
+    },
+    {
+      "name": ".debug_abbrev",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 1476,
+      "offset": 36740,
+      "align": 1
+    },
+    {
+      "name": ".debug_frame",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 9244,
+      "offset": 38216,
+      "align": 1
+    },
+    {
+      "name": ".debug_info",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 168484,
+      "offset": 47460,
+      "align": 1
+    },
+    {
+      "name": ".debug_line",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 62384,
+      "offset": 215944,
+      "align": 1
+    },
+    {
+      "name": ".debug_loc",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 26136,
+      "offset": 278328,
+      "align": 1
+    },
+    {
+      "name": ".debug_macinfo",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 798592,
+      "offset": 304464,
+      "align": 1
+    },
+    {
+      "name": ".debug_pubnames",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 13026,
+      "offset": 1103056,
+      "align": 1
+    },
+    {
+      "name": ".symtab",
+      "type": 2,
+      "flags": 0,
+      "address": "0x0",
+      "size": 20400,
+      "offset": 1116084,
+      "align": 4
+    },
+    {
+      "name": ".strtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 20440,
+      "offset": 1136484,
+      "align": 1
+    },
+    {
+      "name": ".note",
+      "type": 7,
+      "flags": 0,
+      "address": "0x0",
+      "size": 28,
+      "offset": 1156924,
+      "align": 4
+    },
+    {
+      "name": ".comment",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 68936,
+      "offset": 1156952,
+      "align": 1
+    },
+    {
+      "name": ".shstrtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 156,
+      "offset": 1225888,
+      "align": 1
+    }
+  ],
+  "segments": [
+    {
+      "offset": 52,
+      "virtual": "0x8000000",
+      "physical": "0x8000000",
+      "file_size": 36688,
+      "memory_size": 46956
+    }
+  ]
+}

@@ -12,14 +12,24 @@ from dataclasses import dataclass
 from ..diagnostics import Diagnostic
 from ..units import diagnostic_address, format_address
 from .blocks import Bucket, Item
-from .elf import PT_LOAD, SHF_TLS, Elf, Section
+from .elf import (
+    PT_LOAD,
+    SHF_EXECINSTR,
+    SHF_TLS,
+    SHF_WRITE,
+    SHT_NOBITS,
+    SHT_PROGBITS,
+    Elf,
+    Section,
+    Segment,
+)
 from .regions import ImportProblem, LeftOut, MemorySpec, check_memories, unique_id
 from .sizes import address_literal, floor_size
 from .writer import write_yaml
 
 _NOTE_NAMES = 6  # section names a note lists before "+N more"
 FOLD_OVER = 8  # a region with more blocks than this folds its runs of small sections
-_SHF_EXECINSTR = 0x4
+UNALLOCATED_NOTE = "not allocated in the ELF, as a (COPY) section"
 
 
 @dataclass
@@ -64,6 +74,52 @@ def _name_list(names: list[str]) -> str:
     shown = ", ".join(names[:_NOTE_NAMES])
     extra = len(names) - _NOTE_NAMES
     return f"{shown}, +{extra} more" if extra > 0 else shown
+
+
+def _align_up(value: int, align: int) -> int:
+    """`value` rounded up to a multiple of `align`."""
+    return -(-value // align) * align
+
+
+def _rw_zi_pairs(sections: list[Section]) -> list[tuple[Section, Section]]:
+    """Pairs of a writable PROGBITS and a NOBITS section with the same name, the RW and ZI
+    parts of one armlink execution region, such as two sections called RW_IRAM1."""
+    by_name: dict[str, list[Section]] = {}
+    for section in sections:
+        by_name.setdefault(section.name.strip(), []).append(section)
+    pairs = []
+    for group in by_name.values():
+        data = [s for s in group if not s.nobits]
+        zero = [s for s in group if s.nobits]
+        if len(data) == 1 and len(zero) == 1 and data[0].flags & SHF_WRITE:
+            pairs.append((data[0], zero[0]))
+    return pairs
+
+
+def _display_names(sections: list[Section]) -> dict[Section, str]:
+    """The name each section is drawn with: its own without surrounding blanks, which IAR
+    leaves in, and with (RW) or (ZI) when an armlink region has both under one name."""
+    names = {section: section.name.strip() for section in sections}
+    for data, zero in _rw_zi_pairs(sections):
+        names[data] += " (RW)"
+        names[zero] += " (ZI)"
+    return names
+
+
+def _unpacked_sizes(sections: list[Section]) -> dict[Section, int]:
+    """RAM sizes of RW data that armlink stored compressed. Its section header then gives the
+    compressed size, and the ZI data of the same region starts further on than alignment
+    explains: the RW data runs up to it."""
+    sizes = {}
+    for data, zero in _rw_zi_pairs(sections):
+        packed_end = data.address + data.size
+        if zero.address <= _align_up(packed_end, zero.align):
+            continue
+        others = [other for other in sections if other is not data]
+        if any(packed_end <= other.address < zero.address for other in others):
+            continue
+        sizes[data] = zero.address - data.address
+    return sizes
 
 
 class _Importer:
@@ -113,20 +169,50 @@ class _Importer:
         """Put every wanted section in a bucket where it runs, and each load image where it is
         stored."""
         wanted = [section for section in self.elf.sections if _wanted(section)]
+        names = _display_names(wanted)
+        unpacked = _unpacked_sizes(wanted)
         for section in wanted:
-            item = Item(self.ids.make(section.name), section.name, section.address, section.size)
+            name = names[section]
+            size = unpacked.get(section, section.size)
+            item = Item(self.ids.make(name), name, section.address, size)
             self.bucket_for(item).items.append(item)
-        for image in self.load_images(wanted):
+        for item in self.unallocated(wanted):
+            self.bucket_for(item).items.append(item)
+        for image in self.load_images(wanted, set(unpacked)):
             self.bucket_for(image).items.append(image)
 
-    def load_images(self, sections: list[Section]) -> list[Item]:
+    def unallocated(self, wanted: list[Section]) -> list[Item]:
+        """Sections the linker script reserved space for without allocating them, such as the
+        heap and stacks the Pico SDK declares as (COPY): each with an address and a size that
+        lie inside one memory region and overlap no allocated section. Debug and other
+        non-memory sections sit at address 0, so a (COPY) section there is not told apart from
+        them and is left out."""
+        items = []
+        for section in self.elf.sections:
+            if section.allocated or not section.size or not section.address:
+                continue
+            if section.kind not in (SHT_PROGBITS, SHT_NOBITS):
+                continue
+            end = section.address + section.size - 1
+            memory = self.memory_at(section.address)
+            if memory is None or end > memory.end:
+                continue
+            if any(w.address <= end and section.address < w.address + w.size for w in wanted):
+                continue
+            name = section.name.strip()
+            items.append(
+                Item(self.ids.make(name), name, section.address, section.size, UNALLOCATED_NOTE)
+            )
+        return items
+
+    def load_images(self, sections: list[Section], compressed: set[Section]) -> list[Item]:
         """One block per loadable segment that is stored somewhere other than where it runs,
-        such as the initial values of .data. Startup code copies each in one piece."""
+        such as the initial values of .data. Startup code copies each in one piece. armlink
+        instead puts RW data in the segment of the code before it, so a segment loaded where
+        it runs can still hold sections stored apart, which get a block each."""
         images = []
         for segment in self.elf.segments:
             if segment.kind != PT_LOAD or segment.file_size == 0:
-                continue
-            if segment.physical == segment.virtual:
                 continue
             members = [
                 section
@@ -136,12 +222,13 @@ class _Importer:
             ]
             if not members:
                 continue
+            if segment.physical == segment.virtual:
+                images += self.stored_apart(segment, members, compressed)
+                continue
             target = format_address(segment.virtual, self.elf.bits // 4)
-            names = [section.name for section in members]
+            names = [section.name.strip() for section in members]
             if len(members) == 1:  # with several banks, a bare address leaves the reader to look
-                bank = self.memory_at(segment.virtual)
-                where = f"{bank.name} at {target}" if bank else target
-                name, note = f"{names[0]} (load)", f"copied to {where}"
+                name, note = f"{names[0]} (load)", f"copied to {self.bank_at(segment.virtual)}"
             else:
                 name, note = self.image_name(segment.virtual, members), f"copied to {target}: "
                 note += _name_list(names)
@@ -150,6 +237,30 @@ class _Importer:
             )
         return images
 
+    def stored_apart(
+        self, segment: Segment, members: list[Section], compressed: set[Section]
+    ) -> list[Item]:
+        """The sections of a segment loaded where it runs whose bytes it loads somewhere other
+        than their own address, as armlink does with RW data. `compressed` sections are stored
+        packed, so their copy is smaller than the RAM they unpack to."""
+        images = []
+        for section in members:
+            stored = segment.physical + section.offset - segment.offset
+            if stored == section.address:
+                continue
+            size = min(section.size, segment.offset + segment.file_size - section.offset)
+            name = f"{section.name.strip()} (load)"
+            where = self.bank_at(section.address)
+            verb = "compressed, unpacked to" if section in compressed else "copied to"
+            images.append(Item(self.ids.make(name), name, stored, size, note=f"{verb} {where}"))
+        return images
+
+    def bank_at(self, address: int) -> str:
+        """Where a load image is copied to: the memory region and address, or the address."""
+        target = format_address(address, self.elf.bits // 4)
+        bank = self.memory_at(address)
+        return f"{bank.name} at {target}" if bank else target
+
     def memory_at(self, address: int) -> MemorySpec | None:
         """The memory region that holds `address`, if any."""
         return next((m for m in self.memories if m.start <= address <= m.end), None)
@@ -157,7 +268,7 @@ class _Importer:
     def image_name(self, address: int, members: list[Section]) -> str:
         """A name for a load image of several sections, after where it is copied to and what
         it holds: RAM init data, or DTIM code and data when it includes code."""
-        what = "code and data" if any(s.flags & _SHF_EXECINSTR for s in members) else "init data"
+        what = "code and data" if any(s.flags & SHF_EXECINSTR for s in members) else "init data"
         target = self.memory_at(address)
         return f"{target.name} {what}" if target else what.capitalize()
 

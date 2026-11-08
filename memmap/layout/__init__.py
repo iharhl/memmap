@@ -23,10 +23,12 @@ from .columns import (
     place_horizontally,
     place_vertically,
     stretch_bands,
+    stretch_sources,
 )
 from .connectors import connector_lines
 from .labels import place_labels
 from .primitives import INK, PAPER, Drawing, Line, Primitive, Rect, Text
+from .routing import column_box, lanes_between
 from .text import ADDRESS_FONT_SIZE, BASELINE_SHIFT, line_height, text_width
 
 MARGIN = 10  # px, between the canvas edge and the frame
@@ -274,6 +276,24 @@ def _text_collisions(drawing: Drawing) -> list[Diagnostic]:
     ]
 
 
+def _through_columns(
+    region: str, path: Path, target: ColumnLayout, between: list[ColumnLayout]
+) -> Diagnostic:
+    """W107 for fan lines that run through the columns between a zoom's source and target."""
+    lanes = sorted({column.lane for column in between})
+    rightward = target.lane > lanes[0]
+    nearest = lanes[0] if rightward else lanes[-1]  # the lane between closest to the source
+    columns = "column" if len(between) == 1 else "columns"
+    return Diagnostic(
+        "W107",
+        f"the fan lines of {region} run through {columns} "
+        + ", ".join(repr(column.id) for column in between),
+        path,
+        f"put {target.id!r} in lane {nearest}, or move it with `offset` or `anchor`",
+        region,
+    )
+
+
 def layout_figure(
     config: Config, tree: Tree, plan: ViewPlan
 ) -> tuple[Drawing, list[Diagnostic]]:
@@ -290,6 +310,7 @@ def layout_figure(
 
     assign_lanes(plan, by_id)
     place_horizontally(layouts)
+    stretch_sources(plan, by_id)
     height = content_height(layouts)
     header = header_height(layouts)
     for layout in layouts:
@@ -344,10 +365,20 @@ def layout_figure(
 
     for link in plan.links:
         source = by_id[link.source.id]
+        target = by_id[link.target.id]
         pieces = [block for block in source.blocks if block.node is link.region]
-        primitives += connector_lines(pieces, by_id[link.target.id])
+        between = lanes_between(layouts, source.lane, target.lane)
+        lines, clear = connector_lines(pieces, target, [column_box(other) for other in between])
+        primitives += lines
+        if not clear:
+            out.append(_through_columns(link.region.id, link.region.path, target, between))
         drawing.links.append(
-            {"region": link.region.id, "from": link.source.id, "to": link.target.id}
+            {
+                "region": link.region.id,
+                "from": link.source.id,
+                "to": link.target.id,
+                "lines": [[(round(x, 2), round(y, 2)) for x, y in line.points] for line in lines],
+            }
         )
 
     for layout in layouts:

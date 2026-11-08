@@ -1,28 +1,28 @@
-<svg height="771.8" viewBox="0 0 530.22 771.8" width="530.22" xmlns="http://www.w3.org/2000/svg">
-<rect fill="#ffffff" height="771.8" width="530.22" x="0" y="0"/>
-<rect fill="none" height="723.8" stroke="#000000" stroke-width="1" width="510.22" x="10" y="38"/>
+<svg height="783.8" viewBox="0 0 530.22 783.8" width="530.22" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="783.8" width="530.22" x="0" y="0"/>
+<rect fill="none" height="735.8" stroke="#000000" stroke-width="1" width="510.22" x="10" y="38"/>
 <text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13.2" font-weight="bold" text-anchor="middle" x="265.11" y="23.2">Figure 8. STM32F303x6/8 memory map</text>
-<polyline fill="none" points="220.22,510.6 380.22,74.5" stroke="#000000" stroke-width="1"/>
-<polyline fill="none" points="220.22,544.6 380.22,380.5" stroke="#000000" stroke-width="1"/>
-<polyline fill="none" points="220.22,622.95 380.22,404.5" stroke="#000000" stroke-width="1"/>
-<polyline fill="none" points="220.22,701.3 380.22,701.3" stroke="#000000" stroke-width="1"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="704.8">0x0000 0000</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="626.45">0x2000 0000</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="548.1">0x4000 0000</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="469.75">0x6000 0000</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="391.4">0x8000 0000</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="313.05">0xA000 0000</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="234.7">0xC000 0000</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="156.35">0xE000 0000</text>
+<polyline fill="none" points="220.22,519.6 380.22,74.5" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="220.22,553.6 380.22,380.5" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="220.22,633.45 380.22,416.5" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="220.22,713.3 380.22,713.3" stroke="#000000" stroke-width="1"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="716.8">0x0000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="636.95">0x2000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="557.1">0x4000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="477.25">0x6000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="397.4">0x8000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="317.55">0xA000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="237.7">0xC000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="157.85">0xE000 0000</text>
 <text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="78">0xFFFF FFFF</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="665.62">0</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="587.28">1</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="508.93">2</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="430.57">3</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="352.22">4</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="273.88">5</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="195.52">6</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="117.17">7</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="676.88">0</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="597.03">1</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="517.17">2</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="437.32">3</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="357.47">4</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="277.62">5</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="197.77">6</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="92.22" y="117.92">7</text>
 <rect fill="#ffffff" height="10" width="61.82" x="312.4" y="382"/>
 <text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="390.5">0x4000 0000</text>
 <rect fill="#ffffff" height="10" width="62.93" x="311.29" y="341.5"/>
@@ -43,41 +43,41 @@
 <text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="112">0x5000 0000</text>
 <rect fill="#ffffff" height="10" width="62.92" x="311.3" y="63"/>
 <text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="71.5">0x5000 03FF</text>
-<rect fill="#ffffff" height="10" width="61.82" x="312.4" y="702.8"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="711.3">0x0000 0000</text>
-<rect fill="#ffffff" height="10" width="61.82" x="312.4" y="637.5"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="646">0x0001 0000</text>
-<rect fill="#ffffff" height="10" width="61.82" x="312.4" y="603.5"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="612">0x0800 0000</text>
-<rect fill="#ffffff" height="10" width="61.82" x="312.4" y="569.5"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="578">0x0801 0000</text>
-<rect fill="#ffffff" height="10" width="61.82" x="312.4" y="535.5"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="544">0x1000 0000</text>
-<rect fill="#ffffff" height="10" width="61.82" x="312.4" y="501.5"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="510">0x1000 1000</text>
-<rect fill="#ffffff" height="10" width="65.13" x="309.09" y="467.5"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="476">0x1FFF D800</text>
-<rect fill="#ffffff" height="10" width="64.02" x="310.2" y="433.5"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="442">0x1FFF F800</text>
-<rect fill="#ffffff" height="10" width="65.67" x="308.55" y="393"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="401.5">0x1FFF FFFF</text>
-<rect fill="#ffffff" height="78.35" stroke="#000000" stroke-width="1" width="120" x="100.22" y="622.95"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="160.22" y="665.98">CODE</text>
-<rect fill="#ffffff" height="34" stroke="#000000" stroke-width="1" width="120" x="100.22" y="588.95"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="160.22" y="609.8">SRAM</text>
-<rect fill="#d9d9d9" height="44.35" stroke="#000000" stroke-width="1" width="120" x="100.22" y="544.6"/>
-<rect fill="#ffffff" height="34" stroke="#000000" stroke-width="1" width="120" x="100.22" y="510.6"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="160.22" y="531.45">Peripherals</text>
-<rect fill="#d9d9d9" height="44.35" stroke="#000000" stroke-width="1" width="120" x="100.22" y="466.25"/>
-<rect fill="#d9d9d9" height="78.35" stroke="#000000" stroke-width="1" width="120" x="100.22" y="387.9"/>
-<rect fill="#d9d9d9" height="78.35" stroke="#000000" stroke-width="1" width="120" x="100.22" y="309.55"/>
-<rect fill="#d9d9d9" height="78.35" stroke="#000000" stroke-width="1" width="120" x="100.22" y="231.2"/>
-<rect fill="#d9d9d9" height="78.35" stroke="#000000" stroke-width="1" width="120" x="100.22" y="152.85"/>
-<rect fill="#ffffff" height="78.35" stroke="#000000" stroke-width="1" width="120" x="100.22" y="74.5"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="160.22" y="97.72">Cortex-M4</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="160.22" y="110.92">with FPU</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="160.22" y="124.12">Internal</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="160.22" y="137.32">Peripherals</text>
+<rect fill="#ffffff" height="10" width="61.82" x="312.4" y="714.8"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="723.3">0x0000 0000</text>
+<rect fill="#ffffff" height="10" width="61.82" x="312.4" y="649.5"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="658">0x0001 0000</text>
+<rect fill="#ffffff" height="10" width="61.82" x="312.4" y="615.5"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="624">0x0800 0000</text>
+<rect fill="#ffffff" height="10" width="61.82" x="312.4" y="581.5"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="590">0x0801 0000</text>
+<rect fill="#ffffff" height="10" width="61.82" x="312.4" y="547.5"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="556">0x1000 0000</text>
+<rect fill="#ffffff" height="10" width="61.82" x="312.4" y="513.5"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="522">0x1000 1000</text>
+<rect fill="#ffffff" height="10" width="65.13" x="309.09" y="479.5"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="488">0x1FFF D800</text>
+<rect fill="#ffffff" height="10" width="64.02" x="310.2" y="445.5"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="454">0x1FFF F800</text>
+<rect fill="#ffffff" height="10" width="65.67" x="308.55" y="405"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="372.22" y="413.5">0x1FFF FFFF</text>
+<rect fill="#ffffff" height="79.85" stroke="#000000" stroke-width="1" width="120" x="100.22" y="633.45"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="160.22" y="677.23">CODE</text>
+<rect fill="#ffffff" height="34" stroke="#000000" stroke-width="1" width="120" x="100.22" y="599.45"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="160.22" y="620.3">SRAM</text>
+<rect fill="#d9d9d9" height="45.85" stroke="#000000" stroke-width="1" width="120" x="100.22" y="553.6"/>
+<rect fill="#ffffff" height="34" stroke="#000000" stroke-width="1" width="120" x="100.22" y="519.6"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="160.22" y="540.45">Peripherals</text>
+<rect fill="#d9d9d9" height="45.85" stroke="#000000" stroke-width="1" width="120" x="100.22" y="473.75"/>
+<rect fill="#d9d9d9" height="79.85" stroke="#000000" stroke-width="1" width="120" x="100.22" y="393.9"/>
+<rect fill="#d9d9d9" height="79.85" stroke="#000000" stroke-width="1" width="120" x="100.22" y="314.05"/>
+<rect fill="#d9d9d9" height="79.85" stroke="#000000" stroke-width="1" width="120" x="100.22" y="234.2"/>
+<rect fill="#d9d9d9" height="79.85" stroke="#000000" stroke-width="1" width="120" x="100.22" y="154.35"/>
+<rect fill="#ffffff" height="79.85" stroke="#000000" stroke-width="1" width="120" x="100.22" y="74.5"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="160.22" y="98.47">Cortex-M4</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="160.22" y="111.67">with FPU</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="160.22" y="124.88">Internal</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="160.22" y="138.07">Peripherals</text>
 <rect fill="#ffffff" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="346.5"/>
 <text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="367.35">APB1</text>
 <rect fill="#d9d9d9" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="312.5"/>
@@ -96,26 +96,26 @@
 <text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="129.35">Reserved</text>
 <rect fill="#ffffff" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="74.5"/>
 <text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="95.35">AHB3</text>
-<rect fill="#ffffff" height="58.8" stroke="#000000" stroke-width="1" width="120" x="380.22" y="642.5"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="655.95">Flash, system</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="669.15">memory or SRAM,</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="682.35">depending on BOOT</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="695.55">configuration</text>
-<rect fill="#d9d9d9" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="608.5"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="629.35">Reserved</text>
-<rect fill="#ffffff" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="574.5"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="595.35">Flash memory</text>
-<rect fill="#d9d9d9" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="540.5"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="561.35">Reserved</text>
-<rect fill="#ffffff" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="506.5"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="527.35">CCM RAM</text>
-<rect fill="#d9d9d9" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="472.5"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="493.35">Reserved</text>
-<rect fill="#ffffff" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="438.5"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="459.35">System memory</text>
-<rect fill="#ffffff" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="404.5"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="425.35">Option bytes</text>
-<rect fill="#d9d9d9" height="10" stroke="#000000" stroke-width="1" width="16" x="30" y="744.8"/>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="start" x="52" y="753.3">Reserved</text>
-<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="8.8" text-anchor="end" x="510.22" y="752.88">MSv33150V1</text>
+<rect fill="#ffffff" height="58.8" stroke="#000000" stroke-width="1" width="120" x="380.22" y="654.5"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="667.95">Flash, system</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="681.15">memory or SRAM,</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="694.35">depending on BOOT</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="707.55">configuration</text>
+<rect fill="#d9d9d9" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="620.5"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="641.35">Reserved</text>
+<rect fill="#ffffff" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="586.5"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="607.35">Flash memory</text>
+<rect fill="#d9d9d9" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="552.5"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="573.35">Reserved</text>
+<rect fill="#ffffff" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="518.5"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="539.35">CCM RAM</text>
+<rect fill="#d9d9d9" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="484.5"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="505.35">Reserved</text>
+<rect fill="#ffffff" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="450.5"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="471.35">System memory</text>
+<rect fill="#ffffff" height="34" stroke="#000000" stroke-width="1" width="120" x="380.22" y="416.5"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="440.22" y="437.35">Option bytes</text>
+<rect fill="#d9d9d9" height="10" stroke="#000000" stroke-width="1" width="16" x="30" y="756.8"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="start" x="52" y="765.3">Reserved</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="8.8" text-anchor="end" x="510.22" y="764.88">MSv33150V1</text>
 </svg>

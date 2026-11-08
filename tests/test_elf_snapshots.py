@@ -46,8 +46,11 @@ def test_snapshot_rebuilds_to_the_same_headers(name):
     snapshot = load(name)
     elf = read_elf(rebuild(snapshot))
     wanted = [s for s in snapshot["sections"] if s["name"] != ".shstrtab"]
-    assert [(s.name, s.kind, s.flags, s.address, s.size) for s in elf.sections[: len(wanted)]] == [
-        (s["name"], s["type"], s["flags"], int(s["address"], 16), s["size"]) for s in wanted
+    assert [
+        (s.name, s.kind, s.flags, s.address, s.size, s.align) for s in elf.sections[: len(wanted)]
+    ] == [
+        (s["name"], s["type"], s["flags"], int(s["address"], 16), s["size"], s["align"])
+        for s in wanted
     ]
     assert elf.bits == snapshot["bits"]
 

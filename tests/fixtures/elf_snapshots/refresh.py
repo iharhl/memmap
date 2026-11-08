@@ -80,6 +80,28 @@ MANIFEST: dict[str, dict[str, object]] = {
             "sram=0x10060000:1M:Shared SRAM",
         ],
     },
+    # Not from Renode: builds committed to public repositories, pinned to a commit. Their
+    # regions are the ones their linker maps give.
+    "stm32l4_keil_rfe_master": {
+        "url": "https://raw.githubusercontent.com/robotology/icub-firmware/"
+        "4ee61bd04f3ae1280da7a49236849a6252cd6582/emBODY/eBcode/arch-arm/libs/lowlevel/"
+        "stm32hal/cubemx/rfe/MDK-ARM/RFE_MASTER/RFE_MASTER.axf",
+        "about": "iCub RFE board firmware on STM32L4, linked by Keil armlink: RW and ZI data share "
+        "one name, and the RW data is stored compressed after the code",
+        "regions": ["flash=0x08000000:512K:Flash", "sram=0x20000000:160K:SRAM"],
+    },
+    "rp2040_pico_rom": {
+        "url": "https://raw.githubusercontent.com/nickbild/picoROM/"
+        "11d8425c38c841c5278a6e6419f4db266f2711ae/pico_rom.elf",
+        "about": "picoROM on RP2040, built with the Pico SDK: the RAM vector table, heap and stack "
+        "are (COPY) sections, which are not allocated",
+        "regions": [
+            "flash=0x10000000:2M:Flash",
+            "ram=0x20000000:256K:RAM",
+            "scratch_x=0x20040000:4K:SCRATCH_X",
+            "scratch_y=0x20041000:4K:SCRATCH_Y",
+        ],
+    },
 }
 
 
@@ -103,6 +125,7 @@ def snapshot(name: str, entry: dict[str, object], data: bytes) -> dict[str, obje
                 "address": f"0x{s.address:X}",
                 "size": s.size,
                 "offset": s.offset,
+                "align": s.align,
             }
             for s in elf.sections
         ],

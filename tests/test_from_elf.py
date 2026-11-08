@@ -10,6 +10,7 @@ from elf_builder import PROGBITS, code, make_elf
 from memmap.cli import app
 from memmap.from_elf import ImportProblem, MemorySpec, import_elf, parse_region_spec
 from memmap.from_elf.elf import SHF_ALLOC, SHF_TLS, SHT_NOBITS, ElfError, read_elf
+from memmap.from_elf.importer import UNALLOCATED_NOTE
 from memmap.pipeline import run
 
 FIXTURES = ROOT / "tests" / "fixtures"
@@ -299,6 +300,102 @@ def test_one_load_image_per_segment(tmp_path):
     with_code = make_elf(sections(SHF_ALLOC | 0x4), segments)  # 0x4: SHF_EXECINSTR
     assert '"RAM code and data"' in import_elf(read_elf(with_code), "fw", memories).text
     assert '"Init data"' in import_elf(read_elf(make_elf(sections(SHF_ALLOC), segments)), "fw", []).text
+
+
+def _armlink_elf(zi_start):
+    """An armlink-style image: one LOAD segment holding ER_IROM1, with the RW bytes of
+    RW_IRAM1 stored right after the code, and RW and ZI sections sharing one name."""
+    rw = SHF_ALLOC | 0x1  # SHF_WRITE
+    sections = [
+        ("ER_IROM1", PROGBITS, SHF_ALLOC | 0x4, 0x08000000, 0x100, 0x34),
+        ("RW_IRAM1", PROGBITS, rw, 0x20000000, 0x10, 0x134),
+        ("RW_IRAM1", SHT_NOBITS, rw, zi_start, 0x40, 0x144),
+    ]
+    return make_elf(sections, [(0x34, 0x08000000, 0x08000000, 0x110, 0x200)])
+
+
+ARMLINK_MEMORIES = [
+    MemorySpec("er_irom1", 0x08000000, 0x1000, "ER_IROM1"),
+    MemorySpec("rw_iram1", 0x20000000, 0x1000, "RW_IRAM1"),
+]
+
+
+@pytest.mark.parametrize(
+    ("zi_start", "rw_size", "verb"),
+    [(0x20000010, 0x10, "copied to"), (0x20000020, 0x20, "compressed, unpacked to")],
+)
+def test_armlink_rw_data_is_drawn_in_ram_and_stored_after_the_code(
+    zi_start, rw_size, verb, tmp_path
+):
+    """armlink stores RW data in the code's segment, and with compression its section header
+    gives the packed size: the RW data then runs up to the ZI data."""
+    imported = import_elf(read_elf(_armlink_elf(zi_start)), "fw", ARMLINK_MEMORIES)
+    assert check_strict(imported.text, tmp_path) == []
+    index = run(tmp_path / "layout.yaml").tree.index
+    ram = [(c.name, c.start, c.size) for c in index["rw_iram1"].children if c.kind != "reserved"]
+    assert ram == [("RW_IRAM1 (RW)", 0x20000000, rw_size), ("RW_IRAM1 (ZI)", zi_start, 0x40)]
+    flash = [(c.name, c.start, c.size, c.note) for c in index["er_irom1"].children]
+    assert flash[1] == (
+        "RW_IRAM1 (load)", 0x08000100, 0x10, f"{verb} RW_IRAM1 at 0x2000 0000"
+    )
+    assert flash[2][1] == 0x08000110  # free space starts after the stored RW data
+
+
+@pytest.mark.parametrize(
+    "between",
+    [
+        [("RW_IRAM1", SHT_NOBITS, SHF_ALLOC | 0x1, 0x20000010, 0x40, 0x140, 8)],  # padding only
+        [
+            code("STACK", 0x2000000C, 0x4, 0x140),  # another section in the gap
+            ("RW_IRAM1", SHT_NOBITS, SHF_ALLOC | 0x1, 0x20000020, 0x40, 0x144),
+        ],
+    ],
+    ids=["alignment", "another_section"],
+)
+def test_rw_data_is_not_unpacked_over_padding_or_another_section(between):
+    """A gap before the ZI data that its alignment explains, or that another section fills,
+    is not compressed RW data."""
+    sections = [
+        ("ER_IROM1", PROGBITS, SHF_ALLOC | 0x4, 0x08000000, 0x100, 0x34),
+        ("RW_IRAM1", PROGBITS, SHF_ALLOC | 0x1, 0x20000000, 0xC, 0x134),
+        *between,
+    ]
+    data = make_elf(sections, [(0x34, 0x08000000, 0x08000000, 0x10C, 0x200)])
+    text = import_elf(read_elf(data), "fw", ARMLINK_MEMORIES).text
+    assert '"RW_IRAM1 (RW)", start: 0x20000000, size: 12 }' in text
+    assert "copied to RW_IRAM1 at 0x2000 0000" in text
+
+
+def test_section_names_lose_the_blanks_iar_leaves_around_them():
+    data = make_elf([("P2 zi ", SHT_NOBITS, SHF_ALLOC, 0x100, 0x10, 0)])
+    text = import_elf(read_elf(data), "fw", [MemorySpec("mem", 0, 0x1000, "MEM")]).text
+    assert 'name: "P2 zi",' in text
+
+
+def test_unallocated_sections_inside_a_region_are_drawn_with_a_note(tmp_path):
+    """The Pico SDK declares its RAM vector table, heap and stacks as (COPY), which leaves
+    them without SHF_ALLOC: drawn when they lie in a region and overlap nothing allocated."""
+    data = make_elf(
+        [
+            code(".data", 0x20000100, 0x40),
+            (".ram_vector_table", PROGBITS, 0, 0x20000000, 0xC0, 0),
+            (".heap", PROGBITS, 0, 0x20000200, 0x800, 0),
+            (".shadow", PROGBITS, 0, 0x20000120, 0x10, 0),  # overlaps .data
+            (".outside", PROGBITS, 0, 0x30000000, 0x10, 0),  # in no region
+            (".symbols", 2, 0, 0x20000300, 0x10, 0),  # SHT_SYMTAB, not memory
+            (".debug_info", PROGBITS, 0, 0, 0x500, 0),
+        ]
+    )
+    imported = import_elf(read_elf(data), "fw", [MemorySpec("ram", 0x20000000, 0x4000, "RAM")])
+    assert imported.diagnostics == []
+    assert check_strict(imported.text, tmp_path) == []
+    ram = run(tmp_path / "layout.yaml").tree.index["ram"]
+    drawn_sections = [(c.name, c.note) for c in ram.children if c.kind != "reserved"]
+    assert drawn_sections == [
+        (".ram_vector_table", UNALLOCATED_NOTE),
+        (".data", None),
+        (".heap", UNALLOCATED_NOTE),
+    ]
 
 
 def test_several_banks_get_a_column_each_and_copies_name_their_bank(tmp_path):

@@ -18,7 +18,8 @@
       "flags": 6,
       "address": "0x18000",
       "size": 15608,
-      "offset": 32768
+      "offset": 32768,
+      "align": 4
     },
     {
       "name": ".stack",
@@ -26,7 +27,8 @@
       "flags": 3,
       "address": "0x10000000",
       "size": 4096,
-      "offset": 196608
+      "offset": 196608,
+      "align": 4
     },
     {
       "name": ".heap",
@@ -34,7 +36,8 @@
       "flags": 3,
       "address": "0x10001000",
       "size": 0,
-      "offset": 200704
+      "offset": 200704,
+      "align": 4
     },
     {
       "name": ".data",
@@ -42,7 +45,8 @@
       "flags": 3,
       "address": "0x10001000",
       "size": 32,
-      "offset": 69632
+      "offset": 69632,
+      "align": 4
     },
     {
       "name": ".bss",
@@ -50,7 +54,8 @@
       "flags": 3,
       "address": "0x10001020",
       "size": 1828,
-      "offset": 69664
+      "offset": 69664,
+      "align": 4
     },
     {
       "name": ".shared",
@@ -58,7 +63,8 @@
       "flags": 3,
       "address": "0x10060000",
       "size": 64,
-      "offset": 131072
+      "offset": 131072,
+      "align": 4
     },
     {
       "name": ".ARM.attributes",
@@ -66,7 +72,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 52,
-      "offset": 200704
+      "offset": 200704,
+      "align": 1
     },
     {
       "name": ".debug_info",
@@ -74,7 +81,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 51245,
-      "offset": 200756
+      "offset": 200756,
+      "align": 1
     },
     {
       "name": ".debug_abbrev",
@@ -82,7 +90,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 2560,
-      "offset": 252001
+      "offset": 252001,
+      "align": 1
     },
     {
       "name": ".debug_aranges",
@@ -90,7 +99,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 432,
-      "offset": 254561
+      "offset": 254561,
+      "align": 1
     },
     {
       "name": ".debug_line",
@@ -98,7 +108,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 5895,
-      "offset": 254993
+      "offset": 254993,
+      "align": 1
     },
     {
       "name": ".debug_str",
@@ -106,7 +117,8 @@
       "flags": 48,
       "address": "0x0",
       "size": 32556,
-      "offset": 260888
+      "offset": 260888,
+      "align": 1
     },
     {
       "name": ".comment",
@@ -114,7 +126,8 @@
       "flags": 48,
       "address": "0x0",
       "size": 73,
-      "offset": 293444
+      "offset": 293444,
+      "align": 1
     },
     {
       "name": ".debug_ranges",
@@ -122,7 +135,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 328,
-      "offset": 293517
+      "offset": 293517,
+      "align": 1
     },
     {
       "name": ".debug_frame",
@@ -130,7 +144,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 1116,
-      "offset": 293848
+      "offset": 293848,
+      "align": 4
     },
     {
       "name": ".symtab",
@@ -138,7 +153,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 7296,
-      "offset": 294964
+      "offset": 294964,
+      "align": 4
     },
     {
       "name": ".strtab",
@@ -146,7 +162,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 4334,
-      "offset": 302260
+      "offset": 302260,
+      "align": 1
     },
     {
       "name": ".shstrtab",
@@ -154,7 +171,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 181,
-      "offset": 306594
+      "offset": 306594,
+      "align": 1
     }
   ],
   "segments": [

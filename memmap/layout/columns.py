@@ -11,6 +11,7 @@ from ..units import format_size
 from ..view import ColumnView, Link, ViewPlan
 from .heights import scaled_height, text_height
 from .labels import AddressLabel, build_labels
+from .routing import clear_top, column_box, lanes_between, make_fan
 from .text import ADDRESS_FONT_SIZE, BOLD_WIDTH_FACTOR, line_height, text_width, wrap
 
 TEXT_INSET = 8  # px, taken off the column width when wrapping text inside a block
@@ -18,7 +19,8 @@ LABEL_GAP = 8  # px, between a column and the labels or notes beside it
 NOTE_FONT_FACTOR = 0.85  # note size, relative to style.font_size
 NOTE_WIDTH_EM = 20  # a note wraps after this many ems of its own font, 187 px at the default
 NOTE_RULE_GAP = 6  # px, between the rule beside a multi-line note and its text
-LANE_STACK_GAP = 24  # px, between columns stacked in one lane
+LANE_STACK_GAP = 36  # px, between columns stacked in one lane, room for both end addresses
+MAX_STRETCH = 5.0  # a column stretched to the height of its zooms grows at most this many times
 MIN_FAN_ROOM = 16  # px of fan line kept clear of the next lane's left gutter
 COLUMN_TITLE_GAP = 6  # px, between a column title and the column
 COLUMN_GAP = 160  # px, least distance between lanes, where the fan lines run
@@ -55,8 +57,9 @@ class Block:
 @dataclass
 class ColumnLayout:
     """A column as layout works on it. `build_column` sets the blocks and measurements, then
-    `assign_lanes` and the place_ functions set `lane`, `x` and `y`. The gutters are the room for
-    labels and notes either side of the blocks."""
+    `assign_lanes` and the place_ functions set `lane`, `x` and `y`, and `stretch_sources` can
+    make a column that zooms out taller. The gutters are the room for labels and notes either
+    side of the blocks."""
 
     view: ColumnView
     options: Options
@@ -348,29 +351,53 @@ def place_horizontally(layouts: list[ColumnLayout]) -> None:
         x += max(layout.width + layout.right_gutter for layout in members)
 
 
+def stretch_sources(plan: ViewPlan, layouts: dict[str, ColumnLayout]) -> None:
+    """Make a column that zooms into others taller when the columns its zooms land in stack up
+    much taller than it is, so its fan lines spread out instead of starting crammed together
+    from a short column. It grows to the height of the tallest of those lanes, at most
+    MAX_STRETCH times its own height. Columns with bands are left alone, as `stretch_bands`
+    fills the height with them. Sources are stretched from the right, so in a chain of zooms
+    each one is measured against the columns it zooms into once they have grown."""
+    target_lanes: dict[str, set[int]] = {}
+    for link in plan.links:
+        target_lanes.setdefault(link.source.id, set()).add(layouts[link.target.id].lane)
+    columns = list(layouts.values())
+    for column_id in sorted(target_lanes, key=lambda column: -layouts[column].lane):
+        layout = layouts[column_id]
+        if layout.band_groups or layout.height <= 0:
+            continue
+        tallest = max(lane_height(columns, lane) for lane in target_lanes[column_id])
+        factor = min(MAX_STRETCH, tallest / layout.height)
+        if factor <= 1:
+            continue
+        for block in layout.blocks:
+            block.h *= factor
+        layout.height *= factor
+
+
 def header_height(layouts: list[ColumnLayout]) -> float:
     """The row above the blocks that holds column titles, so untitled columns line up too."""
     return max(layout.title_height for layout in layouts)
 
 
+def lane_height(layouts: list[ColumnLayout], lane: int) -> float:
+    """The height the stacked columns of one lane take below the header row: their blocks, the
+    gaps between them and every title but the one that sits in the header row."""
+    stacked = [
+        layout for layout in layouts if layout.lane == lane and layout.view.spec.anchor != "free"
+    ]
+    if not stacked:
+        return 0
+    titles = [layout.title_height for layout in stacked]
+    blocks = sum(layout.height for layout in stacked)
+    return blocks + sum(titles) - min(titles) + LANE_STACK_GAP * (len(stacked) - 1)
+
+
 def content_height(layouts: list[ColumnLayout]) -> float:
     """The tallest lane including the header row, counting columns in one lane as stacked. The
     first column's title sits in the header row, every other one takes room of its own."""
-    header = header_height(layouts)
-    height = header
-    for lane in {layout.lane for layout in layouts}:
-        stacked = [
-            layout
-            for layout in layouts
-            if layout.lane == lane and layout.view.spec.anchor != "free"
-        ]
-        if not stacked:
-            continue
-        titles = [layout.title_height for layout in stacked]
-        blocks = sum(layout.height for layout in stacked)
-        gaps = LANE_STACK_GAP * (len(stacked) - 1)
-        height = max(height, header + blocks + sum(titles) - min(titles) + gaps)
-    return height
+    lanes = {layout.lane for layout in layouts}
+    return header_height(layouts) + max(lane_height(layouts, lane) for lane in lanes)
 
 
 def _desired_y(
@@ -392,6 +419,21 @@ def _desired_y(
     return y + spec.offset
 
 
+def _attachment(
+    layout: ColumnLayout, source: tuple[float, float] | None, y: float, height: float
+) -> float:
+    """The height a stacked column hangs from, which orders the columns of a lane: the middle
+    of its source block for `source`, the drawing's bottom for `bottom`, else its own top. A
+    tall column clamped to the top of the drawing still sorts by where it comes from, so the
+    fan lines of a lane do not cross."""
+    anchor = layout.view.spec.anchor
+    if anchor == "source" and source is not None:
+        return (source[0] + source[1]) / 2
+    if anchor == "bottom":
+        return height
+    return y
+
+
 def set_y(layout: ColumnLayout, y: float) -> None:
     """Move a column's top to `y` and stack its blocks from there, last block on top."""
     layout.y = y
@@ -407,7 +449,9 @@ def place_vertically(
     plan: ViewPlan, layouts: dict[str, ColumnLayout], height: float, header: float
 ) -> None:
     """Set each column's y, lane by lane from the left. The columns of a lane stack without
-    overlapping, apart from `free` ones."""
+    overlapping, apart from `free` ones. A detail column two or more lanes from its source
+    moves up or down until its fan lines can go around the columns in between, without
+    moving above the columns already stacked in its lane."""
     first_link: dict[str, Link] = {}
     for link in plan.links:
         first_link.setdefault(link.target.id, link)
@@ -419,23 +463,71 @@ def place_vertically(
             layout = layouts[column.id]
             incoming = first_link.get(column.id)
             source = None
+            fan = None
             if incoming is not None and incoming.source.id in placed:
-                pieces = [
-                    b for b in layouts[incoming.source.id].blocks if b.node is incoming.region
-                ]
+                origin = layouts[incoming.source.id]
+                pieces = [b for b in origin.blocks if b.node is incoming.region]
                 if pieces:
                     source = (
                         min(block.y for block in pieces),
                         max(block.y + block.h for block in pieces),
                     )
-            wanted.append((_desired_y(layout, source, height, header), layout))
+                    fan = (origin, pieces[0], source)
+            y = _desired_y(layout, source, height, header)
+            wanted.append((_attachment(layout, source, y, height), y, layout, fan))
         floor = None
-        for y, layout in sorted(wanted, key=lambda item: item[0]):
+        stacked: list[ColumnLayout] = []
+        detoured = False
+        for _, y, layout, fan in sorted(wanted, key=lambda item: item[0]):
             if layout.view.spec.anchor == "free":
                 set_y(layout, y)
             else:
-                if floor is not None:
-                    y = max(y, floor + layout.title_height)
+                highest = header if floor is None else floor + layout.title_height
+                y = max(y, highest)
+                if fan is not None:
+                    around = _around_lanes_between(layout, fan, y, layouts, placed, highest)
+                    detoured = detoured or around != y
+                    y = around
                 set_y(layout, y)
                 floor = y + layout.height + LANE_STACK_GAP
+                stacked.append(layout)
             placed.add(layout.id)
+        if not detoured and not any(layout.view.spec.offset for layout in stacked):
+            _lift_overflow(stacked, height, header)
+
+
+def _lift_overflow(stacked: list[ColumnLayout], height: float, header: float) -> None:
+    """Move the stacked columns of a lane up together when they run past the bottom of the
+    drawing, as when tall zooms hang from blocks low in their source: as far as the overflow,
+    but not past the header row. Their order and the gaps between them stay. Not called for a
+    lane with an `offset`, which places its columns by hand."""
+    if not stacked:
+        return
+    overflow = max(layout.y + layout.height for layout in stacked) - height
+    room = min(layout.y for layout in stacked) - header  # the top title sits in the header row
+    lift = min(overflow, room)
+    if lift > 0:
+        for layout in stacked:
+            set_y(layout, layout.y - lift)
+
+
+def _around_lanes_between(
+    layout: ColumnLayout,
+    fan: tuple[ColumnLayout, Block, tuple[float, float]],
+    y: float,
+    layouts: dict[str, ColumnLayout],
+    placed: set[str],
+    highest: float,
+) -> float:
+    """The top for `layout` nearest to `y`, and not above `highest`, from which its fan lines
+    clear the placed columns in the lanes between it and its source."""
+    origin, piece, (top, bottom) = fan
+    between = [
+        other
+        for other in lanes_between(layouts.values(), origin.lane, layout.lane)
+        if other.id in placed
+    ]
+    if not between:
+        return y
+    fan_lines = make_fan(piece.x, piece.x + piece.w, top, bottom, layout).moved(y)
+    return clear_top(fan_lines, [column_box(other) for other in between], highest)

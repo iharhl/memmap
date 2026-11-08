@@ -86,7 +86,7 @@ class Drawing:
     height: float
     primitives: list[Primitive] = field(default_factory=list)
     columns: list[Any] = field(default_factory=list)
-    links: list[dict[str, str]] = field(default_factory=list)
+    links: list[dict[str, Any]] = field(default_factory=list)
 
     def texts(self) -> list[Text]:
         """Every string, in paint order."""

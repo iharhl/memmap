@@ -1,0 +1,202 @@
+{
+  "name": "rp2040_pico_rom",
+  "about": "picoROM on RP2040, built with the Pico SDK: the RAM vector table, heap and stack are (COPY) sections, which are not allocated",
+  "url": "https://raw.githubusercontent.com/nickbild/picoROM/11d8425c38c841c5278a6e6419f4db266f2711ae/pico_rom.elf",
+  "sha256": "0aea9ca6b2e80d4c02f64f77d707ac360d220b8b38a06348285eb1194141f787",
+  "regions": [
+    "flash=0x10000000:2M:Flash",
+    "ram=0x20000000:256K:RAM",
+    "scratch_x=0x20040000:4K:SCRATCH_X",
+    "scratch_y=0x20041000:4K:SCRATCH_Y"
+  ],
+  "bits": 32,
+  "little_endian": true,
+  "file_type": 2,
+  "sections": [
+    {
+      "name": ".boot2",
+      "type": 1,
+      "flags": 6,
+      "address": "0x10000000",
+      "size": 256,
+      "offset": 65536,
+      "align": 1
+    },
+    {
+      "name": ".text",
+      "type": 1,
+      "flags": 6,
+      "address": "0x10000100",
+      "size": 23248,
+      "offset": 65792,
+      "align": 8
+    },
+    {
+      "name": ".rodata",
+      "type": 1,
+      "flags": 2,
+      "address": "0x10005BD0",
+      "size": 248,
+      "offset": 89040,
+      "align": 4
+    },
+    {
+      "name": ".binary_info",
+      "type": 1,
+      "flags": 3,
+      "address": "0x10005CC8",
+      "size": 32,
+      "offset": 89288,
+      "align": 4
+    },
+    {
+      "name": ".ram_vector_table",
+      "type": 1,
+      "flags": 1,
+      "address": "0x20000000",
+      "size": 192,
+      "offset": 131644,
+      "align": 4
+    },
+    {
+      "name": ".data",
+      "type": 1,
+      "flags": 7,
+      "address": "0x200000C0",
+      "size": 380,
+      "offset": 131264,
+      "align": 16
+    },
+    {
+      "name": ".uninitialized_data",
+      "type": 1,
+      "flags": 1,
+      "address": "0x2000023C",
+      "size": 0,
+      "offset": 131836,
+      "align": 1
+    },
+    {
+      "name": ".scratch_x",
+      "type": 1,
+      "flags": 1,
+      "address": "0x20040000",
+      "size": 0,
+      "offset": 131836,
+      "align": 1
+    },
+    {
+      "name": ".scratch_y",
+      "type": 1,
+      "flags": 1,
+      "address": "0x20041000",
+      "size": 0,
+      "offset": 131836,
+      "align": 1
+    },
+    {
+      "name": ".bss",
+      "type": 8,
+      "flags": 3,
+      "address": "0x20000240",
+      "size": 33736,
+      "offset": 131648,
+      "align": 8
+    },
+    {
+      "name": ".heap",
+      "type": 1,
+      "flags": 0,
+      "address": "0x20008608",
+      "size": 2048,
+      "offset": 131836,
+      "align": 4
+    },
+    {
+      "name": ".stack_dummy",
+      "type": 1,
+      "flags": 0,
+      "address": "0x20041000",
+      "size": 2048,
+      "offset": 133888,
+      "align": 32
+    },
+    {
+      "name": ".ARM.attributes",
+      "type": 1879048195,
+      "flags": 0,
+      "address": "0x0",
+      "size": 40,
+      "offset": 135936,
+      "align": 1
+    },
+    {
+      "name": ".comment",
+      "type": 1,
+      "flags": 48,
+      "address": "0x0",
+      "size": 121,
+      "offset": 135976,
+      "align": 1
+    },
+    {
+      "name": ".debug_frame",
+      "type": 1,
+      "flags": 0,
+      "address": "0x0",
+      "size": 40,
+      "offset": 136100,
+      "align": 4
+    },
+    {
+      "name": ".symtab",
+      "type": 2,
+      "flags": 0,
+      "address": "0x0",
+      "size": 8592,
+      "offset": 136140,
+      "align": 4
+    },
+    {
+      "name": ".strtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 5361,
+      "offset": 144732,
+      "align": 1
+    },
+    {
+      "name": ".shstrtab",
+      "type": 3,
+      "flags": 0,
+      "address": "0x0",
+      "size": 189,
+      "offset": 150093,
+      "align": 1
+    }
+  ],
+  "segments": [
+    {
+      "offset": 65536,
+      "virtual": "0x10000000",
+      "physical": "0x10000000",
+      "file_size": 23784,
+      "memory_size": 23784
+    },
+    {
+      "offset": 131264,
+      "virtual": "0x200000C0",
+      "physical": "0x10005CE8",
+      "file_size": 380,
+      "memory_size": 380
+    },
+    {
+      "offset": 131648,
+      "virtual": "0x20000240",
+      "physical": "0x20000240",
+      "file_size": 0,
+      "memory_size": 33736
+    }
+  ]
+}
