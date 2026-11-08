@@ -1,4 +1,5 @@
 import json
+import re
 import shutil
 
 import pytest
@@ -28,6 +29,12 @@ def test_version():
     result = invoke("--version")
     assert result.exit_code == 0
     assert __version__ in result.stdout and "schema versions: 1" in result.stdout
+
+
+def test_version_matches_pyproject():
+    # `uv version --bump` updates pyproject.toml but not memmap/__init__.py.
+    pyproject = (ROOT / "pyproject.toml").read_text()
+    assert re.search(r'^version = "(.+)"$', pyproject, re.MULTILINE).group(1) == __version__
 
 
 def test_render_defaults_to_config_name_with_svg(tmp_path):
