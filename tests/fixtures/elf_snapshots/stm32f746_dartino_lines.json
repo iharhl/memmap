@@ -17,7 +17,8 @@
       "flags": 2,
       "address": "0x8000000",
       "size": 456,
-      "offset": 65536
+      "offset": 65536,
+      "align": 1
     },
     {
       "name": ".text",
@@ -25,7 +26,8 @@
       "flags": 6,
       "address": "0x80001D0",
       "size": 158288,
-      "offset": 66000
+      "offset": 66000,
+      "align": 16
     },
     {
       "name": ".rodata",
@@ -33,7 +35,8 @@
       "flags": 2,
       "address": "0x8026C20",
       "size": 29008,
-      "offset": 224288
+      "offset": 224288,
+      "align": 8
     },
     {
       "name": ".ARM",
@@ -41,7 +44,8 @@
       "flags": 130,
       "address": "0x802DD70",
       "size": 8,
-      "offset": 253296
+      "offset": 253296,
+      "align": 4
     },
     {
       "name": ".init_array",
@@ -49,7 +53,8 @@
       "flags": 3,
       "address": "0x802DD78",
       "size": 56,
-      "offset": 253304
+      "offset": 253304,
+      "align": 4
     },
     {
       "name": ".fini_array",
@@ -57,7 +62,8 @@
       "flags": 3,
       "address": "0x802DDB0",
       "size": 4,
-      "offset": 253360
+      "offset": 253360,
+      "align": 4
     },
     {
       "name": ".data",
@@ -65,7 +71,8 @@
       "flags": 3,
       "address": "0x20000000",
       "size": 37928,
-      "offset": 262144
+      "offset": 262144,
+      "align": 16
     },
     {
       "name": ".bss",
@@ -73,7 +80,8 @@
       "flags": 3,
       "address": "0x20009428",
       "size": 23276,
-      "offset": 300072
+      "offset": 300072,
+      "align": 8
     },
     {
       "name": "._user_heap_stack",
@@ -81,7 +89,8 @@
       "flags": 3,
       "address": "0x2000EF14",
       "size": 1540,
-      "offset": 323348
+      "offset": 323348,
+      "align": 1
     },
     {
       "name": ".ARM.attributes",
@@ -89,7 +98,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 48,
-      "offset": 300072
+      "offset": 300072,
+      "align": 1
     },
     {
       "name": ".comment",
@@ -97,7 +107,8 @@
       "flags": 48,
       "address": "0x0",
       "size": 110,
-      "offset": 300120
+      "offset": 300120,
+      "align": 1
     },
     {
       "name": ".debug_frame",
@@ -105,7 +116,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 46524,
-      "offset": 300232
+      "offset": 300232,
+      "align": 4
     },
     {
       "name": ".shstrtab",
@@ -113,7 +125,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 149,
-      "offset": 486025
+      "offset": 486025,
+      "align": 1
     },
     {
       "name": ".symtab",
@@ -121,7 +134,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 78624,
-      "offset": 346756
+      "offset": 346756,
+      "align": 4
     },
     {
       "name": ".strtab",
@@ -129,7 +143,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 60645,
-      "offset": 425380
+      "offset": 425380,
+      "align": 1
     }
   ],
   "segments": [

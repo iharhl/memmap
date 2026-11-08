@@ -17,7 +17,8 @@
       "flags": 7,
       "address": "0x0",
       "size": 256,
-      "offset": 192
+      "offset": 192,
+      "align": 4
     },
     {
       "name": "text",
@@ -25,7 +26,8 @@
       "flags": 6,
       "address": "0x100",
       "size": 49376,
-      "offset": 448
+      "offset": 448,
+      "align": 8
     },
     {
       "name": ".ARM.exidx",
@@ -33,7 +35,8 @@
       "flags": 130,
       "address": "0xC1E0",
       "size": 8,
-      "offset": 49824
+      "offset": 49824,
+      "align": 4
     },
     {
       "name": "initlevel",
@@ -41,7 +44,8 @@
       "flags": 2,
       "address": "0xC1E8",
       "size": 120,
-      "offset": 49832
+      "offset": 49832,
+      "align": 4
     },
     {
       "name": "sw_isr_table",
@@ -49,7 +53,8 @@
       "flags": 3,
       "address": "0xC260",
       "size": 384,
-      "offset": 49952
+      "offset": 49952,
+      "align": 4
     },
     {
       "name": "log_const_sections",
@@ -57,7 +62,8 @@
       "flags": 2,
       "address": "0xC3E0",
       "size": 96,
-      "offset": 50336
+      "offset": 50336,
+      "align": 4
     },
     {
       "name": "log_backends_sections",
@@ -65,7 +71,8 @@
       "flags": 2,
       "address": "0xC440",
       "size": 32,
-      "offset": 50432
+      "offset": 50432,
+      "align": 4
     },
     {
       "name": "shell_area",
@@ -73,7 +80,8 @@
       "flags": 2,
       "address": "0xC460",
       "size": 48,
-      "offset": 50464
+      "offset": 50464,
+      "align": 4
     },
     {
       "name": "shell_root_cmds_sections",
@@ -81,7 +89,8 @@
       "flags": 2,
       "address": "0xC490",
       "size": 112,
-      "offset": 50512
+      "offset": 50512,
+      "align": 4
     },
     {
       "name": "rodata",
@@ -89,7 +98,8 @@
       "flags": 2,
       "address": "0xC500",
       "size": 10936,
-      "offset": 50624
+      "offset": 50624,
+      "align": 16
     },
     {
       "name": ".ramfunc",
@@ -97,7 +107,8 @@
       "flags": 1,
       "address": "0x20000000",
       "size": 0,
-      "offset": 62236
+      "offset": 62236,
+      "align": 1
     },
     {
       "name": "datas",
@@ -105,7 +116,8 @@
       "flags": 3,
       "address": "0x20000000",
       "size": 372,
-      "offset": 61560
+      "offset": 61560,
+      "align": 4
     },
     {
       "name": "devices",
@@ -113,7 +125,8 @@
       "flags": 2,
       "address": "0x20000174",
       "size": 116,
-      "offset": 61932
+      "offset": 61932,
+      "align": 4
     },
     {
       "name": "log_dynamic_sections",
@@ -121,7 +134,8 @@
       "flags": 3,
       "address": "0x200001E8",
       "size": 48,
-      "offset": 62048
+      "offset": 62048,
+      "align": 4
     },
     {
       "name": "k_timer_area",
@@ -129,7 +143,8 @@
       "flags": 3,
       "address": "0x20000218",
       "size": 56,
-      "offset": 62096
+      "offset": 62096,
+      "align": 8
     },
     {
       "name": "k_mutex_area",
@@ -137,7 +152,8 @@
       "flags": 3,
       "address": "0x20000250",
       "size": 20,
-      "offset": 62152
+      "offset": 62152,
+      "align": 4
     },
     {
       "name": "k_msgq_area",
@@ -145,7 +161,8 @@
       "flags": 3,
       "address": "0x20000264",
       "size": 40,
-      "offset": 62172
+      "offset": 62172,
+      "align": 4
     },
     {
       "name": "k_sem_area",
@@ -153,7 +170,8 @@
       "flags": 3,
       "address": "0x2000028C",
       "size": 24,
-      "offset": 62212
+      "offset": 62212,
+      "align": 4
     },
     {
       "name": "bss",
@@ -161,7 +179,8 @@
       "flags": 3,
       "address": "0x200002A8",
       "size": 4142,
-      "offset": 62248
+      "offset": 62248,
+      "align": 8
     },
     {
       "name": "noinit",
@@ -169,7 +188,8 @@
       "flags": 3,
       "address": "0x200012E0",
       "size": 8144,
-      "offset": 62248
+      "offset": 62248,
+      "align": 32
     },
     {
       "name": ".comment",
@@ -177,7 +197,8 @@
       "flags": 48,
       "address": "0x0",
       "size": 50,
-      "offset": 62236
+      "offset": 62236,
+      "align": 1
     },
     {
       "name": ".debug_aranges",
@@ -185,7 +206,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 8216,
-      "offset": 62288
+      "offset": 62288,
+      "align": 8
     },
     {
       "name": ".debug_info",
@@ -193,7 +215,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 561067,
-      "offset": 70504
+      "offset": 70504,
+      "align": 1
     },
     {
       "name": ".debug_abbrev",
@@ -201,7 +224,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 84915,
-      "offset": 631571
+      "offset": 631571,
+      "align": 1
     },
     {
       "name": ".debug_line",
@@ -209,7 +233,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 196601,
-      "offset": 716486
+      "offset": 716486,
+      "align": 1
     },
     {
       "name": ".debug_frame",
@@ -217,7 +242,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 21284,
-      "offset": 913088
+      "offset": 913088,
+      "align": 4
     },
     {
       "name": ".debug_str",
@@ -225,7 +251,8 @@
       "flags": 48,
       "address": "0x0",
       "size": 58864,
-      "offset": 934372
+      "offset": 934372,
+      "align": 1
     },
     {
       "name": ".debug_loc",
@@ -233,7 +260,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 203162,
-      "offset": 993236
+      "offset": 993236,
+      "align": 1
     },
     {
       "name": ".debug_ranges",
@@ -241,7 +269,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 40392,
-      "offset": 1196400
+      "offset": 1196400,
+      "align": 8
     },
     {
       "name": ".ARM.attributes",
@@ -249,7 +278,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 49,
-      "offset": 1236792
+      "offset": 1236792,
+      "align": 1
     },
     {
       "name": ".symtab",
@@ -257,7 +287,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 43536,
-      "offset": 1236844
+      "offset": 1236844,
+      "align": 4
     },
     {
       "name": ".strtab",
@@ -265,7 +296,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 27941,
-      "offset": 1280380
+      "offset": 1280380,
+      "align": 1
     },
     {
       "name": ".shstrtab",
@@ -273,7 +305,8 @@
       "flags": 0,
       "address": "0x0",
       "size": 391,
-      "offset": 1308321
+      "offset": 1308321,
+      "align": 1
     }
   ],
   "segments": [

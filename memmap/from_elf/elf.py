@@ -10,8 +10,11 @@ import struct
 from dataclasses import dataclass
 
 # Section header types and flags used by the importer.
+SHT_PROGBITS = 1
 SHT_NOBITS = 8
+SHF_WRITE = 0x1
 SHF_ALLOC = 0x2
+SHF_EXECINSTR = 0x4
 SHF_TLS = 0x400
 PT_LOAD = 1
 
@@ -42,6 +45,7 @@ class Section:
     address: int
     offset: int
     size: int
+    align: int = 1
 
     @property
     def allocated(self) -> bool:
@@ -138,7 +142,7 @@ def read_elf(data: bytes) -> Elf:
         names = data[table[4] : table[4] + table[5]]
 
     sections = [
-        Section(_name(names, raw[0]), raw[1], raw[2], raw[3], raw[4], raw[5])
+        Section(_name(names, raw[0]), raw[1], raw[2], raw[3], raw[4], raw[5], max(raw[8], 1))
         for raw in raw_sections[1:]  # section 0 is always empty
     ]
     # An unlinked object file has every section at address 0. One with real addresses, as

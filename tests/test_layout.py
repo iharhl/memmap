@@ -5,7 +5,9 @@ import pytest
 from conftest import MODES, ROOT, codes, drawn, regions
 
 from memmap.describe import describe_data
-from memmap.layout.primitives import Line
+from memmap.layout.columns import LANE_STACK_GAP, MAX_STRETCH
+from memmap.layout.primitives import Line, Polyline
+from memmap.layout.routing import _clear, column_box
 from memmap.layout.text import text_width, wrap
 from memmap.options import OptionResolver
 from memmap.pipeline import run
@@ -393,3 +395,173 @@ def test_a_note_line_break_is_kept(load):
     text = regions('    - id: m\n      size: 4K\n      note: "one\\ntwo"')
     notes = [t.text for t in drawn(load(text)).texts() if t.role == "note"]
     assert notes == ["one", "two"]
+
+
+def _zoom_config(lanes=""):
+    """Two regions with 16 peripherals each, `low` at 0 and `high` at 64K, both zoomed."""
+
+    def region(name, start):
+        children = "\n".join(f"        - {{ id: {name}{i}, size: 1K }}" for i in range(16))
+        head = f"    - id: {name}\n      start: {start:#x}\n      size: 16K\n"
+        return f"{head}      children:\n{children}"
+
+    body = regions(region("low", 0) + "\n" + region("high", 0x10000))
+    return body + "view:\n  defaults:\n    scale: { mode: equal, min_height: 24 }\n" + lanes
+
+
+def test_stacked_zooms_follow_address_order_not_definition_order(load):
+    """Both detail columns are taller than their sources allow, so both want the top of the
+    drawing; the one zoomed from higher addresses still goes on top."""
+    result = load(_zoom_config("  expand: [low, high]\n"))
+    assert codes(result) == []
+    columns = {layout.id: layout for layout in drawn(result).columns}
+    assert columns["high_detail"].y < columns["low_detail"].y
+
+
+def test_a_zoom_two_lanes_away_goes_around_the_column_between(load):
+    lanes = (
+        "  columns:\n    - { id: main, root: '/' }\n"
+        "    - { id: high_detail, root: high, lane: 1, anchor: top }\n"
+        "    - { id: low_detail, root: low, lane: 2, anchor: bottom }\n"
+        "  expand:\n"
+        "    - { region: high, from: main, to: high_detail }\n"
+        "    - { region: low, from: main, to: low_detail }\n"
+    )
+    result = load(_zoom_config(lanes))
+    assert codes(result) == []
+    columns = {layout.id: layout for layout in drawn(result).columns}
+    between = column_box(columns["high_detail"])
+    assert columns["low_detail"].y >= between.bottom
+    fans = [p.points for p in drawn(result).primitives if isinstance(p, Polyline)]
+    assert [len(points) for points in fans] == [2, 2, 3, 3]
+    assert _clear(fans[2:], [between])  # the first two end at the column between
+    link = describe_data(result)["connectors"][1]
+    assert link["to"] == "low_detail" and len(link["lines"][0]) == 3
+
+
+def test_fan_lines_through_a_column_warn_when_the_detail_column_is_pinned(load):
+    lanes = (
+        "  columns:\n    - { id: main, root: '/' }\n"
+        "    - { id: high_detail, root: high, lane: 1, anchor: top }\n"
+        "    - { id: low_detail, root: low, lane: 2, anchor: free }\n"
+        "  expand:\n"
+        "    - { region: high, from: main, to: high_detail }\n"
+        "    - { region: low, from: main, to: low_detail }\n"
+    )
+    result = load(_zoom_config(lanes))
+    assert codes(result) == ["W107"]
+    assert "lane 1" in result.diagnostics[0].hint
+
+
+def test_a_column_zooming_into_a_much_taller_one_is_stretched(load):
+    """The overview has three 24 px blocks and its zoom sixteen: the overview grows to
+    height of the zoom, capped at MAX_STRETCH times its own height."""
+    result = load(_zoom_config("  columns:\n    - { id: main, root: '/' }\n  expand: [low]\n"))
+    assert codes(result) == []
+    columns = {layout.id: layout for layout in drawn(result).columns}
+    main, detail = columns["main"], columns["low_detail"]
+    natural = 24 * len(main.blocks)
+    assert main.height == pytest.approx(min(MAX_STRETCH * natural, detail.height))
+    assert len({round(b.h, 6) for b in main.blocks}) == 1  # equal scale stays equal
+    assert detail.height == 16 * 24  # the zoom itself keeps its scale
+
+
+@pytest.mark.parametrize(
+    "expand",
+    ["[low, high]", "[{ region: low, title: Low }, { region: high, title: High }]"],
+    ids=["untitled", "titled"],
+)
+def test_a_stack_of_zooms_that_runs_past_the_bottom_moves_up(load, expand):
+    """Both zooms hang from small blocks in a short overview, so stacked from where they come
+    from they would run past the bottom of the drawing: the lane moves up to the header row,
+    where the top one's title sits beside the overview's."""
+    result = load(_zoom_config(f"  expand: {expand}\n"))
+    columns = {layout.id: layout for layout in drawn(result).columns}
+    main, high, low = columns["main"], columns["high_detail"], columns["low_detail"]
+    assert high.y == pytest.approx(main.y)
+    assert low.y == pytest.approx(high.y + high.height + LANE_STACK_GAP + low.title_height)
+
+
+def test_a_column_is_only_stretched_for_its_own_zooms(load):
+    """The overview zooms into a short column; a tall column elsewhere, which it does not zoom
+    into, leaves it at its own height."""
+    children = "\n".join(f"        - {{ id: b{i}, size: 1K }}" for i in range(30))
+    body = regions(
+        "    - id: small\n      start: 0\n      size: 2K\n      children:\n"
+        "        - { id: s0, size: 1K }\n        - { id: s1, size: 1K }\n"
+        f"    - id: big\n      start: 0x10000\n      size: 30K\n      children:\n{children}"
+    )
+    text = body + (
+        "view:\n  defaults:\n    scale: { mode: equal, min_height: 24 }\n"
+        "  columns:\n    - { id: main, root: '/' }\n    - { id: big_col, root: big, lane: 2 }\n"
+        "  expand: [small]\n"
+    )
+    result = load(text)
+    assert codes(result) == []
+    columns = {layout.id: layout for layout in drawn(result).columns}
+    assert columns["big_col"].height == 30 * 24
+    assert columns["main"].height == 24 * len(columns["main"].blocks)
+
+
+def _small_regions(*specs):
+    """Regions at 64K steps from 0, each with `count` 1K children: specs are (id, count)."""
+    parts = []
+    for index, (name, count) in enumerate(specs):
+        children = "\n".join(f"        - {{ id: {name}{i}, size: 1K }}" for i in range(count))
+        head = f"    - id: {name}\n      start: {index * 0x10000:#x}\n      size: {count}K\n"
+        parts.append(f"{head}      children:\n{children}")
+    return regions("\n".join(parts))
+
+
+def test_a_stack_with_an_offset_is_not_moved_up(load):
+    """The offset pushes the zoom past the bottom of the drawing on purpose: it stays there."""
+    view = (
+        "view:\n  defaults:\n    scale: { mode: equal, min_height: 40 }\n"
+        "  columns:\n    - { id: main, root: '/' }\n"
+        "    - { id: flash_d, root: flash, anchor: bottom, offset: 60 }\n"
+        "  expand:\n    - { region: flash, from: main, to: flash_d }\n"
+    )
+    result = load(_small_regions(("flash", 2), ("ram", 1)) + view)
+    columns = {layout.id: layout for layout in drawn(result).columns}
+    main, detail = columns["main"], columns["flash_d"]
+    assert detail.y == pytest.approx(main.y + main.height - detail.height + 60)
+
+
+def test_a_detour_stays_clear_below_the_columns_stacked_above_it(load):
+    """`b_d` takes the room above `m_d`, so `a_d` cannot go around above it as well and goes
+    around below instead of being pushed back into its way."""
+    view = (
+        "view:\n  defaults:\n    scale: { mode: equal, min_height: 24 }\n"
+        "  columns:\n    - { id: main, root: '/' }\n"
+        "    - { id: m_d, root: m, lane: 1, anchor: top, offset: 160 }\n"
+        "    - { id: a_d, root: a, lane: 2 }\n    - { id: b_d, root: b, lane: 2 }\n"
+        "    - { id: t, root: tall, lane: 3 }\n"
+        "  expand:\n    - { region: a, from: main, to: a_d }\n"
+        "    - { region: m, from: main, to: m_d }\n    - { region: b, from: main, to: b_d }\n"
+    )
+    result = load(_small_regions(("a", 1), ("m", 3), ("b", 1), ("tall", 24)) + view)
+    assert codes(result) == []
+    columns = {layout.id: layout for layout in drawn(result).columns}
+    assert columns["b_d"].y < columns["m_d"].y < columns["a_d"].y
+
+
+def test_a_chain_of_zooms_stretches_the_overview_to_the_grown_detail(load):
+    """main zooms into flash, flash into app: flash grows first, then main grows to match it."""
+    apps = "\n".join(f"            - {{ id: a{i}, size: 1K }}" for i in range(12))
+    body = regions(
+        "    - id: flash\n      start: 0\n      size: 1M\n      children:\n"
+        "        - { id: boot, size: 64K }\n"
+        f"        - id: app\n          size: 256K\n          children:\n{apps}\n"
+        "            - { id: rest, size: auto }\n"
+        "        - { id: cfg, size: 16K }\n"
+        "    - { id: ram, start: 0x20000000, size: 64K }\n"
+    )
+    view = (
+        "view:\n  defaults:\n    scale: { mode: equal, min_height: 28 }\n"
+        "  columns:\n    - { id: main, root: '/' }\n  expand: [flash, app]\n"
+    )
+    result = load(body + view)
+    assert codes(result) == []
+    columns = {layout.id: layout for layout in drawn(result).columns}
+    assert columns["flash_detail"].height == pytest.approx(columns["app_detail"].height)
+    assert columns["main"].height == pytest.approx(columns["flash_detail"].height)

@@ -94,11 +94,21 @@ itself, such as an unknown flag, is reported as plain text on stderr.
 - `labels`: every string drawn, with `role` (address, name, size, note, band, title,
   column_title, footer, legend), `column` and an approximate pixel `box`.
 - `columns`: placement, plus every option with its value and its `origin`.
+- `connectors`: one per zoom, with its `region`, `from` and `to` columns and the points of its
+  two fan `lines`.
 
 Output is deterministic: the same input gives a byte-identical SVG, so diffing is reliable.
 
 W105 and W106 catch text that does not fit, using a built-in width table, so they are close but
-not exact. Connector lines are not checked against text.
+not exact. Connector lines are not checked against text, but they are kept out of columns:
+a zoom whose detail column is two or more lanes to the right of its source moves that column up
+or down so its fan lines bend around the columns between, and W107 reports when it cannot. One
+to the left is not moved, and gets W107 when its lines cross a column. Detail columns stacked in
+one lane go in the order of the blocks they zoom into, highest address on top. A column that
+zooms into columns that stack up taller than it is gets stretched to their height, up to 5
+times its own, so its fan lines do not start crammed together. A stack of zooms that would run
+past the bottom of the drawing moves up, unless a column in it has an `offset`, and columns
+stacked in one lane keep room between them for both end addresses.
 
 ## Diagnostics
 Every diagnostic has a stable code, a YAML path, a line and usually a `hint`. In JSON it also has
@@ -131,6 +141,7 @@ Every diagnostic has a stable code, a YAML path, a line and usually a `hint`. In
 | W104 | Sector list does not add up to the region size |
 | W105 | Block name was split inside a word to fit the column |
 | W106 | Text overlaps other text, or is wider than its block |
+| W107 | Fan lines run through a column between a zoom's source and its detail column |
 | W110 | `from-elf`: section outside every memory region, placed at the top level |
 | W111 | `from-elf`: section overlaps another one, left out |
 | W112 | `from-elf`: map region left out (no size, past the address space, overlap, too small) |

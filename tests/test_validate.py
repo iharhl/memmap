@@ -264,7 +264,8 @@ def test_expansion_finds_the_column_whose_range_shows_the_region(load):
     text = clipped("b").replace("  expand:", "    - { id: d, root: m }\n  expand:")
     result = load(text)
     assert codes(result) == []
-    assert drawn(result).links == [{"region": "b", "from": "d", "to": "b_detail"}]
+    links = [{key: link[key] for key in ("region", "from", "to")} for link in drawn(result).links]
+    assert links == [{"region": "b", "from": "d", "to": "b_detail"}]
 
 
 def test_e023_duplicate_column(load):

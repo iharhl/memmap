@@ -154,11 +154,21 @@ Other things a map does not tell memmap:
 ## From sections to blocks
 
 - **Which sections.** Every allocated section with a size. The thread-local `.tbss` is skipped,
-  as it only holds a template.
+  as it only holds a template. A section the linker script reserves without allocating it, such
+  as the RAM vector table, heap and stacks the Pico SDK declares as `(COPY)`, is drawn too when
+  it lies inside a memory region and overlaps no allocated section, with the note `not
+  allocated in the ELF, as a (COPY) section`. One at address 0 is left out, as it looks like a
+  debug section there. Names lose the blanks IAR leaves around them.
 - **Load images.** Initialised data is drawn twice: in RAM where it runs, and in flash where
   startup code copies it from. Each loadable segment stored away from where it runs is one flash
   block: `.data (load)` with a note such as `copied to RAM at 0x2000 0000`, or `RAM init data`
   when it holds several sections, as Zephyr's do, and `code and data` when it includes code.
+- **armlink (Keil).** An execution region's RW and ZI data are two sections with one name, drawn
+  as `RW_IRAM1 (RW)` and `RW_IRAM1 (ZI)`. armlink stores the RW data inside the segment of the
+  code before it, so its flash copy, `RW_IRAM1 (load)`, is found from the segment rather than
+  from a segment of its own. When armlink compresses RW data, as it does by default, the section
+  header gives the compressed size and the ZI data starts further on than alignment explains:
+  the RW data is then drawn up to the ZI data, and its flash copy is noted as compressed.
 - **Free space.** Gaps of at least `--min-size` (default 64 bytes) become Free blocks with their
   size, rounded down and marked `≈` when not exact. Smaller gaps are drawn as a split edge.
 - **Folding.** In a region of more than 8 blocks, runs of sections smaller than `--min-size`
@@ -208,7 +218,7 @@ maps through the importer.
 | --- | --- | --- |
 | Synthetic ELFs | `tests/test_from_elf.py`, built by `tests/elf_builder.py` | One rule per test: folding, free gaps, load images, several memory banks, ids, 64-bit, big-endian, converted images, bad files, the CLI |
 | Real builds | `tests/fixtures/firmware*.elf`, from `tests/fixtures/elf_src/` | The reader on files binutils wrote: one firmware as 32- and 64-bit, little- and big-endian, and its GNU ld map. `build.sh` rebuilds them with `arm-none-eabi-gcc` and GNU `objcopy` |
-| Real firmware | `tests/test_elf_snapshots.py`, `tests/fixtures/elf_snapshots/` | Eight images from different toolchains, OSes and architectures, against golden configs and drawings |
+| Real firmware | `tests/test_elf_snapshots.py`, `tests/fixtures/elf_snapshots/` | Ten images from different toolchains, OSes and architectures, against golden configs and drawings |
 | Linker maps | `tests/test_linker.py`, `tests/fixtures/linker_snapshots/` | The map readers on 13 real maps, against `tests/golden/linker/regions.json`, and every case of [the limits](#limits-when-the-map-is-not-enough): lld maps, maps without `MEMORY` or sizes, overlapping regions, sections across a region's edge, files that are not maps |
 
 ### Snapshots instead of ELF files
@@ -228,9 +238,10 @@ clean. The real builds and the synthetic tests cover the reader.
 
 ### The images
 
-All come from [Renode](https://github.com/renode/renode), whose board scripts
-(`scripts/single-node/*.resc`) load prebuilt firmware from `dl.antmicro.com`. Locally they live
-in `build/elf/`, which git ignores.
+Eight come from [Renode](https://github.com/renode/renode), whose board scripts
+(`scripts/single-node/*.resc`) load prebuilt firmware from `dl.antmicro.com`. The other two are
+builds committed to public repositories, pinned to a commit: a Keil one and a Pico SDK one,
+whose layouts GNU ld builds do not show. Locally they live in `build/elf/`, which git ignores.
 
 | Snapshot | Firmware | Regions |
 | --- | --- | --- |
@@ -242,9 +253,12 @@ in `build/elf/`, which git ignores.
 | `stm32f746_dartino_lines` | Dartino (Dart VM) demo, STM32F746 | flash 1M at 0x08000000, SRAM 320K at 0x20000000 |
 | `stm32f4discovery` | STM32F4 Discovery demo, STM32F407 | flash 1M at 0x08000000, SRAM 128K at 0x20000000 |
 | `apollo4_hello_uart` | AmbiqSuite hello world, Ambiq Apollo4 (Cortex-M4F) | MRAM 1952K at 0x18000, TCM 384K at 0x10000000, shared SRAM 1M at 0x10060000 |
+| `stm32l4_keil_rfe_master` | [iCub](https://github.com/robotology/icub-firmware) RFE board, STM32L4, Keil armlink | flash 512K at 0x08000000, SRAM 160K at 0x20000000 |
+| `rp2040_pico_rom` | [picoROM](https://github.com/nickbild/picoROM), RP2040, Pico SDK | flash 2M at 0x10000000, RAM 256K at 0x20000000, SCRATCH_X and SCRATCH_Y 4K each |
 
 Only the ELF files are published, so the regions are `--region` specs: the chips' real
-flash and RAM, from datasheets and Renode's platform files (`platforms/cpus/*.repl`). Where the
+flash and RAM, from datasheets and Renode's platform files (`platforms/cpus/*.repl`), and for
+the two repository builds the regions their committed linker maps give. Where the
 firmware starts above the bottom of its memory, the region starts there too: the FE310 shell
 runs from the user part of SPI flash, and the Apollo4 application starts 96 KB into its 2 MB
 MRAM. The Tock kernel is linked by lld, so its regions would have to be given this way anyway.
@@ -343,3 +357,17 @@ A large `.data` copied from flash, and the stack and heap reserved as a section.
 A conventional STM32 layout.
 
 ![STM32F4 Discovery demo](../tests/golden/elf/stm32f4discovery.svg)
+
+### STM32L4, Keil armlink
+
+RW and ZI data under one name, drawn as `(RW)` and `(ZI)`, and the RW data stored compressed
+after the code: 212 bytes in flash that unpack to 460 in SRAM.
+
+![STM32L4 Keil RFE](../tests/golden/elf/stm32l4_keil_rfe_master.svg)
+
+### RP2040, Pico SDK
+
+The RAM vector table, heap and core 0 stack are (COPY) sections, drawn with a note as they are
+not allocated in the ELF.
+
+![RP2040 picoROM](../tests/golden/elf/rp2040_pico_rom.svg)
