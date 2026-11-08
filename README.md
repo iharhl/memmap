@@ -1,97 +1,81 @@
 # memmap
 
-Turn a YAML description of an MCU memory layout into a datasheet-style memory map image. The look
-follows the STM32 reference manual figures, for your own layouts: bootloaders, app slots, config
-sectors, shared RAM.
+Draw datasheet-style memory maps of MCU memory. You describe the layout in a YAML file, or
+have `memmap` write that file from a linked firmware image. Either way you get the same config,
+which `memmap` checks and renders to SVG, PNG or PDF.
 
-- One YAML file holds the memory (`memory`) and how to draw it (`view`), kept separate.
-- Validation catches overlaps, overflow and flash sector misalignment, with YAML path, line and hint.
-- Output is deterministic, and `describe` lists everything drawn, so agents and CI can verify it
-  as text.
+- **Write it by hand.** One YAML file holds the memory (`memory`) and how to draw it (`view`),
+  kept separate. Start from one of the [examples](#examples).
+- **Generate it from firmware.** `from-elf` reads a linked ELF and the linker's map file (GNU ld,
+  Keil armlink or IAR), and places every section at its real address and size in the chip's flash
+  and RAM regions.
+- **Check before drawing.** Validation catches overlaps, overflow and flash sector misalignment,
+  with the YAML path, line and a hint for each.
+- **Verify as text.** Output is deterministic, and `describe` lists everything drawn, so agents and
+  CI can check a drawing without looking at it.
 
-Below find an example with four memory maps drawn by **memmap**.
+Four memory maps drawn by `memmap`:
 
 ![](docs/examples.svg)
 
 ## Install
 
 Each [GitHub release](https://github.com/iharhl/memmap/releases) has a wheel attached. To install
-it with Python 3.10 or newer and no uv or checkout, using the version you want:
+one with Python 3.10 or newer, without uv or a checkout:
 
 ```bash
 pipx install https://github.com/iharhl/memmap/releases/download/v0.2.0/memmap-0.2.0-py3-none-any.whl
 ```
 
-To work from a checkout:
+PNG and PDF output needs the `raster` extra and the system cairo library. SVG always works.
 
 ```bash
-uv sync
+pipx install "memmap[raster] @ https://github.com/iharhl/memmap/releases/download/v0.2.0/memmap-0.2.0-py3-none-any.whl"
 ```
 
-PNG and PDF output needs the `raster` extra and the system cairo library:
+To work from a checkout instead, run `uv sync` (or `uv sync --extra raster`), and put `uv run` in
+front of each `memmap` command below.
 
-```bash
-uv sync --extra raster
-```
-
-On macOS with Homebrew's cairo, the library is not on the default search path, so set this before
-rendering PNG or PDF:
+On macOS, Homebrew's cairo is not on the default library search path. Set this before rendering
+PNG or PDF:
 
 ```bash
 export DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib
 ```
 
-## Use
+## Quick start
 
-Start from the closest config in [examples/](examples/), listed under [Examples](#examples):
+Choose a starting point. Both give you a `layout.yaml`.
+
+**A layout you are planning.** Copy the closest example:
 
 ```bash
 cp examples/custom_bootloader.yaml layout.yaml
 ```
 
+**A firmware image you have built.** Pass the ELF and the map file the linker wrote next to it:
+
 ```bash
-uv run memmap check layout.yaml
+memmap from-elf build/firmware.elf -o layout.yaml --map build/firmware.map
+```
+
+Then check the config, see what will be drawn, and render it:
+
+```bash
+memmap check layout.yaml
 ```
 
 ```bash
-uv run memmap describe layout.yaml
+memmap describe layout.yaml
 ```
 
 ```bash
-uv run memmap render layout.yaml -o layout.svg
+memmap render layout.yaml -o layout.svg
 ```
 
-| Command | Purpose |
-| --- | --- |
-| `memmap render CONFIG [-o OUT] [--format svg\|png\|pdf] [--json] [--strict] [--set key=value]` | Validate, then draw; `--strict` fails on warnings |
-| `memmap check CONFIG [--json] [--strict]` | Validate only; `--strict` fails on warnings |
-| `memmap describe CONFIG [--json]` | Resolved regions, blocks, labels and option origins |
-| `memmap from-elf ELF [-o OUT] [--map FILE] [--region id=start:size[:name]] [--min-size N] [--force] [--json] [--strict]` | Write a config from a linked ELF's sections, then check it |
-| `memmap schema` | JSON Schema of the config |
-| `memmap guide` | Print the agent guide, for agents using an installed copy |
+## Writing a config
 
-### From an ELF file
-
-`from-elf` writes a config from the sections of a linked firmware image, each at its real
-address and size. The ELF does not record how big flash and RAM are, so pass the map file the
-linker writes, from GNU ld, Keil (armlink) or IAR:
-
-```bash
-uv run memmap from-elf build/firmware.elf -o layout.yaml --map build/firmware.map
-```
-
-An lld map, as Rust and the LLVM Embedded Toolchain write, lists no regions. Give them with
-`--region` instead, copying `ORIGIN` and `LENGTH` from the linker script's `MEMORY` block:
-
-```bash
-uv run memmap from-elf build/firmware.elf -o layout.yaml --region flash=0x08000000:64K --region ram=0x20000000:20K
-```
-
-The output is an ordinary config: edit it, then `render` it. [docs/from-elf.md](docs/from-elf.md)
-covers where each toolchain puts its map, what is read from it, what happens when it is not
-enough, and how sections become blocks.
-
-A minimal config:
+A minimal config, with a 64K flash split into a bootloader and an application:
 
 ```yaml
 version: 1
@@ -115,16 +99,56 @@ view:
     - { id: flash_col, root: flash, title: Flash }
 ```
 
-Columns take an optional `title`, drawn above them. For a detail column created by `view.expand`,
-set it on the expansion: `expand: [{ region: flash, title: Flash }]`.
+Children without a `start` are placed one after another, and `auto` takes what is left. Columns
+take an optional `title`, drawn above them. For a detail column created by `view.expand`, set it
+on the expansion: `expand: [{ region: flash, title: Flash }]`.
+
+`memmap schema` prints every key with a description and an example. Point your editor's YAML
+extension at it for completion. [AGENTS.md](AGENTS.md) has recipes for common tweaks.
+
+## Generating a config from firmware
+
+`from-elf` writes a config from the sections of a linked firmware image: `.text`, `.data`, `.bss`
+and so on, each at its real address and size. The ELF does not record how big flash and RAM
+are, so memmap reads the regions from the map file the linker writes:
+
+| Toolchain | Map file | Usually in |
+| --- | --- | --- |
+| GNU ld: gcc, Zephyr, ESP-IDF, Pico SDK, STM32CubeIDE | `firmware.map` (`-Wl,-Map=`) | next to the ELF |
+| Arm armlink: Keil MDK | `project.map` | `Listings/` |
+| IAR ILINK | `project.map` | `List/` |
+
+An lld map, as Rust and the LLVM Embedded Toolchain write, lists no regions. Give them with
+`--region` instead, copying `ORIGIN` and `LENGTH` from the linker script's `MEMORY` block:
+
+```bash
+memmap from-elf build/firmware.elf -o layout.yaml --region flash=0x08000000:64K --region ram=0x20000000:20K
+```
+
+`--region` also works together with `--map`, to replace or add a region. The result is an
+ordinary config: rename or merge blocks, add `view` options, then `render` it.
+[docs/from-elf.md](docs/from-elf.md) covers what is read from each map, what happens when it is
+not enough, and how sections become blocks.
+
+## Commands
+
+| Command | Purpose |
+| --- | --- |
+| `memmap render CONFIG [-o OUT] [--format svg\|png\|pdf] [--json] [--strict] [--set key=value]` | Validate, then draw |
+| `memmap check CONFIG [--json] [--strict]` | Validate only |
+| `memmap describe CONFIG [--json]` | Resolved regions, blocks, labels and option origins |
+| `memmap from-elf ELF [-o OUT] [--map FILE] [--region id=start:size[:name]] [--min-size N] [--force] [--json] [--strict]` | Write a config from a linked ELF, then check it |
+| `memmap schema` | JSON Schema of the config |
+| `memmap guide` | Print the agent guide, for agents using an installed copy |
+
+`--strict` makes warnings fail the command. `--json` prints one result object on stdout, for
+scripts and agents.
 
 ## Learn more
 
 - [AGENTS.md](AGENTS.md): task guide, recipes and the full diagnostic list. `memmap guide` prints it.
 - [docs/from-elf.md](docs/from-elf.md): drawing a linked firmware image, its map readers and limits.
-- [examples/](examples/): see the table below.
-- `memmap schema`: every key with a description and an example. Point your editor's YAML extension
-  at it for completion.
+- [Examples](#examples): one config per feature set, below.
 
 ## Examples
 

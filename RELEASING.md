@@ -4,16 +4,27 @@ A release is a GitHub release with the wheel and sdist attached. Publishing the 
 [`release.yml`](.github/workflows/release.yml), which builds both files, checks them and uploads
 them. Nothing is published to PyPI.
 
-## 1. Bump the version
+## Strategy
 
-`main` is protected, so the bump goes through a pull request like any other change.
+Releases are cut from `main`. There is no long-lived release branch:
+
+1. A short-lived prep branch bumps the version and brings the docs and tooling up to date.
+2. It is merged into `main` through a pull request, like any other change.
+3. The release is published on `main`, which creates the tag `vX.Y.Z` on the merged commit.
+
+A release branch, `release/X.Y`, is only made when an older version needs a fix while `main`
+has moved on.
+
+## 1. Prepare the release
+
+`main` is protected, so the preparation goes through a pull request.
 
 ```bash
 git switch main && git pull
 ```
 
 ```bash
-git switch -c release/v0.2.0
+git switch -c release-prep/v0.2.0
 ```
 
 ```bash
@@ -21,12 +32,24 @@ uv version --bump minor
 ```
 
 `--bump` takes `patch` (0.1.0 to 0.1.1), `minor` (0.1.0 to 0.2.0) or `major` (0.1.0 to 1.0.0). It
-updates `version` in `pyproject.toml` and in `uv.lock`. Commit both, push, open a pull request and
-merge it once the checks pass.
+updates `version` in `pyproject.toml` and in `uv.lock`, but not `__version__` in
+`memmap/__init__.py`: set that one by hand. A test fails when the two differ.
+
+On the same branch, bring up to date what a user of the new version reads:
+- The install URLs in `README.md` and in [Install a release](#4-install-a-release) below.
+- `README.md` and `docs/` for features added since the last release.
+- `AGENTS.md`, which `memmap guide` ships, for new diagnostic codes and recipes.
+
+Commit, push, open a pull request and merge it once the checks pass.
 
 ## 2. Publish the release
 
+Publish right after the merge, so the tag lands on the prep commit and not on a later change.
 From the terminal:
+
+```bash
+git switch main && git pull
+```
 
 ```bash
 gh release create v0.2.0 --target main --generate-notes
@@ -38,8 +61,9 @@ Or on GitHub, under Releases, choose "Draft a new release":
 - "Generate release notes" lists the pull requests merged since the last release.
 - "Publish release".
 
-The tag is `v` followed by the version in `pyproject.toml`. A draft release does not start the
-workflow until it is published. A pre-release does.
+The tag is `v` followed by the version in `pyproject.toml`. Tag the commit on `main`, never one
+on the prep branch: after a squash merge, the branch commits are not part of `main`. A draft
+release does not start the workflow until it is published. A pre-release does.
 
 ## 3. What the workflow does
 
@@ -57,8 +81,12 @@ It takes about a minute. Follow it in the Actions tab.
 pipx install https://github.com/iharhl/memmap/releases/download/v0.2.0/memmap-0.2.0-py3-none-any.whl
 ```
 
-`pip install` with the same URL works too. Add `[raster]` after the file name for PNG and PDF
-output, which also needs the system cairo library.
+`pip install` with the same URL works too. For PNG and PDF output, which also needs the system
+cairo library, name the `raster` extra:
+
+```bash
+pipx install "memmap[raster] @ https://github.com/iharhl/memmap/releases/download/v0.2.0/memmap-0.2.0-py3-none-any.whl"
+```
 
 ## When something fails
 

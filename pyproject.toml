@@ -1,6 +1,6 @@
 [project]
 name = "memmap"
-version = "0.1.0"
+version = "0.2.0"
 description = "Turn a YAML description of an MCU memory layout into a datasheet-style memory map image."
 readme = "README.md"
 requires-python = ">=3.10"
