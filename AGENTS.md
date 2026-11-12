@@ -66,6 +66,7 @@ when W110 puts the regions in zooms of their own, their groups get a note instea
 ## Recipes
 - Show sizes:            view.defaults.labels.size: true
 - Boundary + prev end:   view.defaults.labels.address: both
+- Hide addresses:        view.defaults.labels.address: none
 - Zoom into a region:    view.expand: [region_id]
 - Title a column:        view.columns: [{ id: a, root: flash, title: Flash }]
 - Title a zoom:          view.expand: [{ region: flash, title: Flash }]

@@ -51,9 +51,11 @@ def build_labels(
     blocks: list[Block], band_starts: set[int], mode: str, address_bits: int
 ) -> list[AddressLabel]:
     """All address labels of one column, bottom to top. In a column with bands only the band
-    boundaries, the column ends and overridden edges are labelled."""
+    boundaries, the column ends and overridden edges are labelled. With mode `none` only the
+    overridden edges are."""
     labels: list[AddressLabel] = []
     last_address = 2**address_bits - 1
+    hidden = mode == "none"
 
     def add(values: list[tuple[int, str, str]], edge: int, region: str) -> None:
         """Turn (value, role, placement) entries into labels on `edge`."""
@@ -65,13 +67,16 @@ def build_labels(
 
     if not blocks:
         return labels
-    add([(blocks[0].start, "start", "center")], 0, blocks[0].node.id)
+    if not hidden:
+        add([(blocks[0].start, "start", "center")], 0, blocks[0].node.id)
 
     for index, lower in enumerate(blocks):
         upper = blocks[index + 1] if index + 1 < len(blocks) else None
         top_of_space = upper is None and lower.end == last_address
         if lower.top_label is not None:
             values = _override_values(lower, upper, lower.top_label, top_of_space)
+        elif hidden:
+            values = []
         elif upper is None:
             values = [(lower.end, "end", "center")]
         elif band_starts and upper.start not in band_starts:

@@ -245,11 +245,12 @@ class Memory(Model):
 class Labels(Model):
     """Address and size labels."""
 
-    address: Literal["start", "both"] = Field(
+    address: Literal["start", "both", "none"] = Field(
         default="start",
         description=(
             "What an internal edge prints: the boundary, or boundary and previous end. An edge "
-            "with unfilled space at it always prints both."
+            "with unfilled space at it always prints both. none prints no addresses, except on "
+            "edges with a top_label override."
         ),
         examples=["both"],
     )

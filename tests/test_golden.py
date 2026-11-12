@@ -23,6 +23,7 @@ CASES = {
     "example_nrf52840": (ROOT / "examples" / "nrf52840_boot_chain.yaml", []),
     "example_riscv64": (ROOT / "examples" / "riscv64_soc.yaml", []),
     "example_rtos_mpu": (ROOT / "examples" / "rtos_mpu_ram.yaml", []),
+    "example_ota_package": (ROOT / "examples" / "ota_package_format.yaml", []),
     "column_titles": (
         EXPANDED,
         ["view.columns[1].title=Peripherals", "view.columns[2].title=Code area"],
