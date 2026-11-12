@@ -29,6 +29,7 @@ EXPECTED = {
         "0x0000 4400", "0x0000 43FF",
         "0x0000 4FFF",
     ],
+    "none": [],
 }  # fmt: skip
 
 
@@ -88,6 +89,22 @@ def test_top_label_override(top_label, strings):
     expected = list(EXPECTED["start"])
     expected[3:4] = strings
     assert labels == expected
+
+
+def test_none_keeps_only_overridden_edges():
+    sets = ["view.defaults.labels.address=none", "view.overrides=[{region: b, top_label: end}]"]
+    assert address_labels(run(MODES, sets)) == ["0x0000 3FFF"]
+
+
+def test_none_leaves_no_room_for_addresses():
+    layout = drawn(run(MODES, ["view.defaults.labels.address=none"])).columns[0]
+    assert layout.left_gutter == 0
+
+
+def test_none_hides_addresses_in_one_column_only():
+    result = run(ROOT / "examples" / "stm32f303_fig8.yaml", ["view.columns[2].labels.address=none"])
+    assert address_labels(result, "code_detail") == []
+    assert address_labels(result, "periph_detail")
 
 
 def test_override_forces_a_label_on_an_edge_bands_would_skip():
