@@ -40,11 +40,13 @@ class Line:
 
 @dataclass
 class Polyline:
-    """A line through a list of points, as used for fan lines."""
+    """A line through a list of points, as used for fan lines. `dash` is an SVG dash pattern
+    such as "4 3"; None draws a solid line."""
 
     points: list[tuple[float, float]]
     stroke: str
     width: float = 1
+    dash: str | None = None
 
 
 @dataclass

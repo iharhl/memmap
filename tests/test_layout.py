@@ -6,11 +6,13 @@ from conftest import MODES, ROOT, codes, drawn, regions
 
 from memmap.describe import describe_data
 from memmap.layout.columns import LANE_STACK_GAP, MAX_STRETCH
+from memmap.layout.connectors import DASH
 from memmap.layout.primitives import Line, Polyline
 from memmap.layout.routing import _clear, column_box
 from memmap.layout.text import text_width, wrap
 from memmap.options import OptionResolver
 from memmap.pipeline import run
+from memmap.render.svg import render_svg
 
 
 def blocks(result, column=0):
@@ -169,6 +171,14 @@ def test_negative_offset_stays_on_the_canvas():
     sets = ["view.columns[0].anchor=free", "view.columns[0].offset=-40"]
     result = run(MODES, sets)
     assert blocks(result)[-1].y > 0
+
+
+@pytest.mark.parametrize("style, dash", [("solid", None), ("dashed", DASH)])
+def test_connector_style_sets_the_dash_of_every_fan_line(style, dash):
+    result = run(ROOT / "examples" / "stm32f303_fig8.yaml", [f"style.connectors={style}"])
+    lines = [p for p in drawn(result).primitives if isinstance(p, Polyline)]
+    assert lines and all(line.dash == dash for line in lines)
+    assert ("stroke-dasharray" in render_svg(drawn(result))) == (dash is not None)
 
 
 def test_connectors_run_corner_to_corner():

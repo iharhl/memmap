@@ -65,6 +65,8 @@ def _element(primitive: Primitive) -> str:
             "stroke": primitive.stroke,
             "stroke-width": primitive.width,
         }
+        if primitive.dash is not None:
+            values["stroke-dasharray"] = primitive.dash
         return f"<polyline {_attributes(values)}/>"
     if isinstance(primitive, Text):
         values = {

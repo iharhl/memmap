@@ -2,8 +2,8 @@
 <rect fill="#ffffff" height="406.4" width="609.62" x="0" y="0"/>
 <rect fill="none" height="358.4" stroke="#000000" stroke-width="1" width="589.62" x="10" y="38"/>
 <text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13.2" font-weight="bold" text-anchor="middle" x="304.81" y="23.2">OTA update package format</text>
-<polyline fill="none" points="310,280.85 150,117.2" stroke="#000000" stroke-width="1"/>
-<polyline fill="none" points="310,336.4 150,376.4" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="310,280.85 150,117.2" stroke="#000000" stroke-dasharray="4 3" stroke-width="1"/>
+<polyline fill="none" points="310,336.4 150,376.4" stroke="#000000" stroke-dasharray="4 3" stroke-width="1"/>
 <text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="90" y="111.2">Header fields</text>
 <text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="370" y="71.2">Package</text>
 <rect fill="#b7d8b5" height="32.4" stroke="#000000" stroke-width="1" width="120" x="30" y="344"/>

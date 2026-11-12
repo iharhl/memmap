@@ -161,7 +161,7 @@ scripts and agents.
 | [nrf52840_boot_chain.yaml](examples/nrf52840_boot_chain.yaml) | Chained zooms, column `range`, per-column labels and scale, `start_of_next` |
 | [riscv64_soc.yaml](examples/riscv64_soc.yaml) | 64-bit addresses, `collapse_reserved_over`, relative heights, style options |
 | [rtos_mpu_ram.yaml](examples/rtos_mpu_ram.yaml) | `check_alignment`, `fill_gaps: none`, `depth`, two columns of one memory |
-| [ota_package_format.yaml](examples/ota_package_format.yaml) | A file format instead of memory: `address: none`, byte sizes, a zoom to the left |
+| [ota_package_format.yaml](examples/ota_package_format.yaml) | A file format instead of memory: `address: none`, byte sizes, a dashed zoom to the left |
 
 To render them all into `build/`:
 

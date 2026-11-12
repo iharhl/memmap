@@ -368,7 +368,8 @@ def layout_figure(
         target = by_id[link.target.id]
         pieces = [block for block in source.blocks if block.node is link.region]
         between = lanes_between(layouts, source.lane, target.lane)
-        lines, clear = connector_lines(pieces, target, [column_box(other) for other in between])
+        boxes = [column_box(other) for other in between]
+        lines, clear = connector_lines(pieces, target, boxes, style.connectors == "dashed")
         primitives += lines
         if not clear:
             out.append(_through_columns(link.region.id, link.region.path, target, between))

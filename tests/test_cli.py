@@ -295,6 +295,7 @@ def test_group_help_points_to_the_guide():
         ["view.defaults.labels.address=both"],
         ["view.defaults.labels.address=none"],
         ["view.columns[0]={id: a, root: /}", "view.expand=[flash]"],
+        ["view.columns[0]={id: a, root: /}", "view.expand=[flash]", "style.connectors=dashed"],
         ["view.columns[0]={id: a, root: flash, title: Flash}"],
         ["view.columns[0]={id: a, root: /}", "view.expand=[{region: flash, title: Flash}]"],
         ["style.palette=datasheet", "view.defaults.scale.mode=equal"],

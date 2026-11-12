@@ -313,6 +313,9 @@ class Style(Model):
     sector_ticks: bool = Field(
         default=True, description="Draw tick marks at flash sector boundaries.", examples=[False]
     )
+    connectors: Literal["solid", "dashed"] = Field(
+        default="solid", description="Line style of the zoom fan lines.", examples=["dashed"]
+    )
 
 
 class ColumnStyle(Model):
