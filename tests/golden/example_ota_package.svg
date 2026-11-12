@@ -1,0 +1,48 @@
+<svg height="406.4" viewBox="0 0 609.62 406.4" width="609.62" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="406.4" width="609.62" x="0" y="0"/>
+<rect fill="none" height="358.4" stroke="#000000" stroke-width="1" width="589.62" x="10" y="38"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13.2" font-weight="bold" text-anchor="middle" x="304.81" y="23.2">OTA update package format</text>
+<polyline fill="none" points="310,280.85 150,117.2" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="310,336.4 150,376.4" stroke="#000000" stroke-width="1"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="90" y="111.2">Header fields</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="370" y="71.2">Package</text>
+<rect fill="#b7d8b5" height="32.4" stroke="#000000" stroke-width="1" width="120" x="30" y="344"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="90" y="357.45">Magic "OTA1"</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="90" y="370.65">4 B</text>
+<rect fill="#e8b4b8" height="32.4" stroke="#000000" stroke-width="1" width="120" x="30" y="311.6"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="90" y="325.05">Format version</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="90" y="338.25">2 B</text>
+<rect fill="#cdbfe0" height="32.4" stroke="#000000" stroke-width="1" width="120" x="30" y="279.2"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="90" y="292.65">Flags</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="90" y="305.85">2 B</text>
+<rect fill="#f5e0a3" height="32.4" stroke="#000000" stroke-width="1" width="120" x="30" y="246.8"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="90" y="260.25">Image version</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="90" y="273.45">4 B</text>
+<rect fill="#a9d6d1" height="32.4" stroke="#000000" stroke-width="1" width="120" x="30" y="214.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="90" y="227.85">Payload size</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="90" y="241.05">4 B</text>
+<rect fill="#d9c2a7" height="32.4" stroke="#000000" stroke-width="1" width="120" x="30" y="182"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="90" y="195.45">Payload SHA-256</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="90" y="208.65">32 B</text>
+<rect fill="#c4cfe8" height="32.4" stroke="#000000" stroke-width="1" width="120" x="30" y="149.6"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="90" y="163.05">Header CRC32</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="90" y="176.25">4 B</text>
+<rect fill="#e3c9dc" height="32.4" stroke="#000000" stroke-width="1" width="120" x="30" y="117.2"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="90" y="130.65">Reserved</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="90" y="143.85">12 B</text>
+<rect fill="#e07a5f" height="55.55" stroke="#000000" stroke-width="1" width="120" x="310" y="280.85"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="370" y="305.88">Header</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="370" y="319.08">64 B</text>
+<rect fill="#f2cc8f" height="55.55" stroke="#000000" stroke-width="1" width="120" x="310" y="225.3"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="370" y="250.33">Manifest</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="370" y="263.53">448 B</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="438" y="256.35">CBOR, padded</text>
+<rect fill="#9fb3c8" height="55.55" stroke="#000000" stroke-width="1" width="120" x="310" y="169.75"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="370" y="194.78">Signature</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="370" y="207.98">512 B</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="438" y="200.8">RSA-4096 over header + manifest</text>
+<rect fill="#81b29a" height="92.55" stroke="#000000" stroke-width="1" width="120" x="310" y="77.2"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="370" y="120.73">Payload</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="370" y="133.93">255 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="438" y="126.75">LZ4-compressed image</text>
+</svg>

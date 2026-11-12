@@ -1,0 +1,42 @@
+# File format, not memory: an OTA update package as it is sent to the device.
+# Only the order and size of the fields matter, so the addresses (file offsets) are hidden.
+version: 1
+figure: { title: "OTA update package format", legend: true }
+
+memory:
+  regions:
+    - id: package
+      name: Update package
+      start: 0
+      size: 256K
+      children:                             # placed sequentially from offset 0
+        - id: header
+          name: Header
+          size: 64
+          color: "#e07a5f"
+          children:
+            - { id: magic,        name: Magic "OTA1",  size: 4 }
+            - { id: fmt_version,  name: Format version, size: 2 }
+            - { id: flags,        name: Flags,          size: 2 }
+            - { id: img_version,  name: Image version,  size: 4 }
+            - { id: payload_size, name: Payload size,   size: 4 }
+            - { id: payload_hash, name: Payload SHA-256, size: 32 }
+            - { id: header_crc,   name: Header CRC32,   size: 4 }
+            - { id: hdr_reserved, name: Reserved,       size: auto }
+        - { id: manifest,  name: Manifest,  size: 448, color: "#f2cc8f", note: "CBOR, padded" }
+        - { id: signature, name: Signature, size: 512, color: "#9fb3c8", note: "RSA-4096 over header + manifest" }
+        - { id: payload,   name: Payload,   size: auto, color: "#81b29a", note: "LZ4-compressed image" }
+
+view:
+  defaults:
+    labels:
+      address: none                   # offsets do not matter here, only order and size
+      size: true
+    scale: { mode: weighted, min_height: 30 }
+  columns:                            # zoom on the left, as the notes take the right
+    - { id: header_col,  root: header,  title: Header fields, lane: 0, offset: 40 }
+    - { id: package_col, root: package, title: Package,       lane: 1 }
+  expand:
+    - { region: header, from: package_col, to: header_col }
+
+style: { palette: color }
