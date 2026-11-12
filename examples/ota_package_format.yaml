@@ -39,4 +39,4 @@ view:
   expand:
     - { region: header, from: package_col, to: header_col }
 
-style: { palette: color }
+style: { palette: color, connectors: dashed }

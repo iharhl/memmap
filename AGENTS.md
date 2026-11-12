@@ -56,8 +56,8 @@ when W110 puts the regions in zooms of their own, their groups get a note instea
 - Ranges are inclusive: end = start + size - 1.
 - Prefer `size` over `end`, and sequential placement over explicit `start`.
 - Display tweaks go in `view`, never by changing `memory`.
-- The look is fixed on purpose: font family, address format, outlines, connectors and label side
-  have no keys.
+- The look is fixed on purpose: font family, address format, outlines and label side have no
+  keys. Connectors only choose solid or dashed lines (`style.connectors`).
 - Use `--strict` on `check` and `render` to fail on warnings. Without it they exit 0 with
   warnings, and a flash sector misalignment (W100) or colliding text (W106) is a warning.
 - PNG and PDF need the `raster` extra and the system cairo library. Without cairo, `render`
@@ -68,6 +68,7 @@ when W110 puts the regions in zooms of their own, their groups get a note instea
 - Boundary + prev end:   view.defaults.labels.address: both
 - Hide addresses:        view.defaults.labels.address: none
 - Zoom into a region:    view.expand: [region_id]
+- Dashed zoom lines:     style.connectors: dashed
 - Title a column:        view.columns: [{ id: a, root: flash, title: Flash }]
 - Title a zoom:          view.expand: [{ region: flash, title: Flash }]
 - Datasheet look:        style.palette: datasheet, view.defaults.scale.mode: equal
