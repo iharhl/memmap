@@ -25,11 +25,14 @@ from .from_elf import (
     read_map,
     resolve_memories,
 )
+from .from_partitions import Settings as PartitionSettings
+from .from_partitions import import_table, read_sdkconfig
+from .from_partitions import settings as partition_settings
 from .pipeline import Result, run
 from .render.raster import RasterUnavailable, convert
 from .render.svg import render_svg
 from .schema import json_schema
-from .units import parse_size
+from .units import parse_address, parse_size
 
 # Process exit codes, documented in AGENTS.md. Success is 0.
 EXIT_VALIDATION = 1
@@ -345,6 +348,122 @@ def from_elf(
     _write(target, imported.text.encode("utf-8"), as_json)
     result = _load(target, (), as_json=as_json)
     result.diagnostics[:0] = [*warnings, *imported.diagnostics]
+    ok = _passes(result, strict)
+    if as_json:
+        _print_json(ok, result, output=str(target))
+    else:
+        _print_diagnostics(result, target)
+        click.echo(str(target))
+    if not ok:
+        raise Exit(EXIT_VALIDATION)
+
+
+def _read_bytes(path: Path) -> bytes:
+    """A file's bytes, or the ImportProblem to report."""
+    try:
+        return path.read_bytes()
+    except OSError as exc:
+        raise ImportProblem(f"cannot read {path}: {exc.strerror or exc}") from None
+
+
+def _option_address(name: str, value: str | None) -> int | None:
+    """An offset option's value, or the ImportProblem naming the option."""
+    try:
+        return parse_address(value) if value is not None else None
+    except ValueError as exc:
+        raise ImportProblem(f"bad {name}: {exc}") from None
+
+
+def _table_settings(
+    flash_size: str | None,
+    table_offset: str | None,
+    bootloader_offset: str | None,
+    sdkconfig: Path | None,
+) -> PartitionSettings:
+    """The settings for a partition table import, from the options and the sdkconfig."""
+    try:
+        size = parse_size(flash_size) if flash_size is not None else None
+    except ValueError as exc:
+        raise ImportProblem(f"bad --flash-size: {exc}") from None
+    offset = _option_address("--table-offset", table_offset)
+    bootloader = _option_address("--bootloader-offset", bootloader_offset)
+    config = None
+    if sdkconfig is not None:
+        config = read_sdkconfig(_read_bytes(sdkconfig).decode("utf-8", "replace"))
+    name = sdkconfig.name if sdkconfig else "sdkconfig"
+    return partition_settings(size, offset, config, name, bootloader)
+
+
+@app.command(
+    name="from-partitions",
+    epilog="\b\nExample:\n  memmap from-partitions partitions.csv -o layout.yaml --sdkconfig sdkconfig",
+)
+@click.argument("table", type=click.Path(path_type=Path))
+@click.option(
+    "-o", "--output", type=click.Path(path_type=Path), help="Config to write. Default: TABLE.yaml."
+)
+@click.option(
+    "--sdkconfig",
+    type=click.Path(path_type=Path),
+    help="The project's sdkconfig: gives the flash size, the partition table offset and the "
+    "bootloader offset.",
+)
+@click.option("--flash-size", metavar="SIZE", help="Flash size, such as 4M. Overrides --sdkconfig.")
+@click.option(
+    "--table-offset",
+    metavar="OFFSET",
+    help="Offset of the partition table. Default: from --sdkconfig, else 0x8000.",
+)
+@click.option(
+    "--bootloader-offset",
+    metavar="OFFSET",
+    help="Where the ROM loads the bootloader from: 0x1000 on the ESP32 and ESP32-S2, 0x2000 on "
+    "the ESP32-C5 and ESP32-P4, else 0. Default: from --sdkconfig.",
+)
+@click.option("--force", is_flag=True, help="Overwrite the output if it exists.")
+@json_option
+@strict_option
+def from_partitions(
+    table: Path,
+    output: Path | None,
+    sdkconfig: Path | None,
+    flash_size: str | None,
+    table_offset: str | None,
+    bootloader_offset: str | None,
+    force: bool,
+    as_json: bool,
+    strict: bool,
+) -> None:
+    """Write a config from an ESP-IDF partition table.
+
+    TABLE is the partition table: the CSV the project names in CONFIG_PARTITION_TABLE_FILENAME,
+    or the partition-table.bin the build writes. The table does not say how big the flash is,
+    so give --sdkconfig or --flash-size. The written config is then checked like `memmap check`.
+    """
+    try:
+        target = output or table.with_suffix(".yaml")
+    except ValueError:  # a path without a name, such as .
+        raise _fail(f"{table} is not a partition table file", EXIT_USAGE, as_json)
+    if target.resolve() == table.resolve():
+        raise _fail(f"output {target} would overwrite the partition table", EXIT_USAGE, as_json)
+    if target.exists() and not force:
+        raise _fail(f"{target} exists, use --force to overwrite it", EXIT_USAGE, as_json)
+    try:
+        settings = _table_settings(flash_size, table_offset, bootloader_offset, sdkconfig)
+        data = _read_bytes(table)
+    except ImportProblem as exc:
+        raise _fail(str(exc), EXIT_USAGE, as_json, hint=exc.hint)
+    near = table.parent / "sdkconfig"
+    suggest = str(near) if sdkconfig is None and near.is_file() else None
+    try:
+        imported = import_table(data, table.name, settings, suggest)
+    except ImportProblem as exc:
+        raise _fail(f"{table}: {exc}", EXIT_USAGE, as_json, hint=exc.hint)
+    except Exception as exc:  # noqa: BLE001  # odd input must still exit 3 with a message
+        raise _fail(f"internal error: {exc}", EXIT_RENDER, as_json)
+    _write(target, imported.text.encode("utf-8"), as_json)
+    result = _load(target, (), as_json=as_json)
+    result.diagnostics[:0] = imported.diagnostics
     ok = _passes(result, strict)
     if as_json:
         _print_json(ok, result, output=str(target))

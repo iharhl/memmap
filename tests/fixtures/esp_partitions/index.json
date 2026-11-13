@@ -1,0 +1,123 @@
+{
+  "builds": [
+    {
+      "name": "esp32_table_at_0x18000",
+      "about": "ESP32: the built-in single app table, moved up by CONFIG_PARTITION_TABLE_OFFSET",
+      "files": {
+        "sdkconfig": {
+          "url": "https://raw.githubusercontent.com/energietransitie/needforheat-p1-reader-firmware/1798396832ab69dc3f3978e237e3f7a1dc9abbf5/sdkconfig",
+          "sha256": "df27b5f1d5da80ac233dd7689dd75cbc947f374198d26b827aed3e9c7cc1cc3c"
+        },
+        "partition-table.bin": {
+          "url": "https://raw.githubusercontent.com/energietransitie/needforheat-p1-reader-firmware/1798396832ab69dc3f3978e237e3f7a1dc9abbf5/build/partition_table/partition-table.bin",
+          "sha256": "9bebabc93858eeaddc58158f8f093aa8981dd76d3c285f06f95e7a33cff9d30b"
+        }
+      }
+    },
+    {
+      "name": "esp32_homekit_custom_type",
+      "about": "ESP32, older ESP-IDF: a custom type with a blank subtype, then 0 and now 0x06",
+      "files": {
+        "sdkconfig": {
+          "url": "https://raw.githubusercontent.com/UsefulElectronics/esp32-homekit-lightbulb/2e78c6427890729625384b0307f206dd09ec6f85/sdkconfig",
+          "sha256": "1c76bb87469e28d1366c199201de0a9c833dcd45cb85eff6495b223975bd413d"
+        },
+        "partition-table.bin": {
+          "url": "https://raw.githubusercontent.com/UsefulElectronics/esp32-homekit-lightbulb/2e78c6427890729625384b0307f206dd09ec6f85/build/partition_table/partition-table.bin",
+          "sha256": "f6779ef8ce4bc6a0febb1e2e3a58d24e60ed63b25ebda4185ad9d5b9cf4e61cf"
+        },
+        "partitions.csv": {
+          "url": "https://raw.githubusercontent.com/UsefulElectronics/esp32-homekit-lightbulb/2e78c6427890729625384b0307f206dd09ec6f85/partitions_hap.csv",
+          "sha256": "f2e8fdae492cd9e62c5ca5f086b221fabf2a45d200794a3ebb2b651ee4627364"
+        }
+      }
+    },
+    {
+      "name": "esp32_small_nvs",
+      "about": "ESP32, ESP-IDF 5.2: blank offsets, an 8 KB read-write NVS that ESP-IDF now rejects",
+      "files": {
+        "sdkconfig": {
+          "url": "https://raw.githubusercontent.com/majorBien/Extremum---Beta/0460770d954b62d80888a4d9843d583cfdcdc39d/sdkconfig",
+          "sha256": "af41ed9fe717b6dae87850d1b861c10f5b5e413fc7ba831f556e57b81e717201"
+        },
+        "partition-table.bin": {
+          "url": "https://raw.githubusercontent.com/majorBien/Extremum---Beta/0460770d954b62d80888a4d9843d583cfdcdc39d/build/partition_table/partition-table.bin",
+          "sha256": "990552e78f71292ac9dc65d612daae6ffe07a76ba94923eb8d546207d8ccd096"
+        },
+        "partitions.csv": {
+          "url": "https://raw.githubusercontent.com/majorBien/Extremum---Beta/0460770d954b62d80888a4d9843d583cfdcdc39d/partitions.csv",
+          "sha256": "a93c4d4ee6b02383f7df4fe1d34432eb1bebbc222cf42fbfb25941a159c23e25"
+        }
+      }
+    },
+    {
+      "name": "esp32h2_zigbee",
+      "about": "ESP32-H2: an app size that is not a multiple of 4K, a 1K partition off a sector edge",
+      "files": {
+        "sdkconfig": {
+          "url": "https://raw.githubusercontent.com/aimpertro/esp-zigbee-plant-monitor/45b69c3edd0149132c4f37c57e90d63f68fc27bf/sdkconfig",
+          "sha256": "e6968065db58444ac41f9d2f9591aa199fc2580c79fb57e338eb88291181d4af"
+        },
+        "partition-table.bin": {
+          "url": "https://raw.githubusercontent.com/aimpertro/esp-zigbee-plant-monitor/45b69c3edd0149132c4f37c57e90d63f68fc27bf/build/partition_table/partition-table.bin",
+          "sha256": "8b0f7e184d317833138e7b65e4b56cf51724832b3c7c400f18823a362d74ea84"
+        },
+        "partitions.csv": {
+          "url": "https://raw.githubusercontent.com/aimpertro/esp-zigbee-plant-monitor/45b69c3edd0149132c4f37c57e90d63f68fc27bf/partitions.csv",
+          "sha256": "27cd708053db370081085ad3c35c9c3cbb30615e1d987137509591f6857baa88"
+        }
+      }
+    },
+    {
+      "name": "esp32p4_singleapp",
+      "about": "ESP32-P4, ESP-IDF 6.0: the bootloader at 0x2000",
+      "files": {
+        "sdkconfig": {
+          "url": "https://raw.githubusercontent.com/serfereanyang-create/my_toolkit/1eaae36df31fe0c2bb7e3c035dbeff371e56e5dd/hello_p4/sdkconfig",
+          "sha256": "b5b86e15bee6d1a997600dd9149a0de266e1255412ec39d149bb095ea25eed36"
+        },
+        "partition-table.bin": {
+          "url": "https://raw.githubusercontent.com/serfereanyang-create/my_toolkit/1eaae36df31fe0c2bb7e3c035dbeff371e56e5dd/hello_p4/build/partition_table/partition-table.bin",
+          "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+        }
+      }
+    }
+  ],
+  "tables": [
+    {
+      "name": "idf_partitions_singleapp",
+      "url": "https://raw.githubusercontent.com/espressif/esp-idf/4109c8923a51a5234801c324b39240d74e4cc379/components/partition_table/partitions_singleapp.csv",
+      "about": "built into ESP-IDF",
+      "flash_size": "4M",
+      "sha256": "e829387dc93b09b655e5ba558bb317a798ab7378834facad2621602126d7b510"
+    },
+    {
+      "name": "idf_partitions_two_ota",
+      "url": "https://raw.githubusercontent.com/espressif/esp-idf/4109c8923a51a5234801c324b39240d74e4cc379/components/partition_table/partitions_two_ota.csv",
+      "about": "built into ESP-IDF",
+      "flash_size": "4M",
+      "sha256": "879f7c300df5884ad763774238a8feea16c7ac5926a3a1aee9afffc8e94f6809"
+    },
+    {
+      "name": "idf_ota_efuse_emul",
+      "url": "https://raw.githubusercontent.com/espressif/esp-idf/4109c8923a51a5234801c324b39240d74e4cc379/examples/system/ota/partitions_ota/test/partitions_efuse_emul_2.csv",
+      "about": "ESP-IDF example: bootloader and partition_table entries, an encrypted partition",
+      "flash_size": "4M",
+      "sha256": "e5e0019c2930cad4c37ffcf331f3eccadff17f0b514bc227ad2f30ec1d2d6303"
+    },
+    {
+      "name": "arduino_default",
+      "url": "https://raw.githubusercontent.com/espressif/arduino-esp32/3ed7b779f2b4c797b3512f3fc10a7a978a78fb18/tools/partitions/default.csv",
+      "about": "Arduino-ESP32 default: explicit offsets, no spaces after some commas",
+      "flash_size": "4M",
+      "sha256": "2683fd26b661bc909dcb8a9f05723d36c4000f9396995941a278fda409b753f7"
+    },
+    {
+      "name": "micropython_4MiBplus",
+      "url": "https://raw.githubusercontent.com/micropython/micropython/d2d095d0fe6e83c53fd0ef90643f7d2b8b1c1645/ports/esp32/partitions-4MiBplus.csv",
+      "about": "MicroPython: blank offsets, $IDF_PATH in a comment, lowercase k sizes",
+      "flash_size": "4M",
+      "sha256": "5ea8030055fa8d6bf96793b48e46b6ba00101ed83cb8317e15ec2cb3912fd9af"
+    }
+  ]
+}
