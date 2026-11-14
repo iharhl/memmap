@@ -1,9 +1,13 @@
-"""Turn an ESP-IDF partition table into a memmap config: one flash column holding the
-bootloader, the partition table, every partition and the free space between them.
+"""Turn a flash partition layout into a memmap config. The format is told by the content:
 
-A table says where each partition is, but not how big the flash is, where the partition table
-itself sits or where the ROM loads the bootloader from. Those come from the project's sdkconfig
-or from options, and the config's header says which gave each one.
+- An ESP-IDF partition table, CSV or binary: one flash column holding the bootloader, the
+  partition table, every partition and the free space between them. A table says where each
+  partition is, but not how big the flash is, where the partition table itself sits or where
+  the ROM loads the bootloader from. Those come from the project's sdkconfig or from options,
+  and the config's header says which gave each one.
+- A Zephyr build's merged devicetree, `zephyr.dts`: a column per flash with fixed partitions.
+- An nRF Connect SDK Partition Manager file, `partitions.yml` or `pm_static.yml`: a column per
+  region, with containers zoomed into.
 """
 
 from __future__ import annotations
@@ -16,7 +20,8 @@ from ..from_elf.blocks import Bucket, Item
 from ..from_elf.importer import Imported
 from ..from_elf.regions import ImportProblem, MemorySpec, unique_id
 from ..from_elf.sizes import approx_size, floor_size
-from . import esp_idf
+from . import dts, esp_idf
+from .areas import Device, lay_out
 from .esp_idf import (
     APP,
     BOOTLOADER,
@@ -26,8 +31,10 @@ from .esp_idf import (
     TABLE_SIZE,
     Partition,
 )
+from .partition_manager import is_partition_manager, read_partition_manager
 from .sdkconfig import SdkConfig
-from .writer import write_yaml
+from .writer import write_regions, write_yaml
+from .zephyr import read_devicetree
 
 DEFAULT_TABLE_OFFSET = 0x8000  # CONFIG_PARTITION_TABLE_OFFSET's default
 OTADATA_SIZE = 0x2000
@@ -327,15 +334,31 @@ def _own_entry(setting: Setting, partitions: list[Partition], ptype: int, what: 
 def import_table(data: bytes, source: str, settings: Settings, near_sdkconfig: str | None = None) -> Imported:
     """The config for an ESP-IDF partition table, CSV or binary. `source` is the file name and
     `near_sdkconfig` an sdkconfig next to it, suggested when the flash size is missing."""
-    table_offset = settings.table_offset
     binary = esp_idf.is_binary(data)
+    text = "" if binary else _text(data)
+    if not binary and dts.is_dts(text):
+        _refuse_esp_options(settings, source, "a Zephyr devicetree", "the devicetree")
+        devices, comments = read_devicetree(text)
+        return _import_devices(source, "a Zephyr devicetree", ZEPHYR_HEADER, devices, comments)
+    if not binary and is_partition_manager(text):
+        kind = "an nRF Connect SDK Partition Manager file"
+        _refuse_esp_options(settings, source, kind, "the file")
+        devices, comments = read_partition_manager(text)
+        return _import_devices(source, kind, PM_HEADER, devices, comments)
+    if not binary and dts.looks_like_source(text):
+        raise ImportProblem(
+            "this is devicetree source that the C preprocessor has not run on, such as a "
+            "board .dts or an overlay",
+            hint=dts.MERGED_HINT,
+        )
+    table_offset = settings.table_offset
     if binary:
         partitions = esp_idf.read_binary(data)
         kind = "an ESP-IDF binary partition table"
     else:
         assert table_offset.value is not None
         partitions = esp_idf.read_csv(
-            esp_idf.decode(data),
+            text,
             table_offset.value,
             settings.bootloader_offset.value,
             settings.recovery_offset,
@@ -383,3 +406,65 @@ def _origins(settings: Settings, flash_size: int) -> list[str]:
             "--bootloader-offset or --sdkconfig to place it."
         )
     return lines
+
+
+ZEPHYR_HEADER = [
+    "Each flash with fixed partitions is a region at the address its reg gives. A flash on a",
+    "SPI or QSPI bus has no CPU address, so its offsets are positions in the chip, from 0.",
+]
+PM_HEADER = [
+    "The file does not give the size of a region, so each is drawn from its lowest to its",
+    "highest partition. Containers (span) are zoomed into.",
+]
+
+
+def _text(data: bytes) -> str:
+    """The text of a table that is not binary. A devicetree is read even with a stray byte that
+    is not UTF-8, such as one in a comment copied from a board file."""
+    try:
+        return esp_idf.decode(data)
+    except ImportProblem:
+        lenient = data.decode("utf-8", "replace")
+        if dts.is_dts(lenient):
+            return lenient
+        raise
+
+
+def _refuse_esp_options(settings: Settings, source: str, kind: str, gives: str) -> None:
+    """Stop when an option for ESP-IDF tables was given for another format, which it would
+    not change."""
+    given = [
+        option
+        for option, used in (
+            ("--sdkconfig", settings.sdkconfig_name is not None),
+            ("--flash-size", settings.flash_size.origin == "--flash-size"),
+            ("--table-offset", settings.table_offset.origin == "--table-offset"),
+            ("--bootloader-offset", settings.bootloader_offset.origin == "--bootloader-offset"),
+        )
+        if used
+    ]
+    if given:
+        options = " and ".join(given)
+        raise ImportProblem(
+            f"{options} {'is' if len(given) == 1 else 'are'} for ESP-IDF partition tables, but "
+            f"{source} is {kind}",
+            hint=f"leave out {options}: {gives} gives every address and size",
+        )
+
+
+def _import_devices(
+    source: str, kind: str, about: list[str], devices: list[Device], comments: list[str]
+) -> Imported:
+    """The config for the flash devices or regions of a Zephyr or Partition Manager file."""
+    layout = lay_out(devices)
+    header = [
+        f"Generated by `memmap from-partitions` from {source}, {kind}.",
+        *about,
+        "Rename, merge or annotate blocks freely.",
+        *(device.about for device in devices if device.about),
+        *comments,
+        *layout.comments,
+    ]
+    title = f"{source} {'flash' if kind.endswith('devicetree') else 'memory'} layout"
+    text = write_regions(header, title, layout.regions, "  # erase blocks are too many to mark")
+    return Imported(text, layout.diagnostics)

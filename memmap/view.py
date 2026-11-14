@@ -57,11 +57,13 @@ class ViewPlan:
 
 
 def flatten(root: Node, depth: int) -> list[Node]:
-    """The nodes a column stacks: children of root, descending `depth` levels."""
-    if depth == 0 or not root.children:
+    """The nodes a column stacks: children of root, descending `depth` levels. The implicit
+    root stacks only the regions of the default address space."""
+    children = [child for child in root.children if root.id != ROOT_ID or child.space is None]
+    if depth == 0 or not children:
         return [root]
     nodes: list[Node] = []
-    for child in root.children:
+    for child in children:
         nodes += flatten(child, depth - 1)
     return nodes
 
@@ -112,9 +114,33 @@ def _add_column(
             )
         )
         return None
+    if root.id == ROOT_ID and root.children and all(child.space is not None for child in root.children):
+        out.append(
+            Diagnostic(
+                "E020",
+                "column root '/' draws only regions without a `space`, and every region has one",
+                path + ("root",),
+                "use the id of a region with a `space` as the root",
+                spec.id,
+            )
+        )
+        return None
     column = ColumnView(spec, root, start, end, flatten(root, spec.depth), path, spec.title)
     plan.columns.append(column)
     return column
+
+
+def _default_columns(tree: Tree) -> list[Column]:
+    """The columns of a view that lists none: the whole default address space, then a column
+    for each top-level region of a named space, in file order, which that column does not
+    draw."""
+    columns = []
+    if any(child.space is None for child in tree.root.children) or not tree.root.children:
+        columns.append(Column(id="main", root=ROOT_ID))
+    named = [child for child in tree.root.children if child.space is not None and not child.generated]
+    for child in sorted(named, key=lambda node: node.path):  # in file order
+        columns.append(Column(id=f"{child.id}_space", root=child.id))
+    return columns
 
 
 def _find_source(plan: ViewPlan, region: Node) -> ColumnView | None:
@@ -128,7 +154,7 @@ def resolve_view(config: Config, tree: Tree) -> tuple[ViewPlan, list[Diagnostic]
     out: list[Diagnostic] = []
     view = config.view
 
-    specs = view.columns or [Column(id="main", root=ROOT_ID)]
+    specs = view.columns or _default_columns(tree)
     for index, spec in enumerate(specs):
         _add_column(spec, ("view", "columns", index), tree, plan, out)
 

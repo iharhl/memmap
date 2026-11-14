@@ -1,0 +1,30 @@
+<svg height="299.02" viewBox="0 0 748.29 299.02" width="748.29" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="299.02" width="748.29" x="0" y="0"/>
+<rect fill="none" height="251.02" stroke="#000000" stroke-width="1" width="728.29" x="10" y="38"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13.2" font-weight="bold" text-anchor="middle" x="374.15" y="23.2">zephyr.dts flash layout</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="262.52">0x1000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="213.56">0x1001 4000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="153.73">0x1010 A000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="93.9">0x101F FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="173.57" y="71.2">flash</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="173.57" y="84.4">2 MB of 2 MB (100%)</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="560.29" y="162.9">0x0000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="560.29" y="93.9">0x007F FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="643.29" y="71.2">w25q64jvssiq</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="643.29" y="84.4">8 MB of 8 MB (100%)</text>
+<rect fill="#ffffff" height="48.97" stroke="#000000" stroke-width="1" width="150" x="98.57" y="210.06"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="231.79">mcuboot</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="244.99">80 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="256.57" y="237.81">MCUboot</text>
+<rect fill="#ffffff" height="59.83" stroke="#000000" stroke-width="1" width="150" x="98.57" y="150.23"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="177.39">image-0</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="190.59">984 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="256.57" y="183.41">MCUboot primary slot, code partition</text>
+<rect fill="#ffffff" height="59.83" stroke="#000000" stroke-width="1" width="150" x="98.57" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="117.56">image-1</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="130.76">984 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="256.57" y="123.59">MCUboot secondary slot</text>
+<rect fill="#ffffff" height="69" stroke="#000000" stroke-width="1" width="150" x="568.29" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="643.29" y="122.15">storage</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="643.29" y="135.35">8 MB</text>
+</svg>

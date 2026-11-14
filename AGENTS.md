@@ -69,11 +69,32 @@ positions in the flash chip, drawn from 0, not CPU addresses. The column also ho
 bootloader, the partition table and `Free` blocks; the header comments say where each setting
 came from. https://github.com/iharhl/memmap/blob/main/docs/from-partitions.md has the details.
 
+## Typical task: map a Zephyr or nRF Connect SDK flash layout
+1. Find the build's layout. Zephyr: `build/zephyr/zephyr.dts`, the merged devicetree
+   (`build/<app>/zephyr/zephyr.dts` under sysbuild), not a board `.dts` or overlay. nRF Connect
+   SDK with the Partition Manager: `build/partitions.yml`, or the project's `pm_static.yml`.
+2. `memmap from-partitions build/zephyr/zephyr.dts -o layout.yaml --json --strict`. It needs no
+   options, and the ESP-IDF ones are refused.
+3. Fix W114 (a partition left out: it partly overlaps another or lies outside its flash) by
+   correcting the partition in the overlay or pm_static.yml. W100 marks a partition edge
+   inside an erase block.
+4. Continue from step 4 of the first task.
+
+Each flash with `fixed-partitions`, or each Partition Manager region, is a region and column.
+A flash on a SPI or QSPI bus, and Partition Manager's `external_flash`, has no CPU address: it
+gets a `space` of its own and is drawn from 0. A partition inside another, a Zephyr
+`fixed-subpartitions` node or a Partition Manager container (`span`), is drawn inside it and
+zoomed into. Notes give MCUboot's slots, scratch and image header.
+https://github.com/iharhl/memmap/blob/main/docs/from-partitions.md has the details.
+
 ## Rules
 - Never guess keys; run `memmap schema` when unsure.
 - Ranges are inclusive: end = start + size - 1.
 - Prefer `size` over `end`, and sequential placement over explicit `start`.
 - Display tweaks go in `view`, never by changing `memory`.
+- One address space per drawing, except top-level regions with a `space`: memory the CPU does
+  not map, such as an external flash from 0. They may overlap the others, and a `/` column
+  leaves them out (E020 when no region is left). Without `view.columns`, each gets a column.
 - The look is fixed on purpose: font family, address format, outlines and label side have no
   keys. Connectors only choose solid or dashed lines (`style.connectors`).
 - Use `--strict` on `check` and `render` to fail on warnings. Without it they exit 0 with
@@ -97,6 +118,7 @@ came from. https://github.com/iharhl/memmap/blob/main/docs/from-partitions.md ha
 - Label one edge:        view.overrides: [{ region: ahb1, top_label: end }]
 - Block height:          view.overrides: [{ region: boot, height: 48 }]
 - Multi-line note:       note: "line one\nline two" (long notes also wrap)
+- External flash at 0:   space: qspi on its top-level region, then a column with root: qspi
 
 Quote `--set` values that contain `[` or `{`, since shells expand them.
 
@@ -149,7 +171,7 @@ Every diagnostic has a stable code, a YAML path, a line and usually a `hint`. In
 | E013 | More than one `auto` size, or nothing left for `auto` |
 | E014 | Gap inside a region with `fill_gaps: error` |
 | E015 | Too many flash sectors |
-| E020 | Column root, expansion or override target does not exist |
+| E020 | Column root, expansion or override target does not exist, or a `/` column with only `space` regions |
 | E021 | Expansion `to` column has a different root than `region` |
 | E022 | Expanded region is not drawn in the `from` column |
 | E023 | Duplicate column id |
@@ -167,6 +189,7 @@ Every diagnostic has a stable code, a YAML path, a line and usually a `hint`. In
 | W111 | `from-elf`: section overlaps another one, left out |
 | W112 | `from-elf`: map region left out (no size, past the address space, overlap, too small) |
 | W113 | `from-partitions`: the CSV breaks a rule of ESP-IDF's partition table check |
+| W114 | `from-partitions`: a Zephyr or Partition Manager partition left out (partial overlap, outside its flash) |
 | E090 | Usage or IO failure, such as a missing file or bad `--set` (`--json` only) |
 | E091 | Render or internal failure, such as missing cairo (`--json` only) |
 
@@ -182,7 +205,8 @@ Exit codes: `0` ok, `1` validation errors, `2` usage or IO error, `3` render err
   tests/test_linker.py`. docs/from-elf.md describes them and how to add an image or a
   map.
 - After an intended change to `from-partitions` or the drawing, regenerate its goldens:
-  `MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_from_partitions.py`. docs/from-partitions.md
-  describes the real ESP-IDF builds they come from.
+  `MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_from_partitions.py tests/test_from_zephyr.py`.
+  docs/from-partitions.md describes the real ESP-IDF, Zephyr and nRF Connect SDK builds they
+  come from.
 - A new diagnostic code or recipe goes in this file too. `memmap guide` ships it to users, and
   `tests/test_cli.py` covers the recipes.
