@@ -1,14 +1,16 @@
 # memmap
 
 Draw datasheet-style memory maps of MCU memory. You describe the layout in a YAML file, or
-have `memmap` write that file from a linked firmware image. Either way you get the same config,
-which `memmap` checks and renders to SVG, PNG or PDF.
+have `memmap` write that file from a linked firmware image or an ESP-IDF partition table. Either
+way you get the same config, which `memmap` checks and renders to SVG, PNG or PDF.
 
 - **Write it by hand.** One YAML file holds the memory (`memory`) and how to draw it (`view`),
   kept separate. Start from one of the [examples](#examples).
 - **Generate it from firmware.** `from-elf` reads a linked ELF and the linker's map file (GNU ld,
   Keil armlink or IAR), and places every section at its real address and size in the chip's flash
   and RAM regions.
+- **Generate it from a partition table.** `from-partitions` reads an ESP-IDF partition table, CSV
+  or binary, and places every partition where the ESP-IDF build would.
 - **Check before drawing.** Validation catches overlaps, overflow and flash sector misalignment,
   with the YAML path, line and a hint for each.
 - **Verify as text.** Output is deterministic, and `describe` lists everything drawn, so agents and
@@ -45,7 +47,7 @@ export DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib
 
 ## Quick start
 
-Choose a starting point. Both give you a `layout.yaml`.
+Choose a starting point. Each gives you a `layout.yaml`.
 
 **A layout you are planning.** Copy the closest example:
 
@@ -57,6 +59,12 @@ cp examples/custom_bootloader.yaml layout.yaml
 
 ```bash
 memmap from-elf build/firmware.elf -o layout.yaml --map build/firmware.map
+```
+
+**An ESP-IDF project.** Pass its partition table and its `sdkconfig`:
+
+```bash
+memmap from-partitions partitions.csv -o layout.yaml --sdkconfig sdkconfig
 ```
 
 Then check the config, see what will be drawn, and render it:
@@ -130,6 +138,24 @@ ordinary config: rename or merge blocks, add `view` options, then `render` it.
 [docs/from-elf.md](docs/from-elf.md) covers what is read from each map, what happens when it is
 not enough, and how sections become blocks.
 
+## Generating a config from an ESP-IDF partition table
+
+`from-partitions` draws the flash of an ESP-IDF project: the bootloader, the partition table,
+each partition and the free space between them. It reads the partition table CSV the project
+names in `CONFIG_PARTITION_TABLE_FILENAME`, or the `build/partition_table/partition-table.bin`
+the build writes. Partitions with a blank offset are placed as the build places them, so the
+drawing matches the binary table.
+
+The table does not record the flash size, so pass the project's `sdkconfig`, which also gives
+the partition table and bootloader offsets. Without one, give the flash size:
+
+```bash
+memmap from-partitions partitions.csv -o layout.yaml --flash-size 4M
+```
+
+A CSV that breaks a rule of ESP-IDF's own table check gets W113, with a hint.
+[docs/from-partitions.md](docs/from-partitions.md) covers what is read and drawn, and the limits.
+
 ## Commands
 
 | Command | Purpose |
@@ -138,6 +164,7 @@ not enough, and how sections become blocks.
 | `memmap check CONFIG [--json] [--strict]` | Validate only |
 | `memmap describe CONFIG [--json]` | Resolved regions, blocks, labels and option origins |
 | `memmap from-elf ELF [-o OUT] [--map FILE] [--region id=start:size[:name]] [--min-size N] [--force] [--json] [--strict]` | Write a config from a linked ELF, then check it |
+| `memmap from-partitions TABLE [-o OUT] [--sdkconfig FILE] [--flash-size SIZE] [--table-offset OFFSET] [--bootloader-offset OFFSET] [--force] [--json] [--strict]` | Write a config from an ESP-IDF partition table, then check it |
 | `memmap schema` | JSON Schema of the config |
 | `memmap guide` | Print the agent guide, for agents using an installed copy |
 
@@ -148,6 +175,7 @@ scripts and agents.
 
 - [AGENTS.md](AGENTS.md): task guide, recipes and the full diagnostic list. `memmap guide` prints it.
 - [docs/from-elf.md](docs/from-elf.md): drawing a linked firmware image, its map readers and limits.
+- [docs/from-partitions.md](docs/from-partitions.md): drawing an ESP-IDF partition table.
 - [Examples](#examples): one config per feature set, below.
 
 ## Examples
@@ -202,6 +230,13 @@ regenerate those too:
 
 ```bash
 MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_elf_snapshots.py tests/test_linker.py
+```
+
+`from-partitions` is tested on real ESP-IDF builds, where the `partition-table.bin` the build
+wrote checks how memmap places the CSV. After an intended change to it, review and regenerate:
+
+```bash
+MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_from_partitions.py
 ```
 
 [docs/from-elf.md](docs/from-elf.md#testing) explains the approach and shows the drawings.

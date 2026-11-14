@@ -1,0 +1,9 @@
+# Excerpt of https://raw.githubusercontent.com/energietransitie/needforheat-p1-reader-firmware/1798396832ab69dc3f3978e237e3f7a1dc9abbf5/sdkconfig
+# Espressif IoT Development Framework (ESP-IDF) Project Configuration
+CONFIG_IDF_TARGET="esp32"
+CONFIG_ESPTOOLPY_FLASHSIZE="2MB"
+CONFIG_PARTITION_TABLE_SINGLE_APP=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+CONFIG_PARTITION_TABLE_FILENAME="partitions_singleapp.csv"
+CONFIG_PARTITION_TABLE_OFFSET=0x18000
+CONFIG_PARTITION_TABLE_MD5=y

@@ -51,6 +51,24 @@ which keep the sections as `children` and each get a detail column. Zooms go one
 when W110 puts the regions in zooms of their own, their groups get a note instead.
 `--min-size 0` turns folding off.
 
+## Typical task: map an ESP-IDF partition table
+1. Find the table: the CSV that `CONFIG_PARTITION_TABLE_FILENAME` in the project's `sdkconfig`
+   names, or the `build/partition_table/partition-table.bin` the build writes from it.
+2. `memmap from-partitions partitions.csv -o layout.yaml --sdkconfig sdkconfig --json --strict`.
+   The table does not record the flash size, so give `--sdkconfig`, which also gives the
+   partition table and bootloader offsets. Without one, give `--flash-size 4M`,
+   `--bootloader-offset` (0x1000 on the ESP32), and `--table-offset` when
+   `CONFIG_PARTITION_TABLE_OFFSET` is not 0x8000.
+3. Fix W113 (a rule current ESP-IDF rejects, checked for a CSV only) by its hint. W100 marks a
+   partition edge inside a 4K erase sector.
+4. Continue from step 4 of the first task.
+
+Partitions are placed as ESP-IDF places them: a blank offset follows the partition above it,
+aligned to 64K for an app and 4K for the rest, starting after the partition table. Offsets are
+positions in the flash chip, drawn from 0, not CPU addresses. The column also holds the
+bootloader, the partition table and `Free` blocks; the header comments say where each setting
+came from. https://github.com/iharhl/memmap/blob/main/docs/from-partitions.md has the details.
+
 ## Rules
 - Never guess keys; run `memmap schema` when unsure.
 - Ranges are inclusive: end = start + size - 1.
@@ -83,11 +101,12 @@ when W110 puts the regions in zooms of their own, their groups get a note instea
 Quote `--set` values that contain `[` or `{`, since shells expand them.
 
 ## JSON output
-With `--json`, `check`, `render` and `from-elf` always print one object on stdout, for
-validation errors and for usage and IO failures alike: `{"ok": ..., "diagnostics": [...]}`.
-`render` adds `output` and `format` on success, `from-elf` adds `output` once it has written the
-config. `describe --json` prints the same object on failure. Only a mistake in the command line
-itself, such as an unknown flag, is reported as plain text on stderr.
+With `--json`, `check`, `render`, `from-elf` and `from-partitions` always print one object on
+stdout, for validation errors and for usage and IO failures alike:
+`{"ok": ..., "diagnostics": [...]}`. `render` adds `output` and `format` on success, and the two
+importers add `output` once they have written the config. `describe --json` prints the same
+object on failure. Only a mistake in the command line itself, such as an unknown flag, is
+reported as plain text on stderr.
 
 ## Checking the result
 `memmap describe layout.yaml --json` returns:
@@ -147,6 +166,7 @@ Every diagnostic has a stable code, a YAML path, a line and usually a `hint`. In
 | W110 | `from-elf`: section outside every memory region, placed at the top level |
 | W111 | `from-elf`: section overlaps another one, left out |
 | W112 | `from-elf`: map region left out (no size, past the address space, overlap, too small) |
+| W113 | `from-partitions`: the CSV breaks a rule of ESP-IDF's partition table check |
 | E090 | Usage or IO failure, such as a missing file or bad `--set` (`--json` only) |
 | E091 | Render or internal failure, such as missing cairo (`--json` only) |
 
@@ -161,5 +181,8 @@ Exit codes: `0` ok, `1` validation errors, `2` usage or IO error, `3` render err
   real-firmware goldens: `MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_elf_snapshots.py
   tests/test_linker.py`. docs/from-elf.md describes them and how to add an image or a
   map.
+- After an intended change to `from-partitions` or the drawing, regenerate its goldens:
+  `MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_from_partitions.py`. docs/from-partitions.md
+  describes the real ESP-IDF builds they come from.
 - A new diagnostic code or recipe goes in this file too. `memmap guide` ships it to users, and
   `tests/test_cli.py` covers the recipes.

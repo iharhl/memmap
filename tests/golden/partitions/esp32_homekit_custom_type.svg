@@ -1,0 +1,71 @@
+<svg height="754.97" viewBox="0 0 348.93 754.97" width="348.93" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="754.97" width="348.93" x="0" y="0"/>
+<rect fill="none" height="706.97" stroke="#000000" stroke-width="1" width="328.93" x="10" y="38"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13.2" font-weight="bold" text-anchor="middle" x="174.47" y="23.2">partitions.csv flash layout</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="718.47">0x0000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="682.47">0x0000 1000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="638.04">0x0000 8000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="602.04">0x0000 9000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="560.04">0x0000 D000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="519.29">0x0001 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="475.53">0x0001 6000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="436.53">0x0001 8000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="400.53">0x0001 9000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="356.11">0x0002 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="294.18">0x001B 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="232.25">0x0034 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="188.49">0x0034 6000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="152.49">0x0034 7000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="93.9">0x003F FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="173.57" y="71.2">Flash</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="173.57" y="84.4">3.2 MB of 4 MB (81%)</text>
+<rect fill="#d9d9d9" height="36" stroke="#000000" stroke-width="1" width="150" x="98.57" y="678.97"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="700.82">Reserved</text>
+<rect fill="#ffffff" height="44.42" stroke="#000000" stroke-width="1" width="150" x="98.57" y="634.54"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="654.01">Bootloader</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="667.21">28 KB</text>
+<rect fill="#ffffff" height="36" stroke="#000000" stroke-width="1" width="150" x="98.57" y="598.54"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="613.79">Partition table</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="626.99">4 KB</text>
+<rect fill="#d9d9d9" height="42" stroke="#000000" stroke-width="1" width="150" x="98.57" y="556.54"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="574.79">Free</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="587.99">16 KB</text>
+<rect fill="#ffffff" height="40.75" stroke="#000000" stroke-width="1" width="150" x="98.57" y="515.79"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="533.42">sec_cert</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="546.62">12 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="256.57" y="539.44">0x3f</text>
+<rect fill="#ffffff" height="43.75" stroke="#000000" stroke-width="1" width="150" x="98.57" y="472.03"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="491.16">nvs</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="504.36">24 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="256.57" y="497.18">data, nvs</text>
+<rect fill="#ffffff" height="39" stroke="#000000" stroke-width="1" width="150" x="98.57" y="433.03"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="449.78">otadata</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="462.98">8 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="256.57" y="455.81">data, ota</text>
+<rect fill="#ffffff" height="36" stroke="#000000" stroke-width="1" width="150" x="98.57" y="397.03"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="412.28">phy_init</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="425.48">4 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="256.57" y="418.31">data, phy</text>
+<rect fill="#d9d9d9" height="44.42" stroke="#000000" stroke-width="1" width="150" x="98.57" y="352.61"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="372.07">Free</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="385.27">28 KB</text>
+<rect fill="#ffffff" height="61.93" stroke="#000000" stroke-width="1" width="150" x="98.57" y="290.68"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="318.9">ota_0</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="332.1">1600 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="256.57" y="324.92">app, ota_0</text>
+<rect fill="#ffffff" height="61.93" stroke="#000000" stroke-width="1" width="150" x="98.57" y="228.75"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="256.96">ota_1</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="270.16">1600 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="256.57" y="262.99">app, ota_1</text>
+<rect fill="#ffffff" height="43.75" stroke="#000000" stroke-width="1" width="150" x="98.57" y="184.99"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="204.12">factory_nvs</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="217.32">24 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="256.57" y="210.14">data, nvs</text>
+<rect fill="#ffffff" height="36" stroke="#000000" stroke-width="1" width="150" x="98.57" y="148.99"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="164.24">nvs_keys</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="177.44">4 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="256.57" y="170.27">data, nvs_keys</text>
+<rect fill="#d9d9d9" height="58.59" stroke="#000000" stroke-width="1" width="150" x="98.57" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="116.95">Free</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="130.15">740 KB</text>
+</svg>

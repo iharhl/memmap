@@ -10,7 +10,7 @@ from .sizes import address_literal, approx_size, size_literal
 COLUMN_WIDTH = 150  # px, room for section names such as .ARM.exidx and the usage title
 
 
-def _quote(text: str) -> str:
+def quote(text: str) -> str:
     """A YAML double-quoted scalar. JSON strings are valid YAML."""
     return json.dumps(text, ensure_ascii=False)
 
@@ -22,16 +22,16 @@ def comment_safe(text: str) -> str:
 
 def _item_fields(item: Item, bits: int) -> list[str]:
     """The keys of one region, as `key: value` strings."""
-    fields = [f"id: {_quote(item.id)}", f"name: {_quote(item.name)}"]
+    fields = [f"id: {quote(item.id)}", f"name: {quote(item.name)}"]
     if item.free:
         fields.append("kind: reserved")
     fields += [f"start: {address_literal(item.start, bits)}", f"size: {size_literal(item.size)}"]
     if item.note:
-        fields.append(f"note: {_quote(item.note)}")
+        fields.append(f"note: {quote(item.note)}")
     return fields
 
 
-def _item_lines(item: Item, bits: int, indent: str) -> list[str]:
+def item_lines(item: Item, bits: int, indent: str) -> list[str]:
     """One region as list entry lines: a flow mapping on one line, or a block mapping with its
     children one per line."""
     fields = _item_fields(item, bits)
@@ -41,11 +41,11 @@ def _item_lines(item: Item, bits: int, indent: str) -> list[str]:
     lines += [f"{indent}  {field}" for field in fields[1:]]
     lines.append(f"{indent}  children:")
     for child in item.children:
-        lines += _item_lines(child, bits, indent + "    ")
+        lines += item_lines(child, bits, indent + "    ")
     return lines
 
 
-def _usage_title(bucket: Bucket) -> str:
+def usage_title(bucket: Bucket) -> str:
     """A column title: the region name, then how much of it the sections use."""
     memory = bucket.memory
     assert memory is not None
@@ -83,17 +83,17 @@ def _memory_lines(bits: int, buckets: list[Bucket], top: Bucket) -> list[str]:
         memory = bucket.memory
         assert memory is not None
         block = [
-            f"    - id: {_quote(memory.id)}",
-            f"      name: {_quote(memory.name)}",
+            f"    - id: {quote(memory.id)}",
+            f"      name: {quote(memory.name)}",
             f"      start: {address_literal(memory.start, bits)}",
             f"      size: {size_literal(memory.size)}",
         ]
         if bucket.items:
             block.append("      children:")
             for item in bucket.items:
-                block += _item_lines(item, bits, "        ")
+                block += item_lines(item, bits, "        ")
         entries.append((memory.start, block))
-    entries += [(item.start, _item_lines(item, bits, "    ")) for item in top.items]
+    entries += [(item.start, item_lines(item, bits, "    ")) for item in top.items]
     for _, block in sorted(entries, key=lambda entry: entry[0]):
         lines += block
     return lines
@@ -109,9 +109,9 @@ def _view_lines(buckets: list[Bucket], top: Bucket) -> list[str]:
         for bucket in drawn:
             memory = bucket.memory
             assert memory is not None
-            title = _quote(_usage_title(bucket))
+            title = quote(usage_title(bucket))
             lines.append(
-                f"    - {{ id: {_quote(memory.id + '_col')}, root: {_quote(memory.id)}, title: {title}, "
+                f"    - {{ id: {quote(memory.id + '_col')}, root: {quote(memory.id)}, title: {title}, "
                 f"width: {COLUMN_WIDTH} }}"
             )
     else:  # no regions, or sections outside them: show the whole address space
@@ -119,16 +119,16 @@ def _view_lines(buckets: list[Bucket], top: Bucket) -> list[str]:
         for bucket in drawn:
             memory = bucket.memory
             assert memory is not None
-            title = _quote(_usage_title(bucket))
-            expand.append(f"    - {{ region: {_quote(memory.id)}, title: {title} }}")
+            title = quote(usage_title(bucket))
+            expand.append(f"    - {{ region: {quote(memory.id)}, title: {title} }}")
     empty = [bucket.memory for bucket in buckets if not bucket.drawn and bucket.memory]
     if empty:
         names = ", ".join(comment_safe(memory.name) for memory in empty)
         lines.append(f"    # No section lies in {names}. To draw one, add a column with its id as root.")
     for region, title in _expansions(buckets, top):  # a column of its own, for its width
-        root, column = _quote(region), _quote(f"{region}_col")
+        root, column = quote(region), quote(f"{region}_col")
         lines.append(f"    - {{ id: {column}, root: {root}, width: {COLUMN_WIDTH} }}")
-        expand.append(f"    - {{ region: {root}, to: {column}, title: {_quote(title)} }}")
+        expand.append(f"    - {{ region: {root}, to: {column}, title: {quote(title)} }}")
     if expand:
         lines += ["  expand:", *expand]
     return lines
@@ -154,7 +154,7 @@ def write_yaml(
         "version: 1",
         "",
         "figure:",
-        f"  title: {_quote(f'{source} memory map')}",
+        f"  title: {quote(f'{source} memory map')}",
         "",
         *_memory_lines(bits, buckets, top),
         "",

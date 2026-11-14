@@ -1,0 +1,9 @@
+# Excerpt of https://raw.githubusercontent.com/UsefulElectronics/esp32-homekit-lightbulb/2e78c6427890729625384b0307f206dd09ec6f85/sdkconfig
+# Espressif IoT Development Framework (ESP-IDF) Project Configuration
+CONFIG_IDF_TARGET="esp32"
+CONFIG_ESPTOOLPY_FLASHSIZE="4MB"
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions_hap.csv"
+CONFIG_PARTITION_TABLE_FILENAME="partitions_hap.csv"
+CONFIG_PARTITION_TABLE_OFFSET=0x8000
+CONFIG_PARTITION_TABLE_MD5=y
