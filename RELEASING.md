@@ -24,7 +24,7 @@ git switch main && git pull
 ```
 
 ```bash
-git switch -c release-prep/v0.2.0
+git switch -c release-prep/v0.3.0
 ```
 
 ```bash
@@ -52,11 +52,11 @@ git switch main && git pull
 ```
 
 ```bash
-gh release create v0.2.0 --target main --generate-notes
+gh release create v0.3.0 --target main --generate-notes
 ```
 
 Or on GitHub, under Releases, choose "Draft a new release":
-- Tag: type `v0.2.0` and pick "Create new tag on publish".
+- Tag: type `v0.3.0` and pick "Create new tag on publish".
 - Target: `main`.
 - "Generate release notes" lists the pull requests merged since the last release.
 - "Publish release".
@@ -69,7 +69,7 @@ release does not start the workflow until it is published. A pre-release does.
 
 1. Fails if the tag without its `v` differs from the version in `pyproject.toml`.
 2. Runs `pytest`.
-3. Builds `memmap-0.2.0-py3-none-any.whl` and `memmap-0.2.0.tar.gz`.
+3. Builds `memmap-0.3.0-py3-none-any.whl` and `memmap-0.3.0.tar.gz`.
 4. Installs the wheel in a clean venv and runs `memmap guide` and `memmap check` from it.
 5. Uploads both files to the release's Assets.
 
@@ -78,14 +78,14 @@ It takes about a minute. Follow it in the Actions tab.
 ## 4. Install a release
 
 ```bash
-pipx install https://github.com/iharhl/memmap/releases/download/v0.2.0/memmap-0.2.0-py3-none-any.whl
+pipx install https://github.com/iharhl/memmap/releases/download/v0.3.0/memmap-0.3.0-py3-none-any.whl
 ```
 
 `pip install` with the same URL works too. For PNG and PDF output, which also needs the system
 cairo library, name the `raster` extra:
 
 ```bash
-pipx install "memmap[raster] @ https://github.com/iharhl/memmap/releases/download/v0.2.0/memmap-0.2.0-py3-none-any.whl"
+pipx install "memmap[raster] @ https://github.com/iharhl/memmap/releases/download/v0.3.0/memmap-0.3.0-py3-none-any.whl"
 ```
 
 ## When something fails
@@ -94,7 +94,7 @@ pipx install "memmap[raster] @ https://github.com/iharhl/memmap/releases/downloa
   Delete the release and its tag, merge the bump, and publish again.
 
   ```bash
-  gh release delete v0.2.0 --cleanup-tag
+  gh release delete v0.3.0 --cleanup-tag
   ```
 
 - **A later step fails**: the release stays published without assets. Fix the cause and choose
