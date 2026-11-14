@@ -27,13 +27,13 @@ Each [GitHub release](https://github.com/iharhl/memmap/releases) has a wheel att
 one with Python 3.10 or newer, without uv or a checkout:
 
 ```bash
-pipx install https://github.com/iharhl/memmap/releases/download/v0.2.0/memmap-0.2.0-py3-none-any.whl
+pipx install https://github.com/iharhl/memmap/releases/download/v0.3.0/memmap-0.3.0-py3-none-any.whl
 ```
 
 PNG and PDF output needs the `raster` extra and the system cairo library. SVG always works.
 
 ```bash
-pipx install "memmap[raster] @ https://github.com/iharhl/memmap/releases/download/v0.2.0/memmap-0.2.0-py3-none-any.whl"
+pipx install "memmap[raster] @ https://github.com/iharhl/memmap/releases/download/v0.3.0/memmap-0.3.0-py3-none-any.whl"
 ```
 
 To work from a checkout instead, run `uv sync` (or `uv sync --extra raster`), and put `uv run` in
@@ -66,6 +66,13 @@ memmap from-elf build/firmware.elf -o layout.yaml --map build/firmware.map
 
 ```bash
 memmap from-partitions partitions.csv -o layout.yaml --sdkconfig sdkconfig
+```
+
+**A Zephyr or nRF Connect SDK build.** Pass the merged devicetree, or the Partition Manager's
+`partitions.yml`:
+
+```bash
+memmap from-partitions build/zephyr/zephyr.dts -o layout.yaml
 ```
 
 Then check the config, see what will be drawn, and render it:
@@ -254,11 +261,13 @@ regenerate those too:
 MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_elf_snapshots.py tests/test_linker.py
 ```
 
-`from-partitions` is tested on real ESP-IDF builds, where the `partition-table.bin` the build
-wrote checks how memmap places the CSV. After an intended change to it, review and regenerate:
+`from-partitions` is tested on real ESP-IDF, Zephyr and nRF Connect SDK builds. The
+`partition-table.bin` an ESP-IDF build wrote checks how memmap places the CSV, and the header a
+Zephyr or Partition Manager build generated checks the addresses read. After an intended change
+to it, review and regenerate:
 
 ```bash
-MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_from_partitions.py
+MEMMAP_UPDATE_GOLDEN=1 uv run pytest tests/test_from_partitions.py tests/test_from_zephyr.py
 ```
 
 [docs/from-elf.md](docs/from-elf.md#testing) explains the approach and shows the drawings.
