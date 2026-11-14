@@ -1,0 +1,12 @@
+/* Excerpt of https://raw.githubusercontent.com/Caleb-Balboni/frdm_mcxn947_hn-testing/79df8da6b6d43b65ce6100da07385004d97c58e2/i3c-test/build/zephyr/include/generated/zephyr/devicetree_generated.h */
+#define DT_N_S_soc_S_peripheral_50000000_S_flash_controller_43000_S_flash_0_REG_IDX_0_VAL_ADDRESS 268435456 /* 0x10000000 */
+#define DT_N_S_soc_S_peripheral_50000000_S_flash_controller_43000_S_flash_0_REG_IDX_0_VAL_SIZE 2097152 /* 0x200000 */
+#define DT_N_S_soc_S_peripheral_50000000_S_flash_controller_43000_S_flash_0_S_partitions_S_partition_0_REG_IDX_0_VAL_ADDRESS 0 /* 0x0 */
+#define DT_N_S_soc_S_peripheral_50000000_S_flash_controller_43000_S_flash_0_S_partitions_S_partition_0_REG_IDX_0_VAL_SIZE 81920 /* 0x14000 */
+#define DT_N_S_soc_S_peripheral_50000000_S_flash_controller_43000_S_flash_0_S_partitions_S_partition_14000_REG_IDX_0_VAL_ADDRESS 81920 /* 0x14000 */
+#define DT_N_S_soc_S_peripheral_50000000_S_flash_controller_43000_S_flash_0_S_partitions_S_partition_14000_REG_IDX_0_VAL_SIZE 1007616 /* 0xf6000 */
+#define DT_N_S_soc_S_peripheral_50000000_S_flash_controller_43000_S_flash_0_S_partitions_S_partition_10a000_REG_IDX_0_VAL_ADDRESS 1089536 /* 0x10a000 */
+#define DT_N_S_soc_S_peripheral_50000000_S_flash_controller_43000_S_flash_0_S_partitions_S_partition_10a000_REG_IDX_0_VAL_SIZE 1007616 /* 0xf6000 */
+#define DT_N_S_soc_S_spi_500c8000_S_w25q64jvssiq_0_REG_IDX_0_VAL_ADDRESS 0 /* 0x0 */
+#define DT_N_S_soc_S_spi_500c8000_S_w25q64jvssiq_0_S_partitions_S_partition_0_REG_IDX_0_VAL_ADDRESS 0 /* 0x0 */
+#define DT_N_S_soc_S_spi_500c8000_S_w25q64jvssiq_0_S_partitions_S_partition_0_REG_IDX_0_VAL_SIZE 8388608 /* 0x800000 */

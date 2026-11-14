@@ -40,7 +40,7 @@ def _check_overlap(node: Node, tree: Tree, out: list[Diagnostic]) -> None:
         if child.generated:
             continue
         for other in seen:
-            if child.start > other.end or other.start > child.end:
+            if child.start > other.end or other.start > child.end or child.space != other.space:
                 continue
             first, second = sorted((other, child), key=lambda n: n.path)
             if second.explicit_start:

@@ -1,0 +1,68 @@
+{
+  "builds": [
+    {
+      "name": "nrf5340_subpartitions",
+      "about": "nRF5340: slot 0 split into secure and non-secure fixed-subpartitions by ranges",
+      "files": {
+        "zephyr.dts": {
+          "url": "https://raw.githubusercontent.com/CookieChemist/Ryhma9-tietoliikenteen_sovellusprojekti/0052294f54ecac0061b199aa7fa35f950a0ab824/createCM/build/TL_Project_Week6/zephyr/zephyr.dts",
+          "sha256": "6c3351e44ed7520016772e8c7c8f67cf497738fe775ddc45f5ec4d3bfee90740"
+        },
+        "devicetree_generated.h": {
+          "url": "https://raw.githubusercontent.com/CookieChemist/Ryhma9-tietoliikenteen_sovellusprojekti/0052294f54ecac0061b199aa7fa35f950a0ab824/createCM/build/TL_Project_Week6/zephyr/include/generated/zephyr/devicetree_generated.h",
+          "sha256": "d00ce4b9cee651bfad3e14b84d43726b7d150509401215f4b5bcb54cc99ea69b"
+        }
+      }
+    },
+    {
+      "name": "mcxn947_flexspi",
+      "about": "NXP MCX N947: flash at 0x10000000 through two ranges, FlexSPI NOR on a bus",
+      "files": {
+        "zephyr.dts": {
+          "url": "https://raw.githubusercontent.com/Caleb-Balboni/frdm_mcxn947_hn-testing/79df8da6b6d43b65ce6100da07385004d97c58e2/i3c-test/build/zephyr/zephyr.dts",
+          "sha256": "3883b6c4cb7664e9d61e26c6ebb00465915bec9d989f5fca5aa8efadc7b612ad"
+        },
+        "devicetree_generated.h": {
+          "url": "https://raw.githubusercontent.com/Caleb-Balboni/frdm_mcxn947_hn-testing/79df8da6b6d43b65ce6100da07385004d97c58e2/i3c-test/build/zephyr/include/generated/zephyr/devicetree_generated.h",
+          "sha256": "2f9c83ac669296b1404cf04fbf390cbc7bb67e8bb40b13c87b7f01a3ea82e6d3"
+        }
+      }
+    },
+    {
+      "name": "stm32_mcuboot_scratch",
+      "about": "STM32 at 0x08000000: MCUboot slots and scratch, QSPI NOR with its size in bits",
+      "files": {
+        "zephyr.dts": {
+          "url": "https://raw.githubusercontent.com/castrorazo/KOHLER-SIngleRelay-Testing/cb785a82804f1381cd9e5f6a46bf57b1eda92ecf/tests/app/build/zephyr/zephyr.dts",
+          "sha256": "1e820755f4c9eef91bb5076d76237e3063e9b47bf56a9c78352098234b87c802"
+        },
+        "devicetree_generated.h": {
+          "url": "https://raw.githubusercontent.com/castrorazo/KOHLER-SIngleRelay-Testing/cb785a82804f1381cd9e5f6a46bf57b1eda92ecf/tests/app/build/zephyr/include/generated/devicetree_generated.h",
+          "sha256": "bce188163707e0cf1a01237e04cbddb38a5513b3d0223c594c63427a7df89434"
+        }
+      }
+    },
+    {
+      "name": "nrf5340_tfm_pm",
+      "about": "nRF Connect SDK 2.5, nRF5340 with TF-M: nested containers, external flash, OTP",
+      "files": {
+        "partitions.yml": {
+          "url": "https://raw.githubusercontent.com/manu897/Project-Carl/7e80b563b48d63d939d8e879ff309dc88697572e/build/partitions.yml",
+          "sha256": "7635b1f5649f9cd3e0dbe106d7e5236a1236cb30e319065de4689969f3b0113c"
+        },
+        "pm_config.h": {
+          "url": "https://raw.githubusercontent.com/manu897/Project-Carl/7e80b563b48d63d939d8e879ff309dc88697572e/build/zephyr/include/generated/pm_config.h",
+          "sha256": "7e268b96d105b0cde0ca5f3e23e0b62e37dcd8027bbe7adedfbadc3e547749eb"
+        }
+      }
+    }
+  ],
+  "tables": [
+    {
+      "name": "pm_static_stale_app.yml",
+      "about": "pm_static.yml whose app entry overlaps MCUboot: the build places app (W114)",
+      "url": "https://raw.githubusercontent.com/Anvayt24/omi/cf54e09856c0073c0adc7209b2e18e2ef756ed64/omi/firmware/boards/omi/pm_static.yml",
+      "sha256": "103f2a92e20c1ee178d8d1c4429d5411f5118d16a717fc437963ecdf57e9432f"
+    }
+  ]
+}

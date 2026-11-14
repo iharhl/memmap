@@ -32,6 +32,7 @@ class Node:
     generated: bool = False
     has_name: bool = False
     explicit_start: bool = False
+    space: str | None = None  # the address space of a top-level region, inherited below it
 
     @property
     def size(self) -> int:
@@ -98,8 +99,35 @@ class _Resolver:
         self.diagnostics.append(Diagnostic(code, message, path, hint, subject))
 
     def place(self, specs: list[Region], parent: Node) -> None:
-        """Place the children of `parent`, then recurse. Regions in error are left out."""
+        """Place the children of `parent`, then recurse. Regions in error are left out. Top-level
+        regions are placed one address space at a time, so each space has its own sequence."""
         paths = [parent_child_path(parent, i) for i in range(len(specs))]
+        spans: dict[int, tuple[int, int]] = {}
+        groups: dict[str | None, list[int]] = {}
+        for i, spec in enumerate(specs):
+            if spec.space is not None and parent.id != ROOT_ID:
+                self.report(
+                    "E004",
+                    "`space` applies to top-level regions only",
+                    paths[i] + ("space",),
+                    "remove it: a child is in the address space of its top-level region",
+                    spec.id,
+                )
+            groups.setdefault(spec.space if parent.id == ROOT_ID else None, []).append(i)
+        for indices in groups.values():
+            found = self.spans([specs[i] for i in indices], [paths[i] for i in indices], parent)
+            spans.update({indices[i]: span for i, span in found.items()})
+
+        for i, spec in enumerate(specs):
+            self.add_id(spec, paths[i])
+            if i not in spans:
+                continue
+            node = self.make_node(spec, spans[i], parent, paths[i])
+            parent.children.append(node)
+            self.place(spec.children, node)
+
+    def spans(self, specs: list[Region], paths: list[Path], parent: Node) -> dict[int, tuple[int, int]]:
+        """The ranges of sibling regions in one address space, by index in `specs`."""
         spans: dict[int, tuple[int, int]] = {}
 
         autos = [i for i, spec in enumerate(specs) if spec.size == "auto"]
@@ -199,14 +227,7 @@ class _Resolver:
                 continue
             spans[i] = (start, end)
             cursor = end + 1
-
-        for i, spec in enumerate(specs):
-            self.add_id(spec, paths[i])
-            if i not in spans:
-                continue
-            node = self.make_node(spec, spans[i], parent, paths[i])
-            parent.children.append(node)
-            self.place(spec.children, node)
+        return spans
 
     def auto_limit(self, specs: list[Region], index: int, default: int) -> int:
         """The address an auto region must stop before: next explicit start or the top, less
@@ -266,6 +287,7 @@ class _Resolver:
             parent=parent,
             has_name=spec.name is not None,
             explicit_start=spec.start is not None,
+            space=spec.space if parent.id == ROOT_ID else parent.space,
         )
         self.index.setdefault(spec.id, node)
         return node
@@ -274,19 +296,22 @@ class _Resolver:
         """Sort the children of `node` and below, handling their gaps as `fill_gaps` says."""
         for child in node.children:
             self.fill(child)
-        node.children.sort(key=lambda child: (child.start, child.end))
+        node.children.sort(key=space_order)
         if not node.children:
             return
         mode = "reserved" if node.id == ROOT_ID and self.fill_mode == "error" else self.fill_mode
-        spans = []
-        cursor = node.start
-        for child in node.children:
-            if child.start > cursor:
-                spans.append((cursor, child.start - 1))
-            cursor = max(cursor, child.end + 1)
-        if cursor <= node.end:
-            spans.append((cursor, node.end))
-        for start, end in spans:
+        spans: list[tuple[int, int, str | None]] = []
+        for space in dict.fromkeys(child.space for child in node.children):
+            cursor = node.start
+            for child in node.children:
+                if child.space != space:
+                    continue
+                if child.start > cursor:
+                    spans.append((cursor, child.start - 1, space))
+                cursor = max(cursor, child.end + 1)
+            if cursor <= node.end:
+                spans.append((cursor, node.end, space))
+        for start, end, space in spans:
             text = f"gap {self.hex(start)} - {self.hex(end)} in {node.id}"
             if mode == "error":
                 self.report(
@@ -310,14 +335,21 @@ class _Resolver:
                     kind="reserved",
                     parent=node,
                     generated=True,
+                    space=space,
                 )
                 node.children.append(gap)
                 self.index[gap.id] = gap
-        node.children.sort(key=lambda child: (child.start, child.end))
+        node.children.sort(key=space_order)
 
     def hex(self, value: int) -> str:
         """`value` in the diagnostic address style."""
         return diagnostic_address(value, self.bits)
+
+
+def space_order(node: Node) -> tuple[bool, str, int, int]:
+    """Sort key for siblings: the default address space first, then each space by name, in
+    address order within each."""
+    return (node.space is not None, node.space or "", node.start, node.end)
 
 
 def parent_child_path(parent: Node, index: int) -> Path:

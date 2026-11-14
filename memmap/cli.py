@@ -396,7 +396,8 @@ def _table_settings(
 
 @app.command(
     name="from-partitions",
-    epilog="\b\nExample:\n  memmap from-partitions partitions.csv -o layout.yaml --sdkconfig sdkconfig",
+    epilog="\b\nExamples:\n  memmap from-partitions partitions.csv -o layout.yaml --sdkconfig sdkconfig\n"
+    "  memmap from-partitions build/zephyr/zephyr.dts -o layout.yaml",
 )
 @click.argument("table", type=click.Path(path_type=Path))
 @click.option(
@@ -405,19 +406,21 @@ def _table_settings(
 @click.option(
     "--sdkconfig",
     type=click.Path(path_type=Path),
-    help="The project's sdkconfig: gives the flash size, the partition table offset and the "
-    "bootloader offset.",
+    help="ESP-IDF: the project's sdkconfig, which gives the flash size, the partition table "
+    "offset and the bootloader offset.",
 )
-@click.option("--flash-size", metavar="SIZE", help="Flash size, such as 4M. Overrides --sdkconfig.")
+@click.option(
+    "--flash-size", metavar="SIZE", help="ESP-IDF: flash size, such as 4M. Overrides --sdkconfig."
+)
 @click.option(
     "--table-offset",
     metavar="OFFSET",
-    help="Offset of the partition table. Default: from --sdkconfig, else 0x8000.",
+    help="ESP-IDF: offset of the partition table. Default: from --sdkconfig, else 0x8000.",
 )
 @click.option(
     "--bootloader-offset",
     metavar="OFFSET",
-    help="Where the ROM loads the bootloader from: 0x1000 on the ESP32 and ESP32-S2, 0x2000 on "
+    help="ESP-IDF: where the ROM loads the bootloader from: 0x1000 on the ESP32 and ESP32-S2, 0x2000 on "
     "the ESP32-C5 and ESP32-P4, else 0. Default: from --sdkconfig.",
 )
 @click.option("--force", is_flag=True, help="Overwrite the output if it exists.")
@@ -434,11 +437,19 @@ def from_partitions(
     as_json: bool,
     strict: bool,
 ) -> None:
-    """Write a config from an ESP-IDF partition table.
+    """Write a config from a flash partition layout.
 
-    TABLE is the partition table: the CSV the project names in CONFIG_PARTITION_TABLE_FILENAME,
-    or the partition-table.bin the build writes. The table does not say how big the flash is,
-    so give --sdkconfig or --flash-size. The written config is then checked like `memmap check`.
+    TABLE is one of, told apart by its content:
+
+    \b
+    - an ESP-IDF partition table: the CSV the project names in
+      CONFIG_PARTITION_TABLE_FILENAME, or the partition-table.bin the build writes. It does
+      not say how big the flash is, so give --sdkconfig or --flash-size.
+    - a Zephyr build's merged devicetree, build/zephyr/zephyr.dts.
+    - an nRF Connect SDK Partition Manager file: build/partitions.yml or a pm_static.yml.
+
+    The options are for ESP-IDF tables only. The written config is then checked like
+    `memmap check`.
     """
     try:
         target = output or table.with_suffix(".yaml")

@@ -1,7 +1,7 @@
 # memmap
 
 Draw datasheet-style memory maps of MCU memory. You describe the layout in a YAML file, or
-have `memmap` write that file from a linked firmware image or an ESP-IDF partition table. Either
+have `memmap` write that file from a linked firmware image or a flash partition layout. Either
 way you get the same config, which `memmap` checks and renders to SVG, PNG or PDF.
 
 - **Write it by hand.** One YAML file holds the memory (`memory`) and how to draw it (`view`),
@@ -10,7 +10,8 @@ way you get the same config, which `memmap` checks and renders to SVG, PNG or PD
   Keil armlink or IAR), and places every section at its real address and size in the chip's flash
   and RAM regions.
 - **Generate it from a partition table.** `from-partitions` reads an ESP-IDF partition table, CSV
-  or binary, and places every partition where the ESP-IDF build would.
+  or binary, and places every partition where the ESP-IDF build would. It also reads a Zephyr
+  build's devicetree and an nRF Connect SDK Partition Manager layout, with MCUboot's slots marked.
 - **Check before drawing.** Validation catches overlaps, overflow and flash sector misalignment,
   with the YAML path, line and a hint for each.
 - **Verify as text.** Output is deterministic, and `describe` lists everything drawn, so agents and
@@ -111,6 +112,11 @@ Children without a `start` are placed one after another, and `auto` takes what i
 take an optional `title`, drawn above them. For a detail column created by `view.expand`, set it
 on the expansion: `expand: [{ region: flash, title: Flash }]`.
 
+A config draws one address space. Memory the CPU does not map, such as an external SPI flash
+whose offsets start at 0, goes in a top-level region with a `space`, so it may overlap the
+others: `{ id: qspi, space: qspi, start: 0, size: 8M }`. A `/` column leaves such regions out,
+so draw them in a column with their id as `root`. A config without `view.columns` gets one.
+
 `memmap schema` prints every key with a description and an example. Point your editor's YAML
 extension at it for completion. [AGENTS.md](AGENTS.md) has recipes for common tweaks.
 
@@ -138,12 +144,16 @@ ordinary config: rename or merge blocks, add `view` options, then `render` it.
 [docs/from-elf.md](docs/from-elf.md) covers what is read from each map, what happens when it is
 not enough, and how sections become blocks.
 
-## Generating a config from an ESP-IDF partition table
+## Generating a config from a partition layout
 
-`from-partitions` draws the flash of an ESP-IDF project: the bootloader, the partition table,
-each partition and the free space between them. It reads the partition table CSV the project
-names in `CONFIG_PARTITION_TABLE_FILENAME`, or the `build/partition_table/partition-table.bin`
-the build writes. Partitions with a blank offset are placed as the build places them, so the
+`from-partitions` draws a flash partition layout. It reads an ESP-IDF partition table, a Zephyr
+build's merged devicetree or an nRF Connect SDK Partition Manager file, and tells them apart by
+their content.
+
+For an ESP-IDF project, it draws the bootloader, the partition table, each partition and the
+free space between them. It reads the partition table CSV the project names in
+`CONFIG_PARTITION_TABLE_FILENAME`, or the `build/partition_table/partition-table.bin` the build
+writes. Partitions with a blank offset are placed as the build places them, so the
 drawing matches the binary table.
 
 The table does not record the flash size, so pass the project's `sdkconfig`, which also gives
@@ -154,6 +164,17 @@ memmap from-partitions partitions.csv -o layout.yaml --flash-size 4M
 ```
 
 A CSV that breaks a rule of ESP-IDF's own table check gets W113, with a hint.
+
+For Zephyr, pass `build/zephyr/zephyr.dts`, the devicetree the build merged. Each flash with
+`fixed-partitions` gets a column, with MCUboot's slots marked. An external SPI or QSPI flash is
+drawn from 0, in an address space of its own. For the nRF Connect SDK, pass
+`build/partitions.yml` or a `pm_static.yml`: each region gets a column, and containers such as
+`mcuboot_primary` are zoomed into. Neither needs options:
+
+```bash
+memmap from-partitions build/zephyr/zephyr.dts -o layout.yaml
+```
+
 [docs/from-partitions.md](docs/from-partitions.md) covers what is read and drawn, and the limits.
 
 ## Commands
@@ -164,7 +185,7 @@ A CSV that breaks a rule of ESP-IDF's own table check gets W113, with a hint.
 | `memmap check CONFIG [--json] [--strict]` | Validate only |
 | `memmap describe CONFIG [--json]` | Resolved regions, blocks, labels and option origins |
 | `memmap from-elf ELF [-o OUT] [--map FILE] [--region id=start:size[:name]] [--min-size N] [--force] [--json] [--strict]` | Write a config from a linked ELF, then check it |
-| `memmap from-partitions TABLE [-o OUT] [--sdkconfig FILE] [--flash-size SIZE] [--table-offset OFFSET] [--bootloader-offset OFFSET] [--force] [--json] [--strict]` | Write a config from an ESP-IDF partition table, then check it |
+| `memmap from-partitions TABLE [-o OUT] [--sdkconfig FILE] [--flash-size SIZE] [--table-offset OFFSET] [--bootloader-offset OFFSET] [--force] [--json] [--strict]` | Write a config from an ESP-IDF, Zephyr or Partition Manager partition layout, then check it |
 | `memmap schema` | JSON Schema of the config |
 | `memmap guide` | Print the agent guide, for agents using an installed copy |
 
@@ -175,7 +196,8 @@ scripts and agents.
 
 - [AGENTS.md](AGENTS.md): task guide, recipes and the full diagnostic list. `memmap guide` prints it.
 - [docs/from-elf.md](docs/from-elf.md): drawing a linked firmware image, its map readers and limits.
-- [docs/from-partitions.md](docs/from-partitions.md): drawing an ESP-IDF partition table.
+- [docs/from-partitions.md](docs/from-partitions.md): drawing an ESP-IDF, Zephyr or Partition
+  Manager partition layout.
 - [Examples](#examples): one config per feature set, below.
 
 ## Examples

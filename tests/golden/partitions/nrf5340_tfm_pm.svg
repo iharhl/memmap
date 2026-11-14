@@ -1,0 +1,133 @@
+<svg height="312.17" viewBox="0 0 3552.24 312.17" width="3552.24" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="312.17" width="3552.24" x="0" y="0"/>
+<rect fill="none" height="264.17" stroke="#000000" stroke-width="1" width="3532.24" x="10" y="38"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13.2" font-weight="bold" text-anchor="middle" x="1776.12" y="23.2">partitions.yml memory layout</text>
+<polyline fill="none" points="248.57,138.4 585.47,115.16" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="248.57,197.82 585.47,221.06" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="735.47,115.16 1005.31,96.48" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="735.47,183.69 1005.31,202.37" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="2063.61,90.4 2223.61,90.4" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="2063.61,152.13 2223.61,194.42" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="2373.61,90.4 2615.39,90.4" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="2373.61,148.37 2615.39,194.42" stroke="#000000" stroke-width="1"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="249.32">0x0000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="201.32">0x0001 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="141.9">0x000F 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="90.57" y="93.9">0x000F FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="173.57" y="71.2">Flash</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="173.57" y="84.4">1 MB of 1 MB (100%)</text>
+<rect fill="#ffffff" height="10" width="61.82" x="517.65" y="222.56"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="577.47" y="231.06">0x0001 0000</text>
+<rect fill="#ffffff" height="10" width="61.82" x="517.65" y="178.69"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="577.47" y="187.19">0x0001 0200</text>
+<rect fill="#ffffff" height="10" width="65.13" x="514.34" y="103.66"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="577.47" y="112.16">0x000E FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="660.47" y="109.16">mcuboot_primary in Flash</text>
+<rect fill="#ffffff" height="10" width="61.82" x="937.49" y="203.87"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="997.31" y="212.37">0x0001 0200</text>
+<rect fill="#ffffff" height="10" width="63.48" x="935.83" y="150.67"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="997.31" y="159.17">0x0001 C000</text>
+<rect fill="#ffffff" height="10" width="65.13" x="934.18" y="84.98"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="997.31" y="93.48">0x000E FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="1080.31" y="77.28">mcuboot_primary_app in</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="1080.31" y="90.48">mcuboot_primary</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="1446.79" y="275.67">0x0000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="1446.79" y="216.24">0x000E 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="1446.79" y="162.24">0x0012 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="1446.79" y="93.9">0x007F FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="1529.79" y="71.2">External flash</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="1529.79" y="84.4">8 MB of 8 MB (100%)</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="1905.61" y="197.92">0x2000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="1905.61" y="155.63">0x2000 2000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="1905.61" y="93.9">0x2007 FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="1988.61" y="71.2">SRAM</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="1988.61" y="84.4">512 KB of 512 KB (100%)</text>
+<rect fill="#ffffff" height="10" width="61.82" x="2155.79" y="195.92"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="2215.61" y="204.42">0x2000 2000</text>
+<rect fill="#ffffff" height="10" width="62.93" x="2154.68" y="143.37"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="2215.61" y="151.87">0x2000 A000</text>
+<rect fill="#ffffff" height="10" width="64.02" x="2153.59" y="78.9"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="2215.61" y="87.4">0x2007 FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="2298.61" y="84.4">mcuboot_sram in SRAM</text>
+<rect fill="#ffffff" height="10" width="62.93" x="2546.46" y="195.92"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="2607.39" y="204.42">0x2000 A000</text>
+<rect fill="#ffffff" height="10" width="61.82" x="2547.57" y="133.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="2607.39" y="141.9">0x2007 0000</text>
+<rect fill="#ffffff" height="10" width="64.02" x="2545.37" y="78.9"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="2607.39" y="87.4">0x2007 FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="2690.39" y="71.2">sram_nonsecure in</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="2690.39" y="84.4">mcuboot_sram</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="2917.39" y="126.3">0x00FF 8100</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="2917.39" y="93.9">0x00FF 83FB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="3000.39" y="71.2">OTP</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="3000.39" y="84.4">764 B of 764 B (100%)</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="3227.39" y="147.9">0x0000 0000</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="end" x="3227.39" y="93.9">0x0003 FFFF</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="3310.39" y="71.2">ram_flash</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" x="3310.39" y="84.4">256 KB of 256 KB (100%)</text>
+<rect fill="#ffffff" height="48" stroke="#000000" stroke-width="1" width="150" x="98.57" y="197.82"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="219.07">mcuboot</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="232.27">64 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="256.57" y="225.09">MCUboot</text>
+<rect fill="#ffffff" height="59.42" stroke="#000000" stroke-width="1" width="150" x="98.57" y="138.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="165.36">mcuboot_primary</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="178.56">896 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="256.57" y="171.38">MCUboot primary slot</text>
+<rect fill="#ffffff" height="48" stroke="#000000" stroke-width="1" width="150" x="98.57" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="111.65">settings_storage</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="173.57" y="124.85">64 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="256.57" y="117.67">Zephyr settings; also nonsecure_storage</text>
+<rect fill="#ffffff" height="37.37" stroke="#000000" stroke-width="1" width="150" x="585.47" y="183.69"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="660.47" y="199.62">mcuboot_pad</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="660.47" y="212.82">512 B</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="743.47" y="205.65">MCUboot image header</text>
+<rect fill="#ffffff" height="68.53" stroke="#000000" stroke-width="1" width="150" x="585.47" y="115.16"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="660.47" y="146.68">mcuboot_primary_app</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="660.47" y="159.88">895.5 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="743.47" y="152.7">image in the primary slot</text>
+<rect fill="#ffffff" height="46.71" stroke="#000000" stroke-width="1" width="150" x="1005.31" y="155.67"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="1080.31" y="176.27">tfm</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="1080.31" y="189.47">47.5 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="1163.31" y="182.29">TF-M</text>
+<rect fill="#ffffff" height="59.18" stroke="#000000" stroke-width="1" width="150" x="1005.31" y="96.48"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="1080.31" y="123.32">app</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="1080.31" y="136.52">848 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="1163.31" y="129.35">application; also tfm_nonsecure</text>
+<rect fill="#ffffff" height="59.42" stroke="#000000" stroke-width="1" width="150" x="1454.79" y="212.74"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="1529.79" y="239.71">mcuboot_secondary</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="1529.79" y="252.91">896 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="1612.79" y="245.73">MCUboot secondary slot</text>
+<rect fill="#ffffff" height="54" stroke="#000000" stroke-width="1" width="150" x="1454.79" y="158.74"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="1529.79" y="182.99">mcuboot_secondary_1</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="1529.79" y="196.19">256 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="1612.79" y="189.02">MCUboot secondary slot, image 1</text>
+<rect fill="#ffffff" height="68.34" stroke="#000000" stroke-width="1" width="150" x="1454.79" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="1529.79" y="121.82">external_flash</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="1529.79" y="135.02">7040 KB</text>
+<rect fill="#ffffff" height="42.29" stroke="#000000" stroke-width="1" width="150" x="1913.61" y="152.13"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="1988.61" y="170.52">pcd_sram</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="1988.61" y="183.72">8 KB</text>
+<rect fill="#ffffff" height="61.73" stroke="#000000" stroke-width="1" width="150" x="1913.61" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="1988.61" y="118.52">mcuboot_sram</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="1988.61" y="131.72">504 KB</text>
+<rect fill="#ffffff" height="46.05" stroke="#000000" stroke-width="1" width="150" x="2223.61" y="148.37"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="2298.61" y="168.64">tfm_sram</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="2298.61" y="181.84">32 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="2381.61" y="174.67">also sram_secure</text>
+<rect fill="#ffffff" height="57.97" stroke="#000000" stroke-width="1" width="150" x="2223.61" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="2298.61" y="116.63">sram_nonsecure</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="2298.61" y="129.83">472 KB</text>
+<rect fill="#ffffff" height="56.02" stroke="#000000" stroke-width="1" width="150" x="2615.39" y="138.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="2690.39" y="163.66">sram_primary</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="2690.39" y="176.86">408 KB</text>
+<rect fill="#ffffff" height="48" stroke="#000000" stroke-width="1" width="150" x="2615.39" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="2690.39" y="111.65">rpmsg_nrf53_sram</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="2690.39" y="124.85">64 KB</text>
+<rect fill="#ffffff" height="32.4" stroke="#000000" stroke-width="1" width="150" x="2925.39" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="3000.39" y="103.85">otp</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="3000.39" y="117.05">764 B</text>
+<rect fill="#ffffff" height="54" stroke="#000000" stroke-width="1" width="150" x="3235.39" y="90.4"/>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="3310.39" y="114.65">mcuboot_primary_1</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" x="3310.39" y="127.85">256 KB</text>
+<text fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9.35" text-anchor="start" x="3393.39" y="120.67">MCUboot primary slot, image 1</text>
+</svg>

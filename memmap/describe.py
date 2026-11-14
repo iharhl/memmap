@@ -25,6 +25,8 @@ def _region(node: Node, tree: Tree) -> dict[str, Any]:
         "size": node.size,
         "generated": node.generated,
     }
+    if node.space is not None and node.parent is not None and node.parent.parent is None:
+        data["space"] = node.space
     if node.children:
         data["children"] = [_region(child, tree) for child in node.children]
     return data
@@ -113,6 +115,8 @@ def describe_data(result: Result) -> dict[str, Any]:
 def _tree_lines(node: Node, tree: Tree, depth: int = 0) -> list[str]:
     """One text line per region, indented by depth."""
     tag = " [generated]" if node.generated else ""
+    if depth == 1 and node.space is not None:
+        tag += f" [space {node.space}]"
     kind = "" if node.kind == "normal" else f" {node.kind}"
     name = node.name.replace("\n", " ")
     lines = [

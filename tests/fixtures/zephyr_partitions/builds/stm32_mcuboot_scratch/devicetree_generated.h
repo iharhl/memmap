@@ -1,0 +1,14 @@
+/* Excerpt of https://raw.githubusercontent.com/castrorazo/KOHLER-SIngleRelay-Testing/cb785a82804f1381cd9e5f6a46bf57b1eda92ecf/tests/app/build/zephyr/include/generated/devicetree_generated.h */
+#define DT_N_S_soc_S_flash_controller_40022000_S_flash_8000000_REG_IDX_0_VAL_ADDRESS 134217728 /* 0x8000000 */
+#define DT_N_S_soc_S_flash_controller_40022000_S_flash_8000000_REG_IDX_0_VAL_SIZE 1048576 /* 0x100000 */
+#define DT_N_S_soc_S_flash_controller_40022000_S_flash_8000000_S_partitions_S_partition_0_REG_IDX_0_VAL_ADDRESS 0 /* 0x0 */
+#define DT_N_S_soc_S_flash_controller_40022000_S_flash_8000000_S_partitions_S_partition_0_REG_IDX_0_VAL_SIZE 65536 /* 0x10000 */
+#define DT_N_S_soc_S_flash_controller_40022000_S_flash_8000000_S_partitions_S_partition_20000_REG_IDX_0_VAL_ADDRESS 131072 /* 0x20000 */
+#define DT_N_S_soc_S_flash_controller_40022000_S_flash_8000000_S_partitions_S_partition_20000_REG_IDX_0_VAL_SIZE 884736 /* 0xd8000 */
+#define DT_N_S_soc_S_flash_controller_40022000_S_flash_8000000_S_partitions_S_partition_f8000_REG_IDX_0_VAL_ADDRESS 1015808 /* 0xf8000 */
+#define DT_N_S_soc_S_flash_controller_40022000_S_flash_8000000_S_partitions_S_partition_f8000_REG_IDX_0_VAL_SIZE 16384 /* 0x4000 */
+#define DT_N_S_soc_S_quadspi_a0001000_S_qspi_nor_flash_90000000_REG_IDX_0_VAL_ADDRESS 2415919104 /* 0x90000000 */
+#define DT_N_S_soc_S_quadspi_a0001000_S_qspi_nor_flash_90000000_S_partitions_S_partition_0_REG_IDX_0_VAL_ADDRESS 0 /* 0x0 */
+#define DT_N_S_soc_S_quadspi_a0001000_S_qspi_nor_flash_90000000_S_partitions_S_partition_0_REG_IDX_0_VAL_SIZE 884736 /* 0xd8000 */
+#define DT_N_S_soc_S_quadspi_a0001000_S_qspi_nor_flash_90000000_S_partitions_S_partition_d8000_REG_IDX_0_VAL_ADDRESS 884736 /* 0xd8000 */
+#define DT_N_S_soc_S_quadspi_a0001000_S_qspi_nor_flash_90000000_S_partitions_S_partition_d8000_REG_IDX_0_VAL_SIZE 7340032 /* 0x700000 */

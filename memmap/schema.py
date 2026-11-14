@@ -205,6 +205,16 @@ class Region(Model):
         description="Flash erase sectors: enables alignment checks and tick marks.",
         examples=[{"size": "2K", "count": 32}, ["16K", "16K", "64K"]],
     )
+    space: str | None = Field(
+        default=None,
+        pattern=r"^[a-z0-9_]+$",
+        description=(
+            "Address space of a top-level region, for memory the CPU does not map, such as an "
+            "external flash chip whose offsets start at 0. Regions in different spaces may "
+            "overlap; a `/` column draws only regions without one."
+        ),
+        examples=["qspi"],
+    )
     children: list[Region] = Field(
         default_factory=list,
         description="Sub-regions, placed inside this region.",

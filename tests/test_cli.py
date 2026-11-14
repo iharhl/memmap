@@ -306,6 +306,7 @@ def test_group_help_points_to_the_guide():
         ["view.overrides=[{region: boot, top_label: end}]"],
         ["view.overrides=[{region: boot, height: 48}]"],
         ['memory.regions[0].note="line one\\nline two"'],
+        ["memory.regions[0].space=qspi", "memory.regions[0].start=0", "view.columns[0].root=flash"],
     ],
 )
 def test_agents_guide_recipes_are_valid(sets, tmp_path):
